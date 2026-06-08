@@ -184,7 +184,7 @@ watch(isOutside, (value) => {
 }
 
 .dropdown-list {
-  position: absolute;
+  position: fixed;
   top: var(--y);
   left: var(--x);
   width: var(--w);
