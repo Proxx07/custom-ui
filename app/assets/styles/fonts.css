@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&display=swap');
+
+:root {
+  --primary-font: "Commissioner", "Poppins", "Montserrat", -apple-system, sans-serif;
+
+  /* --font-{size}-{weight} */
+  --font-12-n: normal 400 1.2rem/1.2 var(--primary-font);
+  --font-14-n: normal 400 1.4rem/1.2 var(--primary-font);
+  --font-16-n: normal 400 1.6rem/1.2 var(--primary-font);
+  --font-18-n: normal 400 1.8rem/1.2 var(--primary-font);
+
+  --font-12-m: normal 500 1.2rem/1.2 var(--primary-font);
+  --font-14-m: normal 500 1.4rem/1.2 var(--primary-font);
+  --font-16-m: normal 500 1.6rem/1.2 var(--primary-font);
+  --font-18-m: normal 500 1.8rem/1.2 var(--primary-font);
+  --font-20-m: normal 500 2.0rem/1.2 var(--primary-font);
+  --font-24-m: normal 500 2.4rem/1.2 var(--primary-font);
+
+  --font-20-sb: normal 600 2.0rem/1.2 var(--primary-font);
+  --font-24-sb: normal 600 2.4rem/1.2 var(--primary-font);
+  --font-28-sb: normal 600 2.8rem/1.2 var(--primary-font);
+  --font-32-sb: normal 600 3.2rem/1.2 var(--primary-font);
+  --font-48-sb: normal 600 4.8rem/1.2 var(--primary-font);
+}

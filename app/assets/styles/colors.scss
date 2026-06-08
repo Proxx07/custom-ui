@@ -1,0 +1,113 @@
+:root {
+  --h: 0;
+  --s: 0%;
+  --l: 0%;
+
+  --l-0:  0;
+  --l-5:  5%;
+  --l-10: 10%;
+  --l-13: 13%;
+  --l-15: 15%;
+  --l-19: 19%;
+  --l-20: 20%;
+  --l-25: 25%;
+  --l-30: 30%;
+  --l-35: 35%;
+  --l-40: 40%;
+  --l-45: 45%;
+  --l-50: 50%;
+  --l-55: 55%;
+  --l-60: 60%;
+  --l-65: 65%;
+  --l-70: 70%;
+  --l-75: 75%;
+
+  --l-100: 100%;
+}
+
+html {
+  --surface:                    hsla(var(--h) var(--s) var(--l-10));
+  --surface-container:          hsla(var(--h) var(--s) var(--l-13));
+  --surface-high-container:     hsla(var(--h) var(--s) var(--l-15));
+  --surface-highest-container:  hsla(var(--h) var(--s) var(--l-20));
+  --surface-accent-container:   hsla(var(--h) var(--s) var(--l-25));
+
+  --on-surface:           hsla(var(--h) var(--s) var(--l-100));
+  --on-surface-secondary: hsla(var(--h) var(--s) var(--l-75));
+  --on-surface-tretiary:  hsla(var(--h) var(--s) var(--l-65));
+
+  --outline: hsla(var(--h) var(--s) var(--l-19));
+  --outline-variant: hsla(var(--h) var(--s) var(--l-30));
+
+  --primary: rgba(41, 94, 213, 1);
+  --primary-variant: rgba(35, 81, 183, 1);
+  --secondary: color-mix(in srgb, var(--on-secondary) 20%, transparent);
+  --on-secondary: rgba(54, 201, 115, 1);
+  --tretiary: color-mix(in srgb, var(--on-tretiary) 20%, transparent);
+  --on-tretiary: rgba(83, 167, 237, 1);
+
+  --quality-fn: rgba(139, 207, 72, 1);
+  --quality-mv: rgba(72, 207, 126, 1);
+  --quality-ft: rgba(207, 153, 72, 1);
+  --quality-ww: rgba(192, 116, 81, 1);
+
+  --phase: var(--on-tretiary);
+  --phase-container: color-mix(in srgb, var(--phase) 20%, transparent);
+  --ruby: var(--on-error);
+  --ruby-container: color-mix(in srgb, var(--ruby) 20%, transparent);
+  --black-pearl: rgba(154, 130, 255, 1);
+  --black-pearl-container: color-mix(in srgb, var(--black-pearl) 20%, transparent);
+  --saphire: var(--on-tretiary);
+  --saphire-container: color-mix(in srgb, var(--saphire) 20%, transparent);
+  --emerland: var(--on-secondary);
+  --emerland-container: color-mix(in srgb, var(--emerland) 20%, transparent);
+
+
+  --attention: rgba(57, 45, 35, 1);
+  --on-attention: rgba(255, 175, 100, 1);
+  --error: rgba(55, 36, 37, 1);
+  --on-error: rgba(255, 92, 92, 1);
+
+  --best-price: rgba(255, 189, 60, 1);
+  --best-price-container: rgba(55, 51, 36, 1);
+
+  --good-price: rgba(88, 226, 201, 1);
+  --good-price-container: rgba(39, 52, 50, 1);
+}
+
+
+html.blue {
+  --h: 220;
+  --s: 15%;
+}
+
+html.grey {
+  --h: 210;
+  --s: 10%;
+}
+
+html.red {
+  --h: 15;
+  --s: 10%;
+}
+
+html.light {
+  --h: 210;
+  --s: 20%;
+
+  /* Инвертируем фоны: 100% - 10% = 90% (светло-серый) */
+  --surface:                    hsla(var(--h) var(--s) calc(100% - var(--l-10)));
+  --surface-container:          hsla(var(--h) var(--s) calc(100% - var(--l-13)));
+  --surface-high-container:     hsla(var(--h) var(--s) calc(100% - var(--l-15)));
+  --surface-highest-container:  hsla(var(--h) var(--s) calc(100% - var(--l-20)));
+  --surface-accent-container:   hsla(var(--h) var(--s) calc(100% - var(--l-25)));
+
+  /* Инвертируем текст: 100% - 100% = 0% (черный) */
+  --on-surface:           hsla(var(--h) var(--s) calc(100% - var(--l-100)));
+  --on-surface-secondary: hsla(var(--h) var(--s) calc(100% - var(--l-75)));
+  --on-surface-tretiary:  hsla(var(--h) var(--s) calc(100% - var(--l-65)));
+
+  /* Инвертируем обводки */
+  --outline:         hsla(var(--h) var(--s) calc(100% - var(--l-19)));
+  --outline-variant: hsla(var(--h) var(--s) calc(100% - var(--l-30)));
+}

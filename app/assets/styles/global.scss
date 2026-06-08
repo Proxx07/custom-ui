@@ -1,0 +1,44 @@
+@use "./fonts.css";
+@use "./colors.scss";
+@use "./variables.scss";
+@use "./transitions.scss";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--on-surface);
+  font: var(--font-14-m);
+  position: relative;
+}
+
+header, footer {
+  z-index: 10;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  background-color: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--surface-container);
+  border-radius: 5px;
+}

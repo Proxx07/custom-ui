@@ -1,0 +1,288 @@
+:root {
+  --transition-fast: all 0.3s;
+  --transition-slow: all 0.4s;
+  --radius-sm: .4rem;
+}
+
+.font-12-n {
+  font: var(--font-12-n);
+}
+.font-14-n {
+  font: var(--font-14-n);
+}
+.font-16-n {
+  font: var(--font-16-n);
+}
+.font-18-n {
+  font: var(--font-18-n);
+}
+.font-12-m {
+  font: var(--font-12-m);
+}
+.font-14-m {
+  font: var(--font-14-m);
+}
+.font-16-m {
+  font: var(--font-16-m);
+}
+.font-18-m {
+  font: var(--font-18-m);
+}
+.font-20-m {
+  font: var(--font-20-m);
+}
+.font-24-m {
+  font: var(--font-24-m);
+}
+.font-20-sb {
+  font: var(--font-20-sb);
+}
+.font-24-sb {
+  font: var(--font-24-sb);
+}
+.font-28-sb {
+  font: var(--font-28-sb);
+}
+.font-32-sb {
+  font: var(--font-32-sb);
+}
+.font-48-sb {
+  font: var(--font-48-sb);
+}
+.bg-surface {
+  background: var(--surface);
+}
+.bg-surface-container {
+  background: var(--surface-container);
+}
+.bg-surface-high-container {
+  background: var(--surface-high-container);
+}
+.bg-surface-highest-container {
+  background: var(--surface-highest-container);
+}
+.bg-surface-accent-container {
+  background: var(--surface-accent-container);
+}
+.bg-on-surface {
+  background: var(--on-surface);
+}
+.bg-on-surface-secondary {
+  background: var(--on-surface-secondary);
+}
+.bg-on-surface-tretiary {
+  background: var(--on-surface-tretiary);
+}
+.bg-outline {
+  background: var(--outline);
+}
+.bg-outline-variant {
+  background: var(--outline-variant);
+}
+.bg-primary {
+  background: var(--primary);
+}
+.bg-primary-variant {
+  background: var(--primary-variant);
+}
+.bg-secondary {
+  background: var(--secondary);
+}
+.bg-on-secondary {
+  background: var(--on-secondary);
+}
+.bg-tretiary {
+  background: var(--tretiary);
+}
+.bg-on-tretiary {
+  background: var(--on-tretiary);
+}
+.bg-quality-fn {
+  background: var(--quality-fn);
+}
+.bg-quality-mv {
+  background: var(--quality-mv);
+}
+.bg-quality-ft {
+  background: var(--quality-ft);
+}
+.bg-quality-ww {
+  background: var(--quality-ww);
+}
+.bg-phase {
+  background: var(--phase);
+}
+.bg-phase-container {
+  background: var(--phase-container);
+}
+.bg-ruby {
+  background: var(--ruby);
+}
+.bg-ruby-container {
+  background: var(--ruby-container);
+}
+.bg-black-pearl {
+  background: var(--black-pearl);
+}
+.bg-black-pearl-container {
+  background: var(--black-pearl-container);
+}
+.bg-saphire {
+  background: var(--saphire);
+}
+.bg-saphire-container {
+  background: var(--saphire-container);
+}
+.bg-emerland {
+  background: var(--emerland);
+}
+.bg-emerland-container {
+  background: var(--emerland-container);
+}
+.bg-attention {
+  background: var(--attention);
+}
+.bg-on-attention {
+  background: var(--on-attention);
+}
+.bg-error {
+  background: var(--error);
+}
+.bg-on-error {
+  background: var(--on-error);
+}
+.bg-best-price {
+  background: var(--best-price);
+}
+.bg-best-price-container {
+  background: var(--best-price-container);
+}
+.bg-good-price {
+  background: var(--good-price);
+}
+.bg-good-price-container {
+  background: var(--good-price-container);
+}
+
+.color-surface {
+  color: var(--surface);
+}
+.color-surface-container {
+  color: var(--surface-container);
+}
+.color-surface-high-container {
+  color: var(--surface-high-container);
+}
+.color-surface-highest-container {
+  color: var(--surface-highest-container);
+}
+.color-surface-accent-container {
+  color: var(--surface-accent-container);
+}
+.color-on-surface {
+  color: var(--on-surface);
+}
+.color-on-surface-secondary {
+  color: var(--on-surface-secondary);
+}
+.color-on-surface-tretiary {
+  color: var(--on-surface-tretiary);
+}
+.color-outline {
+  color: var(--outline);
+}
+.color-outline-variant {
+  color: var(--outline-variant);
+}
+.color-primary {
+  color: var(--primary);
+}
+.color-primary-variant {
+  color: var(--primary-variant);
+}
+.color-secondary {
+  color: var(--secondary);
+}
+.color-on-secondary {
+  color: var(--on-secondary);
+}
+.color-tretiary {
+  color: var(--tretiary);
+}
+.color-on-tretiary {
+  color: var(--on-tretiary);
+}
+.color-quality-fn {
+  color: var(--quality-fn);
+}
+.color-quality-mv {
+  color: var(--quality-mv);
+}
+.color-quality-ft {
+  color: var(--quality-ft);
+}
+.color-quality-ww {
+  color: var(--quality-ww);
+}
+.color-phase {
+  color: var(--phase);
+}
+.color-phase-container {
+  color: var(--phase-container);
+}
+.color-ruby {
+  color: var(--ruby);
+}
+.color-ruby-container {
+  color: var(--ruby-container);
+}
+.color-black-pearl {
+  color: var(--black-pearl);
+}
+.color-black-pearl-container {
+  color: var(--black-pearl-container);
+}
+.color-saphire {
+  color: var(--saphire);
+}
+.color-saphire-container {
+  color: var(--saphire-container);
+}
+.color-emerland {
+  color: var(--emerland);
+}
+.color-emerland-container {
+  color: var(--emerland-container);
+}
+.color-attention {
+  color: var(--attention);
+}
+.color-on-attention {
+  color: var(--on-attention);
+}
+.color-error {
+  color: var(--error);
+}
+.color-on-error {
+  color: var(--on-error);
+}
+.color-best-price {
+  color: var(--best-price);
+}
+.color-best-price-container {
+  color: var(--best-price-container);
+}
+.color-good-price {
+  color: var(--good-price);
+}
+.color-good-price-container {
+  color: var(--good-price-container);
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
