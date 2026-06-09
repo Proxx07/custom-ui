@@ -1,10 +1,10 @@
-<script setup lang="ts" generic="T">
-import { ref, computed, reactive, nextTick } from 'vue';
-import { useToggle, useElementBounding, onClickOutside } from '@vueuse/core';
+<script setup lang="ts" generic="T, V extends keyof T = never">
+import type { DropDownEmits, DropDownProps, DropDownSlots, DropDownValue } from './types';
 import { vElementHover } from '@vueuse/components';
-import Button from "~/components/ui/Button.vue";
-import type { ButtonProps } from "~/composables/UI/types/button";
-import {chevronDown} from "~/assets/icons/arrows";
+import { onClickOutside, useElementBounding, useMediaQuery, useToggle } from '@vueuse/core';
+import { computed, nextTick, reactive, ref } from 'vue';
+import { chevronDown } from '@/assets/icons/arrows';
+import Button from '../Button/index.vue';
 
 const {
   size = 'm',
@@ -16,31 +16,15 @@ const {
   downIcon = chevronDown,
   hideDownIcon = false,
   toggleOnHover = false,
-} = defineProps<{
-  modelValue?: any
-  items?: T[]
-  value?: keyof T
-  itemLabel?: keyof T
-  label?: string
-  size?: ButtonProps['size']
-  downIcon?: string
-  hideDownIcon?: boolean
-  toggleOnHover?: boolean
-}>();
+} = defineProps<DropDownProps<T, V>>();
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', val: T | T[keyof T]): void
-}>();
+const emit = defineEmits<DropDownEmits<T, V>>();
 
-defineSlots<{
-  target: (props: { open: () => void; isOpened: boolean; selected: T | undefined; downIcon?: string }) => unknown
-  targetInner: (props: { selected: T | undefined }) => unknown
-  item: (props: { item: T; selected: T | undefined; isSelected: boolean }) => unknown
-  itemInner: (props: { item: T; selected: T | undefined; isSelected: boolean }) => unknown
-}>();
+defineSlots<DropDownSlots<T>>();
 
 const GAP = 8;
 const [isOpen, toggle] = useToggle();
+const canHover = useMediaQuery('(hover: hover) and (pointer: fine)');
 
 const dropdown = ref<HTMLElement>();
 const dropdownList = ref<HTMLElement>();
@@ -51,7 +35,8 @@ const { left, width, top, bottom } = useElementBounding(dropdown);
 
 const selectedItem = computed<T | undefined>(() => {
   if (modelValue == null) return undefined;
-  return value ? items.find((item) => item[value] === modelValue) : (modelValue as T);
+  const model = modelValue as T | T[V];
+  return value ? items.find(item => item[value] === model) : (model as T);
 });
 
 const targetText = computed(() => {
@@ -70,11 +55,11 @@ const updatePosition = () => {
   positions.x = `${left.value}px`;
   positions.w = `${width.value}px`;
   positions.y = dropUp.value
-      ? `${window.innerHeight - top.value + GAP}px`
-      : `${bottom.value + GAP}px`;
+    ? `${window.innerHeight - top.value + GAP}px`
+    : `${bottom.value + GAP}px`;
 };
 
-const { isOutside } = useMouseInElement(dropdownList)
+const { isOutside } = useMouseInElement(dropdownList);
 
 const toggleDropdown = async () => {
   toggle(!isOpen.value);
@@ -86,7 +71,7 @@ const toggleDropdown = async () => {
 };
 
 const targetHoverHandler = (isHovered: boolean) => {
-  if (!toggleOnHover) return;
+  if (!toggleOnHover || !canHover.value) return;
   if (isHovered) {
     toggleDropdown();
   }
@@ -95,10 +80,10 @@ const targetHoverHandler = (isHovered: boolean) => {
       if (isOutside.value) toggle(false);
     }, 100);
   }
-}
+};
 
 const selectItem = (item: T) => {
-  emit('update:modelValue', value ? item[value] : item);
+  emit('update:modelValue', (value ? item[value] : item) as DropDownValue<T, V>);
   isOpen.value = false;
 };
 
@@ -107,15 +92,16 @@ onClickOutside(dropdown, () => {
 }, { ignore: [dropdownList] });
 
 watch(isOutside, (value) => {
-  if (!toggleOnHover) return;
+  if (!toggleOnHover || !canHover.value) return;
   if (value) toggle(false);
-})
+});
 </script>
 
 <template>
-  <div class="dropdown-wrapper" ref="dropdown">
-    <slot name="target" :open="toggleDropdown" :is-opened="isOpen" :selected="selectedItem" :downIcon="downIcon">
+  <div ref="dropdown" class="dropdown-wrapper">
+    <slot name="target" :open="toggleDropdown" :is-opened="isOpen" :selected="selectedItem" :down-icon="downIcon">
       <Button
+        v-element-hover="targetHoverHandler"
         bg-color="surface-high-container"
         hover-bg-color="surface-highest-container"
         :size="size"
@@ -123,7 +109,6 @@ watch(isOutside, (value) => {
         fluid
         :rotate-right-icon="isOpen"
         @click="toggleDropdown"
-        v-element-hover="targetHoverHandler"
       >
         <slot name="targetInner" :selected="selectedItem">
           {{ targetText }}
@@ -139,9 +124,9 @@ watch(isOutside, (value) => {
           class="dropdown-list bg-surface-high-container"
           :class="{ 'open-to-top': dropUp }"
           :style="{
-          '--x': positions.x,
-          '--y': positions.y,
-          '--w': positions.w
+            '--x': positions.x,
+            '--y': positions.y,
+            '--w': positions.w,
           }"
         >
           <template v-for="(item, i) in items" :key="i">
@@ -150,6 +135,7 @@ watch(isOutside, (value) => {
               :item="item"
               :selected="selectedItem"
               :is-selected="selectedItem === item"
+              :select-item="() => selectItem(item)"
             >
               <Button
                 bg-color="surface-high-container"
@@ -198,7 +184,6 @@ watch(isOutside, (value) => {
   max-height: 44rem;
   overflow-y: auto;
   min-width: max-content;
-
   &.open-to-top {
     top: auto;
     bottom: var(--y);

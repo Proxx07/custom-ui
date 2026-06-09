@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { colorModeConfig, viteConfig } from "./config";
-import {COOKIE_LOCALE_KEY, DEFAULT_LANGUAGE, localeItems} from "./i18n/constants";
+import { colorModeConfig, hooks, viteConfig } from './config';
+import { COOKIE_LOCALE_KEY, DEFAULT_LANGUAGE, localeItems } from './i18n/constants';
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -40,6 +40,7 @@ export default defineNuxtConfig({
     dirs: [],
   },
 
+  hooks,
   vite: viteConfig,
   colorMode: colorModeConfig,
 });

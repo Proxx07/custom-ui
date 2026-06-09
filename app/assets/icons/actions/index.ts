@@ -10,8 +10,8 @@ import deleteIcon from './delete.svg?raw';
 import edit from './edit.svg?raw';
 import filter from './filter.svg?raw';
 import grid2x from './grid-2x.svg?raw';
-import grid3x from './grid-3x.svg?raw';
 import grid3x3 from './grid-3x3.svg?raw';
+import grid3x from './grid-3x.svg?raw';
 import itemType from './item-type.svg?raw';
 import link from './link.svg?raw';
 import list from './list.svg?raw';
@@ -30,10 +30,10 @@ import volume from './volume.svg?raw';
 export {
   addToCart,
   bell,
-  buyInBulk1,
   buyInBulk,
-  cartRemove,
+  buyInBulk1,
   cart,
+  cartRemove,
   close,
   cross,
   deleteIcon,
@@ -53,7 +53,7 @@ export {
   search,
   share,
   sorting,
-  tickInCircle,
   tick,
+  tickInCircle,
   volume,
-}
+};

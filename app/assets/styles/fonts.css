@@ -5,6 +5,7 @@
 
   /* --font-{size}-{weight} */
   --font-12-n: normal 400 1.2rem/1.2 var(--primary-font);
+  --font-13-n: normal 400 1.3rem/1.2 var(--primary-font);
   --font-14-n: normal 400 1.4rem/1.2 var(--primary-font);
   --font-16-n: normal 400 1.6rem/1.2 var(--primary-font);
   --font-18-n: normal 400 1.8rem/1.2 var(--primary-font);
@@ -21,4 +22,8 @@
   --font-28-sb: normal 600 2.8rem/1.2 var(--primary-font);
   --font-32-sb: normal 600 3.2rem/1.2 var(--primary-font);
   --font-48-sb: normal 600 4.8rem/1.2 var(--primary-font);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
 }

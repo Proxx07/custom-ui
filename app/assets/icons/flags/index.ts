@@ -1,5 +1,3 @@
-import eastTimor from './East Timor.svg?raw';
-import rapaNui from './Rapa Nui.svg?raw';
 import abkhazia from './abkhazia.svg?raw';
 import afghanistan from './afghanistan.svg?raw';
 import alandIslands from './aland islands.svg?raw';
@@ -68,6 +66,7 @@ import denmark from './denmark.svg?raw';
 import djibouti from './djibouti.svg?raw';
 import dominica from './dominica.svg?raw';
 import dominicanRepublic from './dominican republic.svg?raw';
+import eastTimor from './East Timor.svg?raw';
 import ecuador from './ecuador.svg?raw';
 import egypt from './egypt.svg?raw';
 import elSalvador from './el salvador.svg?raw';
@@ -96,8 +95,8 @@ import grenada from './grenada.svg?raw';
 import guam from './guam.svg?raw';
 import guatemala from './guatemala.svg?raw';
 import guernsey from './guernsey.svg?raw';
-import guineaBissau from './guinea bissau.svg?raw';
 import guinea from './guinea.svg?raw';
+import guineaBissau from './guinea bissau.svg?raw';
 import guyana from './guyana.svg?raw';
 import haiti from './haiti.svg?raw';
 import hawaii from './hawaii.svg?raw';
@@ -166,9 +165,9 @@ import niger from './niger.svg?raw';
 import nigeria from './nigeria.svg?raw';
 import niue from './niue.svg?raw';
 import norfolkIsland from './norfolk island.svg?raw';
-import northKorea from './north korea.svg?raw';
 import northernCyprus from './northern cyprus.svg?raw';
 import northernMarianasIslands from './northern marianas islands.svg?raw';
+import northKorea from './north korea.svg?raw';
 import norway from './norway.svg?raw';
 import oman from './oman.svg?raw';
 import orkneyIslands from './orkney islands.svg?raw';
@@ -185,6 +184,7 @@ import pitcairnIslands from './pitcairn islands.svg?raw';
 import poland from './poland.svg?raw';
 import puertoRico from './puerto rico.svg?raw';
 import qatar from './qatar.svg?raw';
+import rapaNui from './Rapa Nui.svg?raw';
 import republicOfMacedonia from './republic of macedonia.svg?raw';
 import republicOfTheCongo from './republic of the congo.svg?raw';
 import romania from './romania.svg?raw';
@@ -258,8 +258,6 @@ import zambia from './zambia.svg?raw';
 import zimbabwe from './zimbabwe.svg?raw';
 
 export {
-  eastTimor,
-  rapaNui,
   abkhazia,
   afghanistan,
   alandIslands,
@@ -328,6 +326,7 @@ export {
   djibouti,
   dominica,
   dominicanRepublic,
+  eastTimor,
   ecuador,
   egypt,
   elSalvador,
@@ -356,8 +355,8 @@ export {
   guam,
   guatemala,
   guernsey,
-  guineaBissau,
   guinea,
+  guineaBissau,
   guyana,
   haiti,
   hawaii,
@@ -426,9 +425,9 @@ export {
   nigeria,
   niue,
   norfolkIsland,
-  northKorea,
   northernCyprus,
   northernMarianasIslands,
+  northKorea,
   norway,
   oman,
   orkneyIslands,
@@ -445,6 +444,7 @@ export {
   poland,
   puertoRico,
   qatar,
+  rapaNui,
   republicOfMacedonia,
   republicOfTheCongo,
   romania,
@@ -516,4 +516,4 @@ export {
   yemen,
   zambia,
   zimbabwe,
-}
+};

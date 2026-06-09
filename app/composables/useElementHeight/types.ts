@@ -3,5 +3,5 @@ export interface IProps {
 }
 
 export interface IEmit {
-  (e: 'update:height', value: number): void;
+  (e: 'update:height', value: number): void
 }

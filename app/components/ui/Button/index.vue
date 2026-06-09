@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import VIcon from "~/components/ui/VIcon.vue";
-import {LazyNuxtLinkLocale} from "#components";
-import type {ButtonProps} from "~/composables/UI/types/button";
+import type { ButtonProps, ButtonSlots } from './types';
+import { LazyNuxtLinkLocale } from '#components';
+import VIcon from '../VIcon.vue';
 
 const {
   severity = 'primary',
@@ -15,16 +15,11 @@ const {
   hoverBgColor = '',
 } = defineProps<ButtonProps>();
 
-defineSlots<{
-  append: () => unknown
-  default: () => unknown
-  prepend: () => unknown
-}>();
+defineSlots<ButtonSlots>();
 
 const slots = useSlots();
 const tag = computed(() => type === 'nuxt-link' ? LazyNuxtLinkLocale : type);
 const isOnlyIcon = computed(() => !label && !slots.default);
-
 
 const pd = computed(() => {
   if (padding) return padding;
@@ -41,30 +36,33 @@ const iconSize = computed(() => {
 });
 
 const colorVars = computed(() => {
-  if (textColor || hoverTextColor || bgColor || hoverBgColor) return {
-    ...(bgColor && {'--bg': `var(--${bgColor})`}),
-    ...(hoverBgColor && {'--hover-bg': `var(--${hoverBgColor})`}),
-    ...(textColor && {'--text': `var(--${textColor})`}),
-    ...(hoverTextColor && {'--hover-text': `var(--${hoverTextColor})`})
+  if (textColor || hoverTextColor || bgColor || hoverBgColor) {
+    return {
+      ...(bgColor && { '--bg': `var(--${bgColor})` }),
+      ...(hoverBgColor && { '--hover-bg': `var(--${hoverBgColor})` }),
+      ...(textColor && { '--text': `var(--${textColor})` }),
+      ...(hoverTextColor && { '--hover-text': `var(--${hoverTextColor})` }),
+    };
   }
+  return undefined;
 });
 </script>
 
 <template>
   <component
-      :is="tag"
-      class="w-button"
-      :class="[
-        severity, `size-${size}`, variant,
-        fluid && 'fluid',
-        noHoverBg && 'no-hover-bg',
-        isOnlyIcon && 'icon-only',
-        hoverSeverity && `hover-${hoverSeverity}`,
-      ]"
-      :style="colorVars"
+    :is="tag"
+    class="w-button"
+    :class="[
+      severity, `size-${size}`, variant,
+      fluid && 'fluid',
+      noHoverBg && 'no-hover-bg',
+      isOnlyIcon && 'icon-only',
+      hoverSeverity && `hover-${hoverSeverity}`,
+    ]"
+    :style="colorVars"
   >
     <slot name="prepend">
-      <v-icon
+      <VIcon
         v-if="iconLeft"
         :icon="iconLeft"
         :size="iconSize"
@@ -74,10 +72,10 @@ const colorVars = computed(() => {
       />
     </slot>
     <slot>
-      {{label}}
+      {{ label }}
     </slot>
     <slot name="append">
-      <v-icon
+      <VIcon
         v-if="iconRight"
         :icon="iconRight"
         :size="iconSize"
@@ -177,7 +175,6 @@ const colorVars = computed(() => {
       --padding: 1.55rem;
     }
   }
-
 
   background: var(--bg);
   color: var(--text);

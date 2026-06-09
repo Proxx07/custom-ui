@@ -47,7 +47,6 @@ import volumeDown from './volume-down.svg?raw';
 import volumeUp from './volume-up.svg?raw';
 
 export {
-  threeD,
   addToCart,
   apiKey,
   asterisk,
@@ -84,14 +83,15 @@ export {
   playControls,
   primeTime,
   question,
-  shieldDeclined,
   shield,
+  shieldDeclined,
   stack,
   star,
+  threeD,
   timer,
   user,
   users,
   verified,
   volumeDown,
   volumeUp,
-}
+};

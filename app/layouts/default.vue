@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import WHeader from "@/components/layout/WHeader.vue";
-import WFooter from "@/components/layout/WFooter.vue";
-import Button from "@/components/ui/Button.vue";
+import { WFooter, WHeader } from '@/components/layout';
+import { Button } from '@/components/ui';
 
 const footerHeight = ref(0);
 const footerHeightPx = computed(() => `${footerHeight.value}px`);
@@ -10,25 +9,24 @@ const { t } = useI18n();
 </script>
 
 <template>
-<div class="wrapper">
-  <WHeader/>
-  <aside>
-    {{t('hello-world')}}
+  <div class="wrapper">
+    <WHeader />
+    <aside>
+      {{ t('hello-world') }}
 
-    <br>
-    <br>
+      <br>
+      <br>
 
-    <Button severity="tretiary" type="nuxt-link" to="/buttonsPage" label="Buttons page" fluid/>
-    <br>
-    <br>
-    <Button severity="tretiary" type="nuxt-link" to="/dropDowns" label="Dropdowns" fluid/>
-
-  </aside>
-  <main class="content">
-    <slot/>
-  </main>
-  <WFooter v-model:height="footerHeight"/>
-</div>
+      <Button severity="tretiary" type="nuxt-link" to="/buttonsPage" label="Buttons page" fluid />
+      <br>
+      <br>
+      <Button severity="tretiary" type="nuxt-link" to="/dropDowns" label="UI Components" fluid />
+    </aside>
+    <main class="content">
+      <slot />
+    </main>
+    <WFooter v-model:height="footerHeight" />
+  </div>
 </template>
 
 <style scoped lang="scss">

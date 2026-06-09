@@ -5,7 +5,7 @@
 <template>
   <div id="app-wrapper">
     <NuxtLayout>
-      <NuxtPage/>
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>

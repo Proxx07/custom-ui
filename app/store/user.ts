@@ -1,4 +1,4 @@
-import {defineStore} from "pinia";
+import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('user-store', () => {
   const user = ref('');
@@ -8,6 +8,6 @@ export const useUserStore = defineStore('user-store', () => {
   };
 
   return {
-    user, setUser
-  }
+    user, setUser,
+  };
 });

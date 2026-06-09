@@ -5,6 +5,7 @@
 
   --l-0:  0;
   --l-5:  5%;
+  --l-9:  9%;
   --l-10: 10%;
   --l-13: 13%;
   --l-15: 15%;
@@ -27,6 +28,7 @@
 
 html {
   --surface:                    hsla(var(--h) var(--s) var(--l-10));
+  --surface-low-container:      hsla(var(--h) var(--s) var(--l-9));
   --surface-container:          hsla(var(--h) var(--s) var(--l-13));
   --surface-high-container:     hsla(var(--h) var(--s) var(--l-15));
   --surface-highest-container:  hsla(var(--h) var(--s) var(--l-20));
@@ -98,6 +100,7 @@ html.light {
   /* Инвертируем фоны: 100% - 10% = 90% (светло-серый) */
   --surface:                    hsla(var(--h) var(--s) calc(100% - var(--l-10)));
   --surface-container:          hsla(var(--h) var(--s) calc(100% - var(--l-13)));
+  --surface-low-container:      hsla(var(--h) var(--s) calc(100% - var(--l-9)));
   --surface-high-container:     hsla(var(--h) var(--s) calc(100% - var(--l-15)));
   --surface-highest-container:  hsla(var(--h) var(--s) calc(100% - var(--l-20)));
   --surface-accent-container:   hsla(var(--h) var(--s) calc(100% - var(--l-25)));

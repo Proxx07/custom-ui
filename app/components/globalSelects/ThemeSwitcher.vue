@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Button, DropDown } from "~/components/ui";
-import {type ThemeModes, useTheme} from "~/composables/UI/useTheme";
-import {capitalizeFirstLetter} from "~/utils/textFormatters";
+import { Button, DropDown } from '@/components/ui';
+import { useTheme } from '@/composables/UI';
+import { capitalizeFirstLetter } from '@/utils';
+
 const { themeList, currentTheme, setTheme } = useTheme();
 </script>
 
@@ -12,9 +13,9 @@ const { themeList, currentTheme, setTheme } = useTheme();
     size="s"
     style="min-width: 120px"
     class="theme-switcher"
-    @update:model-value="setTheme($event as ThemeModes)"
+    @update:model-value="setTheme"
   >
-    <template #target="{open, isOpened, selected, downIcon}">
+    <template #target="{ open, isOpened, selected, downIcon }">
       <Button
         severity="tretiary"
         variant="text"
@@ -25,10 +26,10 @@ const { themeList, currentTheme, setTheme } = useTheme();
         label="dropdownValue"
         @click="open"
       >
-        {{selected ? capitalizeFirstLetter(selected) + ' mode' : 'Select theme' }}
+        {{ selected ? `${capitalizeFirstLetter(selected)} mode` : 'Select theme' }}
       </Button>
     </template>
-    <template #itemInner="{item}">
+    <template #itemInner="{ item }">
       {{ capitalizeFirstLetter(item) }} mode
     </template>
   </DropDown>

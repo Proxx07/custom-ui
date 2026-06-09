@@ -16,9 +16,9 @@ const iconSize = computed(() => props.size ? `${props.size}px` : 'auto');
 
 <template>
   <span
-      :style="{ color: colorVal, background }"
-      :class="[noFill && 'no-fill']"
-      v-html="props.icon"
+    :style="{ color: colorVal, background }"
+    :class="[noFill && 'no-fill']"
+    v-html="props.icon"
   />
 </template>
 

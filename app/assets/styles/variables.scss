@@ -1,11 +1,20 @@
 :root {
-  --transition-fast: all 0.3s;
-  --transition-slow: all 0.4s;
+  --fast-timing: 0.3s;
+  --slow-timing: 0.4s;
+
+  --transition-fast: all var(--fast-timing);
+  --transition-slow: all var(--slow-timing);
+
+  --radius-xs: .2rem;
   --radius-sm: .4rem;
+  --radius-m: .6rem;
 }
 
 .font-12-n {
   font: var(--font-12-n);
+}
+.font-13-n {
+  font: var(--font-13-n);
 }
 .font-14-n {
   font: var(--font-14-n);
@@ -49,8 +58,13 @@
 .font-48-sb {
   font: var(--font-48-sb);
 }
+
+
 .bg-surface {
   background: var(--surface);
+}
+.bg-surface-low-container {
+  background: var(--surface-low-container);
 }
 .bg-surface-container {
   background: var(--surface-container);
@@ -166,6 +180,9 @@
 
 .color-surface {
   color: var(--surface);
+}
+.color-surface-low-container {
+  color: var(--surface-low-container);
 }
 .color-surface-container {
   color: var(--surface-container);
@@ -285,4 +302,13 @@
 
 .mr-auto {
   margin-right: auto;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
