@@ -2,9 +2,12 @@
 import { cross, tick } from '@/assets/icons/actions';
 import { arrowDown } from '@/assets/icons/arrows';
 import { Button, DropDown, Input } from '@/components/ui';
+import { useLoaderStore } from '@/store/loadingState';
 
 const dropdownValue = ref<number>();
 const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name: `option ${i + 1}` }));
+
+const loaderStore = useLoaderStore();
 </script>
 
 <template>
@@ -15,6 +18,7 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
       <DropDown
         v-model="dropdownValue"
         :items="dropdownOptions"
+        :loading="loaderStore.isLoading"
         label="Large xl"
         size="xl"
         value="id"
@@ -24,6 +28,7 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
       <DropDown
         v-model="dropdownValue"
         :items="dropdownOptions"
+        :loading="loaderStore.isLoading"
         label="Large"
         size="l"
         value="id"
@@ -33,6 +38,7 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
       <DropDown
         v-model="dropdownValue"
         :items="dropdownOptions"
+        :loading="loaderStore.isLoading"
         label="Default"
         value="id"
         item-label="name"
@@ -41,6 +47,7 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
       <DropDown
         v-model="dropdownValue"
         :items="dropdownOptions"
+        :loading="loaderStore.isLoading"
         label="Small"
         size="s"
         value="id"
@@ -50,6 +57,7 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
       <DropDown
         v-model="dropdownValue"
         :items="dropdownOptions"
+        :loading="loaderStore.isLoading"
         label="Hover toggle"
         value="id"
         item-label="name"
@@ -59,10 +67,11 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
       <DropDown
         v-model="dropdownValue"
         :items="dropdownOptions"
+        :loading="loaderStore.isLoading"
         value="id"
         item-label="name"
       >
-        <template #target="{ selected, open, isOpened }">
+        <template #target="{ selected, open, isOpened, loading }">
           <Button
             :label="selected?.name ?? 'Custom dd'"
             severity="tretiary"
@@ -70,6 +79,7 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
             hover-text-color="primary-variant"
             size="s"
             no-hover-bg
+            :loading="loading"
             :icon-right="arrowDown"
             :rotate-right-icon="isOpened"
             @click="open"
@@ -80,14 +90,16 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
       <DropDown
         v-model="dropdownValue"
         :items="dropdownOptions"
+        :loading="loaderStore.isLoading"
         value="id"
         item-label="name"
       >
-        <template #target="{ selected, open, isOpened, downIcon }">
+        <template #target="{ selected, open, isOpened, downIcon, loading }">
           <Button
             :label="selected?.name ?? 'Custom dd'"
             severity="destructive"
             size="s"
+            :loading="loading"
             :icon-left="downIcon"
             :rotate-left-icon="isOpened"
             @click="open"
@@ -113,7 +125,10 @@ const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name:
 
     <div class="components">
       <h2>Inputs: </h2>
-      <Input placeholder="Placeholder" invalid />
+      <Input placeholder="Placeholder" size="xl" />
+      <Input placeholder="Placeholder" size="l" />
+      <Input placeholder="Placeholder" />
+      <Input placeholder="Placeholder" size="s" />
     </div>
   </div>
 </template>

@@ -36,3 +36,5 @@ export type TColors = 'surface'
   | 'best-price-container'
   | 'good-price'
   | 'good-price-container';
+
+export type TSizes = 'xl' | 'l' | 'm' | 's';

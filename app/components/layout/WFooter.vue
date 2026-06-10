@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useWindowScroll } from '@vueuse/core';
-import { watch } from 'vue';
 import { CurrencySwitcher, LangSwitcher, ThemeSwitcher } from '@/components/globalSelects';
 import { type IEmit, type IProps, useElementHeight } from '@/composables/useElementHeight';
 

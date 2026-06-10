@@ -1,11 +1,11 @@
-import type { TColors } from '@/utils';
+import type { TColors, TSizes } from '@/utils';
 
 type Severity = 'primary' | 'secondary' | 'tretiary' | 'destructive' | 'attention';
 
 export interface ButtonProps {
   severity?: Severity
   hoverSeverity?: Severity
-  size?: 'xl' | 'l' | 'm' | 's'
+  size?: TSizes
   variant?: 'outlined' | 'text'
 
   type?: 'button' | 'nuxt-link'
@@ -26,6 +26,7 @@ export interface ButtonProps {
   rotateRightIcon?: boolean
   leftIconNoFill?: boolean
   rightIconNoFill?: boolean
+  loading?: boolean
 }
 
 export interface ButtonSlots {

@@ -1,10 +1,8 @@
 <script setup lang="ts" generic="T, V extends keyof T = never">
 import type { DropDownEmits, DropDownProps, DropDownSlots, DropDownValue } from './types';
 import { vElementHover } from '@vueuse/components';
-import { onClickOutside, useElementBounding, useMediaQuery, useToggle } from '@vueuse/core';
-import { computed, nextTick, reactive, ref } from 'vue';
 import { chevronDown } from '@/assets/icons/arrows';
-import Button from '../Button/index.vue';
+import { Button } from '../index';
 
 const {
   size = 'm',
@@ -16,6 +14,7 @@ const {
   downIcon = chevronDown,
   hideDownIcon = false,
   toggleOnHover = false,
+  loading = false,
 } = defineProps<DropDownProps<T, V>>();
 
 const emit = defineEmits<DropDownEmits<T, V>>();
@@ -62,7 +61,8 @@ const updatePosition = () => {
 const { isOutside } = useMouseInElement(dropdownList);
 
 const toggleDropdown = async () => {
-  toggle(!isOpen.value);
+  if (loading && !isOpen.value) return;
+  toggle();
 
   if (isOpen.value) {
     await nextTick();
@@ -73,7 +73,7 @@ const toggleDropdown = async () => {
 const targetHoverHandler = (isHovered: boolean) => {
   if (!toggleOnHover || !canHover.value) return;
   if (isHovered) {
-    toggleDropdown();
+    if (!isOpen.value) toggleDropdown();
   }
   else {
     setTimeout(() => {
@@ -84,11 +84,11 @@ const targetHoverHandler = (isHovered: boolean) => {
 
 const selectItem = (item: T) => {
   emit('update:modelValue', (value ? item[value] : item) as DropDownValue<T, V>);
-  isOpen.value = false;
+  toggle(false);
 };
 
 onClickOutside(dropdown, () => {
-  isOpen.value = false;
+  toggle(false);
 }, { ignore: [dropdownList] });
 
 watch(isOutside, (value) => {
@@ -99,7 +99,7 @@ watch(isOutside, (value) => {
 
 <template>
   <div ref="dropdown" class="dropdown-wrapper">
-    <slot name="target" :open="toggleDropdown" :is-opened="isOpen" :selected="selectedItem" :down-icon="downIcon">
+    <slot name="target" :open="toggleDropdown" :is-opened="isOpen" :selected="selectedItem" :down-icon="downIcon" :loading="loading">
       <Button
         v-element-hover="targetHoverHandler"
         bg-color="surface-high-container"
@@ -107,6 +107,7 @@ watch(isOutside, (value) => {
         :size="size"
         :icon-right="hideDownIcon ? undefined : downIcon"
         fluid
+        :loading="loading"
         :rotate-right-icon="isOpen"
         @click="toggleDropdown"
       >

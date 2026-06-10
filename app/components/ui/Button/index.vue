@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ButtonProps, ButtonSlots } from './types';
 import { LazyNuxtLinkLocale } from '#components';
+import { loader } from '@/assets/icons/general';
 import VIcon from '../VIcon.vue';
 
 const {
@@ -58,17 +59,18 @@ const colorVars = computed(() => {
       noHoverBg && 'no-hover-bg',
       isOnlyIcon && 'icon-only',
       hoverSeverity && `hover-${hoverSeverity}`,
+      loading && 'loading',
     ]"
     :style="colorVars"
   >
     <slot name="prepend">
       <VIcon
         v-if="iconLeft"
-        :icon="iconLeft"
+        :icon="(isOnlyIcon && loading) ? loader : iconLeft"
         :size="iconSize"
         :no-fill="leftIconNoFill"
         class="icon"
-        :class="[rotateLeftIcon && 'rotate']"
+        :class="[(!loading && rotateLeftIcon) && 'rotate']"
       />
     </slot>
     <slot>
@@ -76,12 +78,12 @@ const colorVars = computed(() => {
     </slot>
     <slot name="append">
       <VIcon
-        v-if="iconRight"
-        :icon="iconRight"
+        v-if="iconRight || (!isOnlyIcon && loading)"
+        :icon="(!loading && iconRight) ? iconRight : loader"
         :size="iconSize"
         :no-fill="rightIconNoFill"
         class="icon ml-auto"
-        :class="[rotateRightIcon && 'rotate']"
+        :class="[(!loading && rotateRightIcon) && 'rotate']"
       />
     </slot>
   </component>
@@ -186,11 +188,14 @@ const colorVars = computed(() => {
 
   border-radius: var(--radius);
 
-  transition: var(--transition-fast);
-  &:hover,
-  &.active {
-    background: var(--hover-bg);
-    color: var(--hover-text);
+  transition: opacity var(--fast-timing), background var(--fast-timing), color var(--fast-timing);
+
+  &:not([disabled], .loading) {
+    &:hover,
+    &.active {
+      background: var(--hover-bg);
+      color: var(--hover-text);
+    }
   }
 
   display: inline-flex;
@@ -213,6 +218,10 @@ const colorVars = computed(() => {
   &[disabled] {
     opacity: .7;
     cursor: not-allowed;
+  }
+
+  &.loading {
+    cursor: wait;
   }
 }
 </style>

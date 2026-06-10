@@ -1,4 +1,4 @@
-import type { ButtonProps } from '../Button/types';
+import type { TSizes } from '@/utils';
 
 export type DropDownValue<T, V extends keyof T> = [V] extends [never] ? T : T[V];
 
@@ -8,16 +8,17 @@ export interface DropDownProps<T, V extends keyof T = never> {
   value?: V
   itemLabel?: keyof T
   label?: string
-  size?: ButtonProps['size']
+  size?: TSizes
   downIcon?: string
   hideDownIcon?: boolean
   toggleOnHover?: boolean
+  loading?: boolean
 }
 
 export interface DropDownSlots<T> {
-  target: (props: { open: () => void, isOpened: boolean, selected: T | undefined, downIcon?: string }) => unknown
+  target: (props: { open: () => void, isOpened: boolean, selected: T | undefined, downIcon?: string, loading: boolean }) => unknown
   targetInner: (props: { selected: T | undefined }) => unknown
-  item: (props: { item: T, selected: T | undefined, isSelected: boolean, selectItem: () => () => void }) => unknown
+  item: (props: { item: T, selected: T | undefined, isSelected: boolean, selectItem: () => void }) => unknown
   itemInner: (props: { item: T, selected: T | undefined, isSelected: boolean }) => unknown
 }
 

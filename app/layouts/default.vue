@@ -1,19 +1,26 @@
 <script setup lang="ts">
 import { WFooter, WHeader } from '@/components/layout';
 import { Button } from '@/components/ui';
+import { useLoaderStore } from '@/store/loadingState';
 
 const footerHeight = ref(0);
 const footerHeightPx = computed(() => `${footerHeight.value}px`);
 
 const { t } = useI18n();
+const loaderStore = useLoaderStore();
 </script>
 
 <template>
   <div class="wrapper">
     <WHeader />
     <aside>
-      {{ t('hello-world') }}
-
+      <div style="display: flex; align-items: center; gap: 2rem;">
+        {{ t('hello-world') }}
+        <label for="ch" style="display: flex; align-items: center; gap: .6rem; cursor: pointer">
+          <input id="ch" v-model="loaderStore.isLoading" type="checkbox">
+          <span class="font-14-n">Toggle loader</span>
+        </label>
+      </div>
       <br>
       <br>
 
