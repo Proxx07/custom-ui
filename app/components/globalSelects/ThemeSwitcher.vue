@@ -15,7 +15,7 @@ const { themeList, currentTheme, setTheme } = useTheme();
     class="theme-switcher"
     @update:model-value="setTheme"
   >
-    <template #target="{ open, isOpened, selected, downIcon }">
+    <template #target="{ toggleDropDown, isOpened, selected, downIcon }">
       <Button
         severity="tretiary"
         variant="text"
@@ -24,7 +24,7 @@ const { themeList, currentTheme, setTheme } = useTheme();
         :icon-right="downIcon"
         :rotate-right-icon="isOpened"
         label="dropdownValue"
-        @click="open"
+        @click="toggleDropDown"
       >
         {{ selected ? `${capitalizeFirstLetter(selected)} mode` : 'Select theme' }}
       </Button>

@@ -26,7 +26,7 @@ const localesList = computed(() => {
     size="s"
     @update:model-value="setLocaleHandler"
   >
-    <template #target="{ open, isOpened, selected, downIcon }">
+    <template #target="{ toggleDropDown, isOpened, selected, downIcon }">
       <Button
         severity="tretiary"
         variant="text"
@@ -37,7 +37,7 @@ const localesList = computed(() => {
         :rotate-right-icon="isOpened"
         left-icon-no-fill
         label="dropdownValue"
-        @click="open"
+        @click="toggleDropDown"
       >
         {{ selected?.code.toLocaleUpperCase() ?? 'Language' }}
       </Button>

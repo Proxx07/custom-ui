@@ -13,7 +13,7 @@ const { currency, selectedCurrency, setCurrentCurrency } = useCurrencies();
     value="code"
     @update:model-value="setCurrentCurrency"
   >
-    <template #target="{ open, isOpened, downIcon }">
+    <template #target="{ toggleDropDown, isOpened, downIcon }">
       <Button
         severity="tretiary"
         variant="text"
@@ -22,7 +22,7 @@ const { currency, selectedCurrency, setCurrentCurrency } = useCurrencies();
         :icon-right="downIcon"
         :rotate-right-icon="isOpened"
         label="dropdownValue"
-        @click="open"
+        @click="toggleDropDown"
       >
         <span v-html="selectedCurrency?.symbol" />
         <span class="uppercase">

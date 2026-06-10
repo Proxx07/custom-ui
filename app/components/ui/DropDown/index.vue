@@ -60,46 +60,60 @@ const updatePosition = () => {
 
 const { isOutside } = useMouseInElement(dropdownList);
 
-const toggleDropdown = async () => {
-  if (loading && !isOpen.value) return;
-  toggle();
+const openDropDown = async () => {
+  if (loading || isOpen.value) return;
+  toggle(true);
+  await nextTick();
+  updatePosition();
+};
 
-  if (isOpen.value) {
-    await nextTick();
-    updatePosition();
-  }
+const closeDropDown = () => {
+  toggle(false);
+};
+
+const toggleDropDown = () => {
+  if (isOpen.value) closeDropDown();
+  else openDropDown();
 };
 
 const targetHoverHandler = (isHovered: boolean) => {
   if (!toggleOnHover || !canHover.value) return;
   if (isHovered) {
-    if (!isOpen.value) toggleDropdown();
+    openDropDown();
   }
   else {
     setTimeout(() => {
-      if (isOutside.value) toggle(false);
+      if (isOutside.value) closeDropDown();
     }, 100);
   }
 };
 
 const selectItem = (item: T) => {
   emit('update:modelValue', (value ? item[value] : item) as DropDownValue<T, V>);
-  toggle(false);
+  closeDropDown();
 };
 
 onClickOutside(dropdown, () => {
-  toggle(false);
+  closeDropDown();
 }, { ignore: [dropdownList] });
 
 watch(isOutside, (value) => {
   if (!toggleOnHover || !canHover.value) return;
-  if (value) toggle(false);
+  if (value) closeDropDown();
 });
 </script>
 
 <template>
   <div ref="dropdown" class="dropdown-wrapper">
-    <slot name="target" :open="toggleDropdown" :is-opened="isOpen" :selected="selectedItem" :down-icon="downIcon" :loading="loading">
+    <slot
+      name="target"
+      :open-drop-down="openDropDown"
+      :close-drop-down="closeDropDown"
+      :toggle-drop-down="toggleDropDown"
+      :is-opened="isOpen" :selected="selectedItem"
+      :down-icon="downIcon"
+      :loading="loading"
+    >
       <Button
         v-element-hover="targetHoverHandler"
         bg-color="surface-high-container"
@@ -109,7 +123,7 @@ watch(isOutside, (value) => {
         fluid
         :loading="loading"
         :rotate-right-icon="isOpen"
-        @click="toggleDropdown"
+        @click="toggleDropDown"
       >
         <slot name="targetInner" :selected="selectedItem">
           {{ targetText }}
@@ -130,6 +144,14 @@ watch(isOutside, (value) => {
             '--w': positions.w,
           }"
         >
+          <template v-if="!items.length || !items">
+            <div
+              class="font-16-n text-center"
+              style="padding: 2rem 0;"
+            >
+              No items...
+            </div>
+          </template>
           <template v-for="(item, i) in items" :key="i">
             <slot
               name="item"
@@ -165,11 +187,6 @@ watch(isOutside, (value) => {
 </template>
 
 <style scoped lang="scss">
-.dropdown-wrapper {
-  justify-self: flex-start;
-  align-self: flex-start;
-}
-
 .dropdown-list {
   position: fixed;
   top: var(--y);
