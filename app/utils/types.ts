@@ -1,6 +1,7 @@
 export type TColors = 'surface'
   | 'surface-container'
   | 'surface-high-container'
+  | 'surface-low-container'
   | 'surface-highest-container'
   | 'surface-accent-container'
   | 'on-surface'

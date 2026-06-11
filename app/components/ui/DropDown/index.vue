@@ -97,6 +97,12 @@ onClickOutside(dropdown, () => {
   closeDropDown();
 }, { ignore: [dropdownList] });
 
+useEventListener('scroll', (e) => {
+  if (!isOpen.value) return;
+  if (dropdownList.value?.contains(e.target as Node)) return;
+  closeDropDown();
+}, { capture: true, passive: true });
+
 watch(isOutside, (value) => {
   if (!toggleOnHover || !canHover.value) return;
   if (value) closeDropDown();

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cross, search, tick } from '@/assets/icons/actions';
-import { arrowDown } from '@/assets/icons/arrows';
-import { Button, Checkbox, DropDown, Input, RadioButton, Switcher } from '@/components/ui';
+import { arrowDown, directToOtherPage } from '@/assets/icons/arrows';
+import { Button, Checkbox, DropDown, Input, RadioButton, Switcher, Tooltip } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 
 const dropdownValue = ref<number>();
@@ -317,6 +317,45 @@ const complexDropdownList = computed(() => {
         <Switcher v-model="switchVal" label="Switcher label" size="s" />
       </div>
       <Switcher v-model="switchVal" :loading="loaderStore.isLoading" label="Loading" />
+    </div>
+    <hr>
+    <div class="components">
+      <h2>Tooltips</h2>
+      <div class="flex items-center gap">
+        <Tooltip text="Top tooltip" position="top">
+          <Button severity="secondary" label="top" size="s" />
+        </Tooltip>
+        <Tooltip text="Bottom tooltip" position="bottom">
+          <Button severity="secondary" label="bottom" size="s" />
+        </Tooltip>
+        <Tooltip text="Left tooltip" position="left">
+          <Button severity="secondary" label="left" size="s" />
+        </Tooltip>
+        <Tooltip text="Right tooltip" position="right">
+          <Button severity="secondary" label="right" size="s" />
+        </Tooltip>
+
+        <Tooltip background="primary-variant" position="top">
+          <Button label="Custom tooltip" size="s" />
+          <template #content>
+            <div class="flex-col gap">
+              <div class="font-24-m">
+                Some Text
+              </div>
+              <Button
+                severity="secondary"
+                type="nuxt-link"
+                label="Go to main"
+                no-hover-bg
+                to="/"
+                :icon-right="directToOtherPage"
+                size="s"
+                padding="1rem"
+              />
+            </div>
+          </template>
+        </Tooltip>
+      </div>
     </div>
   </div>
 </template>

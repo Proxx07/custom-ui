@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui';
+import { RadioButton } from '@/components/ui';
 import { useTheme } from '@/composables/UI';
 
-import { useUserStore } from '@/store/user';
-
 const { themeList, currentTheme, setTheme } = useTheme();
-const userStore = useUserStore();
 </script>
 
 <template>
@@ -13,25 +10,17 @@ const userStore = useUserStore();
     <div class="theme">
       Theme: {{ currentTheme }}
 
-      <div>
-        <label v-for="theme in themeList" :key="theme" :for="theme">
-          <input
-            :id="theme"
-            v-model="currentTheme"
-            type="radio"
-            name="theme"
-            :value="theme"
-            @change="setTheme(theme)"
-          >
-          {{ theme }}
-        </label>
+      <div class="flex gap">
+        <RadioButton
+          v-for="theme in themeList"
+          :key="theme"
+          v-model="currentTheme"
+          size="s"
+          :label="theme"
+          :value="theme"
+          @update:model-value="setTheme"
+        />
       </div>
-
-      <Button
-        @click="userStore.setUser('TEST_USER')"
-      >
-        Set user
-      </Button>
     </div>
     <div class="bg-surface-container">
       surface-container

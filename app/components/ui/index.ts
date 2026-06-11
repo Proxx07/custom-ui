@@ -5,10 +5,9 @@ export { default as Checkbox } from './CheckBox/index.vue';
 export type * from './CheckBox/types';
 
 export { default as DropDown } from './DropDown/index.vue';
-
 export * from './DropDown/types';
-export { default as Input } from './Input/index.vue';
 
+export { default as Input } from './Input/index.vue';
 export * from './Input/types';
 
 export { default as RadioButton } from './RadioButton/index.vue';
@@ -16,5 +15,8 @@ export type * from './RadioButton/types';
 
 export { default as Switcher } from './Switcher/index.vue';
 export type * from './Switcher/types';
+
+export { default as Tooltip } from './Tooltip/index.vue';
+export type * from './Tooltip/types';
 
 export { default as VIcon } from './VIcon.vue';
