@@ -296,6 +296,33 @@
   color: var(--good-price-container);
 }
 
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -314,4 +341,8 @@
 }
 .text-center {
   text-align: center;
+}
+
+.gap {
+  gap: 1.2rem
 }

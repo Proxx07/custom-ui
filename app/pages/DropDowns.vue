@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cross, search, tick } from '@/assets/icons/actions';
 import { arrowDown } from '@/assets/icons/arrows';
-import { Button, Checkbox, DropDown, Input } from '@/components/ui';
+import { Button, Checkbox, DropDown, Input, RadioButton, Switcher } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 
 const dropdownValue = ref<number>();
@@ -19,6 +19,13 @@ const searchQuery = ref('');
 const complexSelected = ref<number>(0);
 
 const check = ref(false);
+
+const checkGroup = ref<number[]>([]);
+const checkGroupOptions = Array.from({ length: 4 }, (_, i) => ({ id: i + 1, name: `label ${i + 1}` }));
+
+const radioValue = ref<number>();
+
+const switchVal = ref(false);
 
 const complexDropdownList = computed(() => {
   if (!searchQuery.value) return [];
@@ -249,7 +256,67 @@ const complexDropdownList = computed(() => {
     <hr>
     <div class="components">
       <h2>Checkboxes</h2>
-      <Checkbox v-model="check" label="Checkbox label" />
+      <div class="flex items-center gap">
+        <Checkbox v-model="check" label="Checkbox label" :loading="loaderStore.isLoading" />
+        <Checkbox v-model="check" label="Checkbox label" size="s" :loading="loaderStore.isLoading" />
+      </div>
+      <div class="w-full" />
+      <div class="flex-col gap">
+        <span>selected: {{ checkGroup }}</span>
+
+        <Checkbox
+          v-for="option in checkGroupOptions"
+          :key="option.id"
+          v-model="checkGroup"
+          :value="option.id"
+          :label="option.name"
+        >
+          <template #default="{ updateOnlyCurrent, isHovered, label }">
+            <div class="flex items-center gap">
+              {{ label }}
+              <Button
+                v-if="isHovered"
+                variant="text"
+                severity="secondary"
+                label="ONLY"
+                size="s"
+                padding=".1rem"
+                class="ml-auto"
+                @click="updateOnlyCurrent"
+              />
+            </div>
+          </template>
+        </Checkbox>
+      </div>
+    </div>
+    <hr>
+    <div class="components">
+      <h2>Radio Buttons</h2>
+      <div class="flex items-center gap">
+        <RadioButton v-model="radioValue" :value="1" label="Radio m" :loading="loaderStore.isLoading" />
+        <RadioButton v-model="radioValue" :value="2" label="Radio s" size="s" :loading="loaderStore.isLoading" />
+      </div>
+      <div class="w-full" />
+      <div class="flex-col gap">
+        <span>selected: {{ radioValue }}</span>
+
+        <RadioButton
+          v-for="option in checkGroupOptions"
+          :key="option.id"
+          v-model="radioValue"
+          :value="option.id"
+          :label="option.name"
+        />
+      </div>
+    </div>
+    <hr>
+    <div class="components">
+      <h2>Switchers</h2>
+      <div class="flex items-center gap">
+        <Switcher v-model="switchVal" label="Switcher label" />
+        <Switcher v-model="switchVal" label="Switcher label" size="s" />
+      </div>
+      <Switcher v-model="switchVal" :loading="loaderStore.isLoading" label="Loading" />
     </div>
   </div>
 </template>
