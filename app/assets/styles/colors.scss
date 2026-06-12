@@ -97,7 +97,6 @@ html.light {
   --h: 210;
   --s: 20%;
 
-  /* Инвертируем фоны: 100% - 10% = 90% (светло-серый) */
   --surface:                    hsla(var(--h) var(--s) calc(100% - var(--l-10)));
   --surface-container:          hsla(var(--h) var(--s) calc(100% - var(--l-13)));
   --surface-low-container:      hsla(var(--h) var(--s) calc(100% - var(--l-9)));
@@ -105,12 +104,10 @@ html.light {
   --surface-highest-container:  hsla(var(--h) var(--s) calc(100% - var(--l-20)));
   --surface-accent-container:   hsla(var(--h) var(--s) calc(100% - var(--l-25)));
 
-  /* Инвертируем текст: 100% - 100% = 0% (черный) */
   --on-surface:           hsla(var(--h) var(--s) calc(100% - var(--l-100)));
   --on-surface-secondary: hsla(var(--h) var(--s) calc(100% - var(--l-75)));
   --on-surface-tretiary:  hsla(var(--h) var(--s) calc(100% - var(--l-65)));
 
-  /* Инвертируем обводки */
   --outline:         hsla(var(--h) var(--s) calc(100% - var(--l-19)));
   --outline-variant: hsla(var(--h) var(--s) calc(100% - var(--l-30)));
 }

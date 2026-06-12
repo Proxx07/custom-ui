@@ -40,7 +40,11 @@ export default defineNuxtConfig({
     dirs: [],
   },
 
-  hooks,
-  vite: viteConfig,
   colorMode: colorModeConfig,
+
+  hooks,
+  typescript: {
+    typeCheck: true,
+  },
+  vite: viteConfig,
 });
