@@ -17,8 +17,8 @@ const tooltipInner = ref<HTMLDivElement>();
 
 const isHovered = useElementHover(tooltipWrapper);
 const { isOutside } = useMouseInElement(tooltipInner);
-const { left, top, width, height } = useElementBounding(tooltipWrapper);
-const { width: tipWidth, height: tipHeight } = useElementBounding(tooltipInner);
+const { left, top, width, height, update: wrapperUpdate } = useElementBounding(tooltipWrapper);
+const { width: tipWidth, height: tipHeight, update: innerUpdate } = useElementBounding(tooltipInner);
 
 const isTooltipVisible = ref(false);
 
@@ -28,6 +28,8 @@ let closeTimer: ReturnType<typeof setTimeout> | undefined;
 watch([isHovered, isOutside], ([hovered, outside]) => {
   clearTimeout(closeTimer);
   if (hovered || !outside) {
+    wrapperUpdate();
+    innerUpdate();
     isTooltipVisible.value = true;
   }
   else {

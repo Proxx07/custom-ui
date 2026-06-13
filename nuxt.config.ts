@@ -6,6 +6,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
 
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
+
+  experimental: {
+    viewTransition: false,
+  },
+
   css: ['~/assets/styles/global.scss'],
 
   modules: [
@@ -40,7 +48,11 @@ export default defineNuxtConfig({
     dirs: [],
   },
 
-  hooks,
-  vite: viteConfig,
   colorMode: colorModeConfig,
+
+  hooks,
+  typescript: {
+    typeCheck: true,
+  },
+  vite: viteConfig,
 });

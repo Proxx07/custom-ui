@@ -64,6 +64,8 @@ aside {
   display: flex;
   flex-grow: 1;
   padding-bottom: 6rem;
+  overflow-x: hidden;
+  overflow-y: auto;
   & > * {
     flex-grow: 1;
   }

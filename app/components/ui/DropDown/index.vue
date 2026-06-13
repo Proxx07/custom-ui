@@ -30,7 +30,7 @@ const dropdownList = ref<HTMLElement>();
 
 const dropUp = ref(false);
 const positions = reactive({ x: '', y: '', w: '' });
-const { left, width, top, bottom } = useElementBounding(dropdown);
+const { left, width, top, bottom, update } = useElementBounding(dropdown);
 
 const selectedItem = computed<T | undefined>(() => {
   if (modelValue == null) return undefined;
@@ -62,6 +62,7 @@ const { isOutside } = useMouseInElement(dropdownList);
 
 const openDropDown = async () => {
   if (loading || isOpen.value) return;
+  update();
   toggle(true);
   await nextTick();
   updatePosition();
@@ -116,7 +117,8 @@ watch(isOutside, (value) => {
       :open-drop-down="openDropDown"
       :close-drop-down="closeDropDown"
       :toggle-drop-down="toggleDropDown"
-      :is-opened="isOpen" :selected="selectedItem"
+      :is-opened="isOpen"
+      :selected="selectedItem"
       :down-icon="downIcon"
       :loading="loading"
     >

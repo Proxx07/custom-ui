@@ -1,3 +1,13 @@
+.page-enter-active,
+.page-leave-active {
+  transition: opacity var(--fast-timing), filter var(--fast-timing);
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(0.2rem);
+}
+
 @keyframes rotate {
   100% {
     transform: rotate(1turn);
@@ -34,7 +44,7 @@
 
 .slide-in-right-enter-active,
 .slide-in-right-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  transition: opacity var(--slow-timing), transform var(--slow-timing);
 }
 
 .slide-in-right-enter-from {
@@ -49,7 +59,7 @@
 
 .slide-in-left-enter-active,
 .slide-in-left-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  transition: opacity var(--slow-timing), transform var(--slow-timing);
 }
 
 .slide-in-left-enter-from {
@@ -107,3 +117,4 @@
   opacity: 0;
   transform: translateY(20%);
 }
+

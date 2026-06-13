@@ -40,9 +40,6 @@ export function toAlias(srcRoot, target, alias) {
   return rel === '' ? alias : `${alias}/${rel}`;
 }
 
-// Factory for the per-file source resolver. Given an import's raw specifier it returns
-// { target, kind } where kind is 'alias' or 'relative', or null for anything else
-// (bare packages, the '~~' root alias, virtual ids, …).
 export function makeResolve({ alias, srcRoot, filePath }) {
   const aliasPrefix = alias + '/';
   return function resolve(raw) {

@@ -38,9 +38,11 @@ const inputTemplateRef = ref<HTMLInputElement>();
 const inputWrapperRef = ref<HTMLElement>();
 
 const { left: inputLeftPos, top: inputTopPos, update: updateInputBounds } = useElementBounding(inputTemplateRef);
-const { left: wrapperLeftPos, top: wrapperTopPos } = useElementBounding(inputWrapperRef);
+const { left: wrapperLeftPos, top: wrapperTopPos, update: updateWrapperBounds } = useElementBounding(inputWrapperRef);
 
-useResizeObserver(inputWrapperRef, updateInputBounds);
+useResizeObserver(inputWrapperRef, () => {
+  updateInputBounds();
+});
 
 const padding = computed(() => {
   if (size === 's') return '1.2rem 0';
@@ -73,6 +75,12 @@ const clearInput = () => {
 watch(focused, (val) => {
   if (!val) return emit('blur');
   emit('focus');
+});
+
+watch(() => loading, (val) => {
+  if (!val) return;
+  updateInputBounds();
+  updateWrapperBounds();
 });
 </script>
 

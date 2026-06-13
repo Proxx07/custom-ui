@@ -16,6 +16,9 @@ export type * from './RadioButton/types';
 export { default as Switcher } from './Switcher/index.vue';
 export type * from './Switcher/types';
 
+export { default as Tabs } from './Tabs/index.vue';
+export type * from './Tabs/types';
+
 export { default as Tooltip } from './Tooltip/index.vue';
 export type * from './Tooltip/types';
 
