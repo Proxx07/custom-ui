@@ -11,7 +11,7 @@ const {
   size = 'm',
   invalid = false,
   maxWidth = '100%',
-  label = '',
+  label = 0,
   hint = '',
   modelValue,
   loading = false,
