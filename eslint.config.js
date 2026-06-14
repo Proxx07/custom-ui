@@ -14,7 +14,18 @@ export default antfu(
       'antfu/top-level-function': 'off',
     },
 
-    ignores: ['node_modules', '*.d.ts', '.nuxt', '.output', '.gitlab-ci.yml', 'Dockerfile', '*.d.ts', '**/*.d.ts', 'eslint-rules/**'],
+    ignores: [
+      'node_modules',
+      '*.d.ts',
+      '.nuxt',
+      '.output',
+      '.gitlab-ci.yml',
+      'Dockerfile',
+      '*.d.ts',
+      '**/*.d.ts',
+      'eslint-rules/**',
+      'scripts/**',
+    ],
   },
 
   {
