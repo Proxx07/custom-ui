@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { cross, search, tick } from '@/assets/icons/actions';
 import { arrowDown, directToOtherPage } from '@/assets/icons/arrows';
-import { Button, Checkbox, DropDown, Input, RadioButton, Switcher, Tabs, Tooltip } from '@/components/ui';
+import { Alert, Button, Checkbox, DropDown, Input, RadioButton, Switcher, Tabs, Tooltip } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 
 const dropdownValue = ref<number>();
 const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name: `option ${i + 1}` }));
 
 const loaderStore = useLoaderStore();
+const { $toast } = useNuxtApp();
 
 const togglePrefix = ref(true);
 const toggleSuffix = ref(true);
@@ -367,6 +368,23 @@ watch(() => tabModel.value, (newValue, oldValue) => {
               </template>
             </Tooltip>
           </div>
+          <h2 class="w-full">
+            Alerts
+          </h2>
+          <Alert type="success" title="Title text" description="Description text" no-icon />
+          <Alert type="attention" title="Title text" description="Description text" />
+          <Alert title="Title text" description="Description text" />
+
+          <Alert type="success" description="No title" />
+          <Alert type="attention" description="No title" />
+          <Alert title="Title text" description="No title" :close-timeout="5" />
+
+          <h2 class="w-full">
+            Toasts
+          </h2>
+          <Button label="Toast success" @click="$toast.success('Toast success text')" />
+          <Button label="Toast attention" @click="$toast.attention('Toast attention text ')" />
+          <Button label="Toast error" @click="$toast.error('Toast error text')" />
         </div>
       </transition-group>
     </div>

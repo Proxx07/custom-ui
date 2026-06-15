@@ -14,15 +14,6 @@
   }
 }
 
-@keyframes toast-indicator {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
 .rotate-animation {
   animation: rotate 1s infinite linear;
 }
@@ -72,9 +63,14 @@
   transform: translateX(100%);
 }
 
+.scale-fade-move,
 .scale-fade-enter-active,
 .scale-fade-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  transition: all var(--fast-timing);
+}
+
+.scale-fade-leave-active {
+  position: absolute;
 }
 
 .scale-fade-enter-from {

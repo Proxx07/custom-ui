@@ -65,10 +65,10 @@ html {
   --emerland-container: color-mix(in srgb, var(--emerland) 20%, transparent);
 
 
-  --attention: rgba(57, 45, 35, 1);
   --on-attention: rgba(255, 175, 100, 1);
-  --error: rgba(55, 36, 37, 1);
   --on-error: rgba(255, 92, 92, 1);
+  --attention: color-mix(in srgb, var(--on-attention) 20%, transparent);
+  --error: color-mix(in srgb, var(--on-error) 20%, transparent);
 
   --best-price: rgba(255, 189, 60, 1);
   --best-price-container: rgba(55, 51, 36, 1);

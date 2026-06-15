@@ -8,6 +8,7 @@
   --radius-xs: .2rem;
   --radius-sm: .4rem;
   --radius-m: .6rem;
+  --radius-l: .8rem;
 }
 
 .font-12-n {
@@ -341,6 +342,10 @@
 }
 .text-center {
   text-align: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .gap {

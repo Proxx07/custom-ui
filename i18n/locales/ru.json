@@ -2,5 +2,11 @@
   "hello-world": "Привет мир!",
   "advantages": {
     "test-text": "Текст преимущества"
+  },
+
+  "toast": {
+    "error": "Ошибка",
+    "attention": "Внимание",
+    "success": "Успешно"
   }
 }

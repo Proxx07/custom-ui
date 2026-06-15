@@ -207,7 +207,7 @@ watch(isOutside, (value) => {
   gap: 0.2rem;
   border: 1px solid var(--outline);
   border-radius: var(--radius-sm);
-  max-height: 44rem;
+  max-height: 35rem;
   overflow-y: auto;
   min-width: max-content;
   &.open-to-top {

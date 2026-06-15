@@ -74,6 +74,8 @@ const clearInput = () => {
 
 watch(focused, (val) => {
   if (!val) return emit('blur');
+  updateInputBounds();
+  updateWrapperBounds();
   emit('focus');
 });
 
