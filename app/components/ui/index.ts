@@ -14,16 +14,20 @@ export * from './DropDown/types';
 export { default as Input } from './Input/index.vue';
 export * from './Input/types';
 
+export { default as InputRange } from './InputRange/index.vue';
+export type * from './InputRange/types';
+
+export { default as PhaseLabel } from './PhaseLabel/index.vue';
 export { default as RadioButton } from './RadioButton/index.vue';
+
 export type * from './RadioButton/types';
-
 export { default as Switcher } from './Switcher/index.vue';
+
 export type * from './Switcher/types';
-
 export { default as Tabs } from './Tabs/index.vue';
+
 export type * from './Tabs/types';
-
 export { default as Tooltip } from './Tooltip/index.vue';
-export type * from './Tooltip/types';
 
+export type * from './Tooltip/types';
 export { default as VIcon } from './VIcon.vue';

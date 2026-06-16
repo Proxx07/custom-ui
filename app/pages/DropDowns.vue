@@ -1,7 +1,21 @@
 <script setup lang="ts">
 import { cross, search, tick } from '@/assets/icons/actions';
 import { arrowDown, directToOtherPage } from '@/assets/icons/arrows';
-import { Alert, Button, Checkbox, DropDown, Input, RadioButton, Switcher, Tabs, Tooltip } from '@/components/ui';
+import { phase } from '@/assets/icons/general';
+import {
+  Alert,
+  Button,
+  Checkbox,
+  DropDown,
+  Input,
+  InputRange,
+  PhaseLabel,
+  RadioButton,
+  Switcher,
+  Tabs,
+  Tooltip,
+  VIcon,
+} from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 
 const dropdownValue = ref<number>();
@@ -28,12 +42,14 @@ const radioValue = ref<number>();
 
 const switchVal = ref(false);
 
+const singleRange = ref(40);
+
 const complexDropdownList = computed(() => {
   if (!searchQuery.value) return [];
   return Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name: `${searchQuery.value}-${i + 1}` }));
 });
 
-const tabsList = ['Dropdowns', 'Inputs', 'Checkboxes', 'Tooltips'];
+const tabsList = ['Dropdowns', 'Inputs', 'Ranges', 'Checkboxes', 'Tooltips'];
 const tabModel = ref('');
 const transitionName = ref('slide-in-left');
 
@@ -271,6 +287,35 @@ watch(() => tabModel.value, (newValue, oldValue) => {
             </template>
           </DropDown>
         </div>
+        <div v-if="tabModel === 'Ranges'" class="components">
+          <h2>Ranges</h2>
+
+          <div class="flex-col gap w-full">
+            {{ singleRange }}
+            <div style="max-width: 300px">
+              <InputRange
+                v-model="singleRange"
+                :min="0"
+                :max="100"
+              />
+            </div>
+
+            <div class="w-full" style="padding-right: 1rem">
+              <InputRange
+                v-model="singleRange"
+                :min="0"
+                :max="100"
+              />
+            </div>
+            <div class="w-full" style="max-width: 450px; padding-right: 1rem">
+              <InputRange
+                v-model="singleRange"
+                :min="0"
+                :max="100"
+              />
+            </div>
+          </div>
+        </div>
         <div v-if="tabModel === 'Checkboxes'" class="components">
           <h2>Checkboxes</h2>
           <div class="flex items-center gap">
@@ -385,6 +430,44 @@ watch(() => tabModel.value, (newValue, oldValue) => {
           <Button label="Toast success" @click="$toast.success('Toast success text')" />
           <Button label="Toast attention" @click="$toast.attention('Toast attention text ')" />
           <Button label="Toast error" @click="$toast.error('Toast error text')" />
+
+          <h2 class="w-full">
+            Phase labels
+          </h2>
+
+          <PhaseLabel size="s" label="Phase" />
+          <PhaseLabel size="s" label="Phase sapphire" phase="sapphire" />
+          <PhaseLabel size="s" label="Phase emerald" phase="emerald" />
+          <PhaseLabel size="s" label="Phase pearl" phase="pearl" />
+          <PhaseLabel size="s" label="Phase ruby" phase="ruby" />
+          <hr>
+          <PhaseLabel label="Phase" />
+          <PhaseLabel label="Phase sapphire" phase="sapphire" />
+          <PhaseLabel label="Phase emerald" phase="emerald" />
+          <PhaseLabel label="Phase pearl" phase="pearl" />
+          <PhaseLabel label="Phase ruby" phase="ruby" />
+          <hr>
+          <PhaseLabel size="l" label="Phase" />
+          <PhaseLabel size="l" label="Phase sapphire" phase="sapphire" />
+          <PhaseLabel size="l" label="Phase emerald" phase="emerald" />
+          <PhaseLabel size="l" label="Phase pearl" phase="pearl" />
+          <PhaseLabel size="l" label="Phase ruby" phase="ruby" />
+
+          <div class="color-pearl">
+            <VIcon :icon="phase" />
+          </div>
+
+          <div class="color-sapphire">
+            <VIcon :icon="phase" />
+          </div>
+
+          <div class="color-ruby">
+            <VIcon :icon="phase" />
+          </div>
+
+          <div class="color-emerald">
+            <VIcon :icon="phase" />
+          </div>
         </div>
       </transition-group>
     </div>

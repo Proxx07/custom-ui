@@ -57,12 +57,13 @@ html {
   --phase-container: color-mix(in srgb, var(--phase) 20%, transparent);
   --ruby: var(--on-error);
   --ruby-container: color-mix(in srgb, var(--ruby) 20%, transparent);
-  --black-pearl: rgba(154, 130, 255, 1);
-  --black-pearl-container: color-mix(in srgb, var(--black-pearl) 20%, transparent);
-  --saphire: var(--on-tretiary);
-  --saphire-container: color-mix(in srgb, var(--saphire) 20%, transparent);
-  --emerland: var(--on-secondary);
-  --emerland-container: color-mix(in srgb, var(--emerland) 20%, transparent);
+  --pearl: rgba(154, 130, 255, 1);
+  --pearl-container: color-mix(in srgb, var(--pearl) 20%, transparent);
+  --sapphire: var(--on-tretiary);
+
+  --sapphire-container: hsla(226, 100%, 58%, 0.2);
+  --emerald: var(--on-secondary);
+  --emerald-container: color-mix(in srgb, var(--emerald) 20%, transparent);
 
 
   --on-attention: rgba(255, 175, 100, 1);

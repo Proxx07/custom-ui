@@ -32,6 +32,7 @@ import lock from './lock.svg?raw';
 import logOut from './log-out.svg?raw';
 import mobile from './mobile.svg?raw';
 import paste from './paste.svg?raw';
+import phase from './phase.svg?raw';
 import playControls from './play-controls.svg?raw';
 import primeTime from './prime-time.svg?raw';
 import question from './question.svg?raw';
@@ -80,6 +81,7 @@ export {
   logOut,
   mobile,
   paste,
+  phase,
   playControls,
   primeTime,
   question,
