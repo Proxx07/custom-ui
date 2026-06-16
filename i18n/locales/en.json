@@ -4,9 +4,9 @@
     "test-text": "Advantage text"
   },
 
-  "toast" : {
+  "toast": {
     "error": "Error",
     "attention": "Attention",
-    "success":  "Success"
+    "success": "Success"
   }
 }

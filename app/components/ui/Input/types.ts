@@ -3,7 +3,7 @@ import type { TSizes } from '@/utils';
 export type InputModelValue = string | number;
 
 export interface InputProps<T extends InputModelValue = string> {
-  modelValue: T
+  modelValue?: T
   size?: TSizes
   invalid?: boolean
   maxWidth?: string
@@ -11,6 +11,8 @@ export interface InputProps<T extends InputModelValue = string> {
   hint?: string | boolean
   loading?: boolean
   type?: 'text' | 'number'
+  min?: number
+  max?: number
 }
 
 export interface InputSlots {

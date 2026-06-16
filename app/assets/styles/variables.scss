@@ -9,6 +9,20 @@
   --radius-sm: .4rem;
   --radius-m: .6rem;
   --radius-l: .8rem;
+
+  --float-bg: linear-gradient(
+    to right, rgb(66, 209, 175) 0%, rgb(66, 209, 175) 6.5%,
+    transparent 6.5%, transparent 7.5%, rgb(163, 227, 99) 7.5%, rgb(163, 227, 99) 14.5%,
+    transparent 14.5%, transparent 15.5%, rgb(255, 187, 84) 15.5%, rgb(255, 187, 84) 37.5%,
+    transparent 37.5%, transparent 38.5%, rgb(255, 133, 57) 38.5%, rgb(255, 133, 57) 44.5%,
+    transparent 44.5%, transparent 45.5%, rgb(255, 83, 83) 45.5%, rgb(255, 83, 83) 100%
+  );
+
+  --fade-bg: linear-gradient(
+    to right, rgba(136, 136, 136, 0.41) 0%, rgba(136, 136, 136, 0.41) 0%,
+    rgb(223, 207, 173) 0%, rgb(243, 190, 78) 33.65%, rgb(163, 47, 40) 66.35%,
+    rgb(36, 55, 141) 100%, rgba(136, 136, 136, 0.41) 100%, rgba(136, 136, 136, 0.41) 100%
+  )
 }
 
 .font-12-n {

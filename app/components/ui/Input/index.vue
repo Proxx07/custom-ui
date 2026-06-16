@@ -16,6 +16,8 @@ const {
   modelValue,
   loading = false,
   type = 'text',
+  min,
+  max,
 } = defineProps<InputProps<T>>();
 
 const emit = defineEmits<InputEmits<T>>();
@@ -25,16 +27,37 @@ defineSlots<InputSlots>();
 const id = useId();
 const $attrs = useAttrs();
 
+const clampToBounds = (value: T): T => {
+  if (type !== 'number' || value === '' || value == null) return value;
+  const num = Number(value);
+  if (Number.isNaN(num)) return value;
+  let clamped = num;
+  if (max !== undefined && clamped > max) clamped = max;
+  if (min !== undefined && clamped < min) clamped = min;
+  if (clamped === num) return value;
+  return (typeof value === 'number' ? clamped : String(clamped)) as T;
+};
+
+const inputTemplateRef = ref<HTMLInputElement>();
+
 const model = computed({
   get() {
     return modelValue;
   },
   set(value: T) {
-    emit('update:modelValue', value);
+    const clamped = clampToBounds(value);
+    emit('update:modelValue', clamped);
+    if (clamped !== value) {
+      const next = clamped == null ? '' : String(clamped);
+      nextTick(() => {
+        if (inputTemplateRef.value && inputTemplateRef.value.value !== next) {
+          inputTemplateRef.value.value = next;
+        }
+      });
+    }
   },
 });
 
-const inputTemplateRef = ref<HTMLInputElement>();
 const inputWrapperRef = ref<HTMLElement>();
 
 const { left: inputLeftPos, top: inputTopPos, update: updateInputBounds } = useElementBounding(inputTemplateRef);
@@ -110,6 +133,8 @@ watch(() => loading, (val) => {
         v-model="model"
         :placeholder="placeHolderText"
         :type="type"
+        :min="min"
+        :max="max"
         class="w-input"
         :readonly="loading"
       >

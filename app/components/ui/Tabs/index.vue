@@ -17,7 +17,7 @@ defineSlots<TabSlots<T>>();
 const tabsWrapper = ref<HTMLDivElement>();
 const { left: wrapperLeft } = useElementBounding(tabsWrapper);
 
-const position = reactive({ width: 0, x: 0 });
+const position = reactive({ width: 0, x: -1 });
 const selectedIndex = ref<number>(modelValue ? items.findIndex(item => (value ? item[value] : item) === (modelValue as T | T[V])) : -1);
 
 const updatePosition = ({ w, l }: { w: number, l: number }) => {
@@ -52,6 +52,7 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
         :class="[
           selectedIndex === i && 'active',
           `size-${size}`,
+          selectedIndex === i && position.x < 0 && 'active-bottom',
         ]"
         @click="updateModelValue(i, { width, left })"
       >
@@ -123,6 +124,7 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
   }
 
   .tab {
+    position: relative;
     --color: var(--on-surface-tretiary);
     --hover-color: var(--on-surface);
     &.size-s {
@@ -139,6 +141,18 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
     }
     &.active {
       --color: var(--on-surface);
+    }
+
+    &.active-bottom {
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        left: 0;
+        right: 0;
+        background: var(--on-secondary);
+      }
     }
   }
 }

@@ -35,7 +35,7 @@
 
 .slide-in-right-enter-active,
 .slide-in-right-leave-active {
-  transition: opacity var(--slow-timing), transform var(--slow-timing);
+  transition: opacity var(--fast-timing), transform var(--fast-timing);
 }
 
 .slide-in-right-enter-from {
@@ -50,7 +50,7 @@
 
 .slide-in-left-enter-active,
 .slide-in-left-leave-active {
-  transition: opacity var(--slow-timing), transform var(--slow-timing);
+  transition: opacity var(--fast-timing), transform var(--fast-timing);
 }
 
 .slide-in-left-enter-from {
