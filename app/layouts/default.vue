@@ -27,7 +27,7 @@ const loaderStore = useLoaderStore();
       <Button severity="tretiary" type="nuxt-link" to="/buttonsPage" label="Buttons page" fluid />
       <br>
       <br>
-      <Button severity="tretiary" type="nuxt-link" to="/dropDowns" label="UI Components" fluid />
+      <Button severity="tretiary" type="nuxt-link" to="/ui-components" label="UI Components" fluid />
     </aside>
     <main class="content">
       <slot />
