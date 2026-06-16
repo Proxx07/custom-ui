@@ -199,6 +199,7 @@ watch([elementX, pressed], () => {
   position: absolute;
   top: 50%;
   margin-top: calc(var(--size) / -2);
+  margin-left: calc(var(--size) / -2);
   width: var(--size);
   height: var(--size);
   border: var(--knob-border) solid color-mix(in srgb, var(--knob-color) 40%, transparent);
