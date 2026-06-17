@@ -7,7 +7,18 @@ const modalOpened = ref(false);
 <template>
   <div class="components">
     <Button label="Open modal" size="s" severity="secondary" @click="modalOpened = true" />
-    <Modal v-model="modalOpened" />
+    <Modal
+      v-model="modalOpened"
+      title="TEST MODAL"
+      back-button
+    >
+      <template #content>
+        <div
+          style="min-height: 400vh;
+          background: repeating-linear-gradient(to bottom, var(--secondary), var(--on-secondary) 20px, var(--secondary) 40px);"
+        />
+      </template>
+    </Modal>
   </div>
 </template>
 

@@ -20,7 +20,7 @@ const fadeTo = ref(100);
   <div class="components">
     <h2>Ranges</h2>
 
-    <div class="flex-col w-full" style="gap: 3rem">
+    <div class="flex-col w-full" style="gap: 3rem; padding-left: 2rem">
       <div style="max-width: 300px">
         <Input
           v-model="singleRange"

@@ -20,9 +20,7 @@ const {
 const emit = defineEmits<InputRangeEmits>();
 
 const inputRangeWrapper = ref<HTMLDivElement>();
-
-const { pressed } = useMousePressed({ target: inputRangeWrapper, touch: true });
-const { elementX, elementWidth: totalWidth } = useMouseInElement(inputRangeWrapper);
+const pressed = ref(false);
 
 const span = computed(() => max - min);
 const decimals = computed(() => (String(step).split('.')[1] || '').length);
@@ -33,14 +31,9 @@ const clampValue = (value: number) => {
   return +Math.min(max, Math.max(min, snapped)).toFixed(decimals.value);
 };
 
-const xPosition = computed(() => {
-  if (totalWidth.value <= 0) return 0;
-  return Math.min(Math.max(elementX.value, 0), totalWidth.value);
-});
-
-const valueFromPosition = (px: number) => {
-  if (span.value <= 0 || totalWidth.value <= 0) return min;
-  return clampValue(min + (px / totalWidth.value) * span.value);
+const valueFromPosition = (px: number, width: number) => {
+  if (span.value <= 0 || width <= 0) return min;
+  return clampValue(min + (px / width) * span.value);
 };
 
 const percentOf = (value: number) => {
@@ -55,8 +48,8 @@ const toValue = computed(() => clampValue(to ?? max));
 
 const activeThumb = ref<'from' | 'to'>('from');
 
-const pickActiveThumb = () => {
-  const pointer = valueFromPosition(xPosition.value);
+const pickActiveThumb = (px: number, width: number) => {
+  const pointer = valueFromPosition(px, width);
   const start = fromValue.value;
   const end = toValue.value;
   if (pointer <= start) {
@@ -85,13 +78,8 @@ const isBgGradient = computed(() => {
   return fillBg === 'float-bg' || fillBg === 'fade-bg';
 });
 
-watch(pressed, (isPressed) => {
-  if (range && isPressed && !disabled) pickActiveThumb();
-});
-
-watch([elementX, pressed], () => {
-  if (!pressed.value || disabled) return;
-  const next = valueFromPosition(xPosition.value);
+const commitFromPx = (px: number, width: number) => {
+  const next = valueFromPosition(px, width);
 
   if (!range) {
     if (next !== displayValue.value) emit('update:modelValue', next);
@@ -106,7 +94,50 @@ watch([elementX, pressed], () => {
     const clamped = Math.max(next, fromValue.value);
     if (clamped !== toValue.value) emit('update:to', clamped);
   }
-});
+};
+
+const pxFromEvent = (event: PointerEvent, rect: DOMRect) => {
+  return Math.min(Math.max(event.clientX - rect.left, 0), rect.width);
+};
+
+const onPointerDown = (event: PointerEvent) => {
+  if (disabled) return;
+  const el = inputRangeWrapper.value;
+  if (!el) return;
+
+  const rect = el.getBoundingClientRect();
+  const px = pxFromEvent(event, rect);
+
+  if (range) pickActiveThumb(px, rect.width);
+
+  pressed.value = true;
+  el.setPointerCapture?.(event.pointerId);
+
+  commitFromPx(px, rect.width);
+};
+
+const onPointerMove = (event: PointerEvent) => {
+  if (!pressed.value || disabled) return;
+  const el = inputRangeWrapper.value;
+  if (!el) return;
+
+  const rect = el.getBoundingClientRect();
+  commitFromPx(pxFromEvent(event, rect), rect.width);
+};
+
+const endPress = (event?: PointerEvent) => {
+  if (!pressed.value) return;
+  pressed.value = false;
+
+  const el = inputRangeWrapper.value;
+  if (el && event && el.hasPointerCapture?.(event.pointerId)) {
+    el.releasePointerCapture?.(event.pointerId);
+  }
+};
+
+useEventListener(inputRangeWrapper, 'pointermove', onPointerMove);
+useEventListener(inputRangeWrapper, 'pointerup', endPress);
+useEventListener(inputRangeWrapper, 'pointercancel', endPress);
 </script>
 
 <template>
@@ -115,6 +146,7 @@ watch([elementX, pressed], () => {
     class="input-range"
     :class="[disabled && 'disabled', isBgGradient && 'exact-bg-variable']"
     :style="rootStyle"
+    @pointerdown="onPointerDown"
   >
     <div class="track">
       <div class="fill" :class="[fluidFill && 'fluid']" />
@@ -154,6 +186,9 @@ watch([elementX, pressed], () => {
   position: relative;
   min-height: var(--size);
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
   &.disabled {
     opacity: .5;
     pointer-events: none;
