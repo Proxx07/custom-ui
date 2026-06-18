@@ -1,10 +1,10 @@
-$small: 420px;
-$mobile: 600px;
-$tablet-s: 768px;
-$tablet: 1024px;
-$laptop-s: 1200px;
-$laptop: 1440px;
-$desktop: 1920px;
+$small:     420px;
+$mobile:    600px;
+$tablet-s:  768px;
+$tablet:    1024px;
+$laptop-s:  1200px;
+$laptop:    1440px;
+$desktop:   1920px;
 
 @mixin media-max($bp) {
   @media all and (max-width: #{$bp}) {

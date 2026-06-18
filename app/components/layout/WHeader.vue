@@ -1,21 +1,30 @@
 <script setup lang="ts">
-import { useUserStore } from '@/store/user';
+import { burgerMenu } from '@/assets/icons/general';
+import { Button } from '@/components/ui';
+import { useDrawersStore } from '@/store/drawersState';
 
-const userStore = useUserStore();
+const drawersState = useDrawersStore();
 </script>
 
 <template>
   <header>
     <span>{HEADER}</span>
-    <span>{{ userStore.user }}</span>
+
+    <Button
+      severity="tretiary"
+      variant="text"
+      class="ml-auto"
+      :icon-left="burgerMenu"
+      @click="drawersState.showAsideDrawer"
+    />
   </header>
 </template>
 
 <style scoped lang="scss">
 header {
+  padding: var(--container-padding-y) var(--container-padding-x);
   position: sticky;
   top: 0;
-  padding: 1rem;
   grid-column: span 2;
   background: var(--surface-container);
   display: flex;

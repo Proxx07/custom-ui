@@ -13,6 +13,16 @@ html {
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+
+  &:has(.modal-wrapper),
+  &:has(.drawer-wrapper) {
+    body {
+      overflow: hidden;
+    }
+    @media all and (min-width: 1301px) {
+      padding-right: 3px;
+    }
+  }
 }
 
 body {

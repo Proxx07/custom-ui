@@ -1,25 +1,22 @@
-<script lang="ts" setup>
-import type { TColors } from '@/utils';
+<script setup lang="ts">
+import type { ModalEmits, ModalProps, ModalSlots } from './types';
+import { cross } from '@/assets/icons/actions';
+import { chevronLeft } from '@/assets/icons/arrows';
+import { scrollDirectionTracker } from '@/utils';
+import Button from '../Button/index.vue';
 
 const {
   modelValue = false,
   modalBg = 'surface-container',
   maxWidth = 640,
+  contentMinHeight = 0,
   noHeaderBorder = false,
   title = '',
-} = defineProps<{
-  modelValue: boolean
-  modalBg?: TColors
-  maxWidth?: number
-  noHeaderBorder?: boolean
-  title?: string
-  backButton?: boolean
-}>();
+} = defineProps<ModalProps>();
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-  (e: 'back'): void
-}>();
+const emit = defineEmits<ModalEmits>();
+
+defineSlots<ModalSlots>();
 
 const closeModal = () => {
   emit('update:modelValue', false);
@@ -29,17 +26,64 @@ const emitBack = () => {
   emit('back');
 };
 
-const headerRef = ref<HTMLDivElement>();
-const contentRef = ref<HTMLDivElement>();
-const contentInnerRef = ref<HTMLDivElement>();
+let MAX_OFFSET_LIMIT = 0;
+let OFFSET_DEFAULT = 0;
+
+const modalWrapper = ref<HTMLDivElement>();
+const modalInnerRef = ref<HTMLDivElement>();
 const footerRef = ref<HTMLDivElement>();
+const headerRef = ref<HTMLDivElement>();
 
-const { bottom: contentBottom } = useElementBounding(contentRef);
-const { bottom: contentInnerBottom } = useElementBounding(contentInnerRef);
-
+const modalScrollOffset = ref(0);
 const { height: windowHeight } = useWindowSize();
+const { height: footerHeight } = useElementBounding(footerRef);
+const { top, update, height: headerHeight } = useElementBounding(headerRef);
 
-const isLocked = useScrollLock(contentRef);
+const [animationOffset, toggleAnimationOffset] = useToggle(false);
+
+const recalculateOffset = (val: 'up' | 'down') => {
+  if (val === 'up') {
+    if (modalScrollOffset.value === MAX_OFFSET_LIMIT) return closeModal();
+    toggleAnimationOffset(true);
+    modalScrollOffset.value = MAX_OFFSET_LIMIT;
+  }
+  if (val === 'down') {
+    if (modalScrollOffset.value === OFFSET_DEFAULT) return;
+    toggleAnimationOffset(true);
+    modalScrollOffset.value = OFFSET_DEFAULT;
+  }
+};
+
+const scrollDirection = scrollDirectionTracker();
+const pointerMoveHandler = (e: TouchEvent | WheelEvent) => {
+  if (animationOffset.value || (e instanceof WheelEvent && !e.cancelable)) return;
+  if (Math.abs(top.value - modalScrollOffset.value) > 1.5) return;
+  const direction = scrollDirection(e);
+  if (!direction) return;
+  recalculateOffset(direction);
+};
+
+const innerTransitionEndHandler = () => {
+  update();
+  toggleAnimationOffset(false);
+};
+
+useEventListener(modalInnerRef, 'wheel', pointerMoveHandler);
+useEventListener(modalInnerRef, 'touchmove', pointerMoveHandler);
+useEventListener(modalInnerRef, 'transitionend', innerTransitionEndHandler);
+
+useEventListener(modalWrapper, 'transitionend', (e: TransitionEvent) => {
+  if (e.propertyName === 'transform') update();
+});
+
+useEventListener(document, 'keydown', (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && modelValue) closeModal();
+});
+
+watch(() => modelValue, () => {
+  modalScrollOffset.value = OFFSET_DEFAULT = Math.floor(windowHeight.value * 0.4);
+  MAX_OFFSET_LIMIT = Math.floor(OFFSET_DEFAULT * 1.6);
+}, { flush: 'post' });
 </script>
 
 <template>
@@ -47,7 +91,7 @@ const isLocked = useScrollLock(contentRef);
     <transition name="fade">
       <div
         v-if="modelValue"
-        class="modal-backdrop"
+        class="backdrop"
         @click="closeModal"
       />
     </transition>
@@ -55,71 +99,107 @@ const isLocked = useScrollLock(contentRef);
     <transition name="modal">
       <div
         v-if="modelValue"
+        ref="modalWrapper"
         class="modal-wrapper"
         :style="{
-          '--width': `${maxWidth}px`,
+          '--width': `${maxWidth + 46}px`,
+          '--content-min-height': `${contentMinHeight ? contentMinHeight : '320'}px`,
+          '--footer-height': `${footerHeight}px`,
+          '--header-height': `${headerHeight}px`,
         }"
       >
-        <div class="modal-dialog-outer">
-          <div
-            class="modal-dialog"
-            :class="[`bg-${modalBg}`]"
-            @click.stop
-          >
+        <div
+          ref="modalInnerRef"
+          class="modal-inner "
+          :class="[animationOffset && 'animated-offset']"
+          :style="{
+            '--top-offset': `${modalScrollOffset}px`,
+          }"
+        >
+          <div class="modal-dialog-outer">
             <div
-              ref="headerRef"
-              class="modal-dialog__header-outer"
+              class="modal-dialog"
+              :class="[`bg-${modalBg}`]"
             >
-              <slot name="header">
-                <div class="modal-dialog__header">
-                  <slot name="header-inner">
-                    <div
-                      class="modal-dialog__header-inner"
-                      :class="[!noHeaderBorder && 'with-border']"
-                    >
-                      <slot name="header-prepend" :emit-back="emitBack">
-                        <div v-if="backButton" @click="emitBack">
-                          {BACK_BUTTON}
+              <div
+                ref="headerRef"
+                class="modal-dialog__header-outer"
+              >
+                <slot name="header-above" />
+
+                <div :class="[`bg-${modalBg}`]">
+                  <slot name="header">
+                    <div class="modal-dialog__header">
+                      <slot name="header-inner">
+                        <div
+                          class="modal-dialog__header-inner"
+                          :class="[!noHeaderBorder && 'with-border']"
+                        >
+                          <slot name="header-prepend" :emit-back="emitBack">
+                            <Button
+                              v-if="backButton"
+                              severity="tretiary"
+                              variant="text"
+                              size="s"
+                              class="modal-button"
+                              :icon-left="chevronLeft"
+                              @click="emitBack"
+                            />
+                          </slot>
+
+                          <div class="font-18-m">
+                            {{ title }}
+                          </div>
+
+                          <div class="header-append ml-auto">
+                            <slot name="header-append">
+                              <Button
+                                severity="tretiary"
+                                variant="text"
+                                size="s"
+                                class="modal-button"
+                                :icon-left="cross"
+                                @click="closeModal"
+                              />
+                            </slot>
+                          </div>
                         </div>
                       </slot>
-
-                      <div class="font-18-m">
-                        {{ title }}
-                        <pre class="font-12-n">
-                          wh - {{ windowHeight }}
-                          {{ contentBottom }}  |  {{ contentInnerBottom }}
-                          isLocked - {{ isLocked }}
-                        </pre>
-                      </div>
-
-                      <div class="header-append">
-                        <slot name="header-append" />
-                      </div>
                     </div>
                   </slot>
                 </div>
-              </slot>
-            </div>
+              </div>
 
-            <div ref="contentRef" class="modal-dialog__content">
-              <div ref="contentInnerRef" class="modal-dialog__content-inner">
-                <slot name="content">
-                  {DIALOG_CONTENT}
+              <div class="modal-dialog__content">
+                <div class="modal-dialog__content-inner">
+                  <slot name="content">
+                    {DIALOG_CONTENT}
+                  </slot>
+                </div>
+              </div>
+
+              <div
+                ref="footerRef"
+                class="modal-dialog__footer-outer"
+                :class="[`bg-${modalBg}`]"
+              >
+                <slot name="footer">
+                  <div class="modal-dialog__footer">
+                    <slot name="footer-inner">
+                      <div class="modal-dialog__footer-inner" />
+                    </slot>
+                  </div>
                 </slot>
               </div>
             </div>
-
-            <div ref="footerRef" class="modal-dialog__footer-outer">
-              <slot name="footer">
-                <div class="modal-dialog__footer">
-                  <slot name="footer-inner">
-                    <div class="modal-dialog__footer-inner">
-                      {DIALOG_FOOTER}
-                    </div>
-                  </slot>
-                </div>
-              </slot>
-            </div>
+            <Button
+              severity="tretiary"
+              class="close-button align-self-start"
+              :bg-color="modalBg"
+              :icon-right="cross"
+              size="s"
+              @click="closeModal"
+            />
           </div>
         </div>
       </div>
@@ -135,7 +215,6 @@ const isLocked = useScrollLock(contentRef);
     transition: opacity var(--slow-timing), transform var(--slow-timing);
   }
 }
-
 .modal-enter-from {
   opacity: 0;
   @include media-min($mobile) {
@@ -145,7 +224,6 @@ const isLocked = useScrollLock(contentRef);
     transform: translateY(100%);
   }
 }
-
 .modal-leave-to {
   opacity: 0;
   @include media-min($mobile) {
@@ -156,41 +234,61 @@ const isLocked = useScrollLock(contentRef);
   }
 }
 
-.modal-backdrop,
+.backdrop,
 .modal-wrapper {
   position: fixed;
   z-index: 100;
   inset: 0;
 }
-
-.modal-backdrop {
-  background: hsla(var(--h), var(--s), var(--l-9), 0.6);
+.modal-wrapper {
+  display: flex;
+  pointer-events: none;
 }
 
-.modal-wrapper {
+.modal-inner {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  position: relative;
+  overflow: auto;
+  pointer-events: none;
+  will-change: padding;
+  &.animated-offset {
+    transition: padding var(--slow-timing);
+  }
+  @include media-max($mobile) {
+    padding-top: var(--top-offset);
+  }
+}
+
+.modal-inner {
   --padding-y: 2rem;
   --padding-x: 2.4rem;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
-  pointer-events: none;
   @include media-max($mobile) {
-    align-items: flex-end;
+    align-items: flex-start;
   }
 }
 
 .modal-dialog-outer {
-  --min-height: 40rem;
-  --max-height: var(--min-height);
-
-  pointer-events: all;
+  --min-h: 40rem;
   max-width: var(--width);
   width: 100%;
+  pointer-events: all;
+  gap: .6rem;
+
+  @include media-min($mobile) {
+    display: flex;
+  }
+
   @include media-max($mobile) {
-    --min-height: 60dvh;
+    --min-h: 60dvh;
     max-width: 100%;
+    .close-button {
+      display: none;
+    }
   }
 }
 .modal-dialog {
@@ -198,10 +296,6 @@ const isLocked = useScrollLock(contentRef);
   border-radius: var(--radius-m);
   display: flex;
   flex-direction: column;
-
-  min-height: var(--min-height);
-  max-height: var(--max-height);
-
   &__header,
   &__content,
   &__footer {
@@ -211,6 +305,16 @@ const isLocked = useScrollLock(contentRef);
 
   &__header {
     padding-top: var(--padding-y);
+    &-outer {
+      border-radius: var(--radius-m) var(--radius-m) 0 0;
+      overflow: hidden;
+      @include media-max($mobile) {
+        position: sticky;
+        left: 0;
+        right: 0;
+        top: calc(var(--top-offset) * -1);
+      }
+    }
     &-inner {
       &.with-border {
         border-bottom: 1px solid var(--outline);
@@ -219,15 +323,12 @@ const isLocked = useScrollLock(contentRef);
       gap: 1.2rem;
       padding-bottom: var(--padding-y);
       align-items: center;
-      @include media-max($mobile) {
-        flex-wrap: wrap;
-      }
     }
     .header-append {
-      @include media-max($mobile) {
-        width: 100%;
-      }
       &:empty {display: none}
+      @include media-min($mobile) {
+        display: none;
+      }
     }
   }
 
@@ -235,6 +336,39 @@ const isLocked = useScrollLock(contentRef);
     flex-grow: 1;
     overflow-x: hidden;
     overflow-y: auto;
+    padding-bottom: var(--padding-y);
+    @include media-max($mobile) {
+      overflow-y: hidden;
+      min-height: calc(var(--min-h) - var(--header-height));
+      padding-bottom: calc(var(--padding-y) + var(--footer-height));
+    }
+    @include media-min($mobile) {
+      min-height: var(--content-min-height);
+      max-height: var(--content-min-height);
+    }
+  }
+
+  &__footer {
+    padding-top: var(--padding-y);
+    padding-bottom: var(--padding-y);
+    &:has(.modal-dialog__footer-inner:empty) {display: none}
+    &-outer {
+      border-radius: 0 0 var(--radius-m) var(--radius-m);
+      @include media-max($mobile) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+        box-shadow: var(--footer-shadow);
+      }
+    }
+  }
+
+  .modal-button {
+    min-width: 3.3rem;
+    margin: 0 -6px;
+    padding: .6rem;
   }
 }
 </style>

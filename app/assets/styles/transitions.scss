@@ -14,6 +14,29 @@
   }
 }
 
+@keyframes lineLoader {
+  0% {
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  50% {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+  50.01% {
+    transform-origin: right;
+    transform: scaleX(1);
+  }
+  100% {
+    transform-origin: right;
+    transform: scaleX(0);
+  }
+}
+
+.linear-loader {
+  animation: lineLoader 1.3s ease-in-out infinite;
+}
+
 .rotate-animation {
   animation: rotate 1s infinite linear;
 }

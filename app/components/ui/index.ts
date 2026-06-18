@@ -7,7 +7,11 @@ export type * from './Button/types';
 export { default as Checkbox } from './CheckBox/index.vue';
 export type * from './CheckBox/types';
 
+export { default as Drawer } from './Drawer/index.vue';
+export type * from './Drawer/types';
+
 export { default as DropDown } from './DropDown/index.vue';
+
 export * from './DropDown/types';
 
 export { default as Input } from './Input/index.vue';
@@ -17,6 +21,8 @@ export { default as InputRange } from './InputRange/index.vue';
 export type * from './InputRange/types';
 
 export { default as Modal } from './Modal/index.vue';
+export type * from './Modal/types';
+
 export { default as PhaseLabel } from './PhaseLabel/index.vue';
 
 export type * from './PhaseLabel/types';

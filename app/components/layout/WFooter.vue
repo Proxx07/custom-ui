@@ -41,7 +41,7 @@ footer {
   background: var(--outline);
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 var(--container-padding-x);
 }
 
 .right-part {

@@ -103,6 +103,18 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
       transform: translateX(var(--x));
       transition: transform var(--fast-timing), width var(--fast-timing);
     }
+
+    .tab.active-bottom  {
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        left: 0;
+        right: 0;
+        background: var(--on-secondary);
+      }
+    }
   }
 
   &.loading {
@@ -142,18 +154,6 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
     &.active {
       --color: var(--on-surface);
     }
-
-    &.active-bottom {
-      &:before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        height: 2px;
-        left: 0;
-        right: 0;
-        background: var(--on-secondary);
-      }
-    }
   }
 }
 
@@ -168,25 +168,6 @@ button {
   cursor: pointer;
   &:hover {
     color: var(--hover-color);
-  }
-}
-
-@keyframes lineLoader {
-  0% {
-    transform-origin: left;
-    transform: scaleX(0);
-  }
-  50% {
-    transform-origin: left;
-    transform: scaleX(1);
-  }
-  50.01% {
-    transform-origin: right;
-    transform: scaleX(1);
-  }
-  100% {
-    transform-origin: right;
-    transform: scaleX(0);
   }
 }
 </style>

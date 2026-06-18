@@ -35,16 +35,18 @@ watch(() => pageModel.value, (newValue, oldValue) => {
 
 <template>
   <div class="wrapper">
-    <Tabs
-      v-model="tabModel"
-      :items="tabsList"
-      size="l"
-      :loading="loaderStore.isLoading"
-    >
-      <template #itemInner="{ item }">
-        {{ capitalizeFirstLetter(item) }}
-      </template>
-    </Tabs>
+    <div class="w-full" style="overflow-x: auto">
+      <Tabs
+        v-model="tabModel"
+        :items="tabsList"
+        size="l"
+        :loading="loaderStore.isLoading"
+      >
+        <template #itemInner="{ item }">
+          {{ capitalizeFirstLetter(item) }}
+        </template>
+      </Tabs>
+    </div>
     <div class="inner-page-wrapper">
       <NuxtPage
         :transition="{
