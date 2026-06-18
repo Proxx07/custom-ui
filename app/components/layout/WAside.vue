@@ -55,7 +55,7 @@ const drawersState = useDrawersStore();
 <style scoped lang="scss">
 aside {
   position: sticky;
-  top: calc(var(--header-height));
+  top: calc(var(--header-height) + var(--gap));
   height: var(--aside-height);
   overflow-y: auto;
   background: var(--surface-container);

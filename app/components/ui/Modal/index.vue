@@ -115,8 +115,9 @@ watch(() => modelValue, () => {
           :style="{
             '--top-offset': `${modalScrollOffset}px`,
           }"
+          @click="closeModal"
         >
-          <div class="modal-dialog-outer">
+          <div class="modal-dialog-outer" @click.prevent.stop>
             <div
               class="modal-dialog"
               :class="[`bg-${modalBg}`]"
@@ -251,7 +252,7 @@ watch(() => modelValue, () => {
   max-height: 100%;
   position: relative;
   overflow: auto;
-  pointer-events: none;
+  pointer-events: all;
   will-change: padding;
   &.animated-offset {
     transition: padding var(--slow-timing);
