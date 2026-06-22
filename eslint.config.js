@@ -36,6 +36,7 @@ export default antfu(
       'local/types-in-distinct-file': ['error', { srcDir: 'app', typeFile: 'types.ts' }],
       'local/require-feature-barrel': ['error', { srcDir: 'app', featureDepth: 2, moduleRoots: ['components', 'composables'] }],
       'local/no-deep-cross-feature-imports': ['error', { srcDir: 'app', alias: '@', featureDepth: 2, moduleRoots: ['components', 'composables'] }],
+      'local/no-self-barrel-import': ['error', { srcDir: 'app', alias: '@', featureDepth: 2, moduleRoots: ['components', 'composables'] }],
     },
   },
 );

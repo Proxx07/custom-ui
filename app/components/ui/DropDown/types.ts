@@ -25,3 +25,8 @@ export interface DropDownSlots<T> {
 export interface DropDownEmits<T, V extends keyof T = never> {
   (e: 'update:modelValue', val: DropDownValue<T, V>): void
 }
+
+export interface DropDownExposes {
+  openDropDown: () => void
+  closeDropDown: () => void
+}

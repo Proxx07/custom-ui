@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SwitcherEmits, SwitcherProps, SwitcherSlots } from './types';
 import { loader } from '@/assets/icons/general';
-import { VIcon } from '../index';
+import VIcon from '../VIcon.vue';
 
 const { label = '', loading = false, modelValue = false, fluid = false, size = 'm' }
     = defineProps<SwitcherProps>();

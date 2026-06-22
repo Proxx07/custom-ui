@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends RadioValue = RadioValue">
 import type { RadioButtonEmits, RadioButtonProps, RadioButtonSlots, RadioValue } from './types';
 import { loader } from '@/assets/icons/general';
-import { VIcon } from '../index';
+import VIcon from '../VIcon.vue';
 
 const { label = '', loading = false, modelValue = undefined, value = undefined, fluid = false, size = 'm' }
   = defineProps<RadioButtonProps<T>>();

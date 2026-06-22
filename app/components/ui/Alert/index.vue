@@ -2,7 +2,7 @@
 import type { AlertProps } from './types';
 import { cross } from '@/assets/icons/actions';
 import { attention } from '@/assets/icons/general';
-import { VIcon } from '../index';
+import VIcon from '../VIcon.vue';
 
 const {
   type = 'error',

@@ -2,7 +2,7 @@
 import type { CheckboxEmits, CheckboxProps, CheckboxSlots, CheckboxValue } from './types';
 import { tick } from '@/assets/icons/actions';
 import { loader } from '@/assets/icons/general';
-import { VIcon } from '../index';
+import VIcon from '../VIcon.vue';
 
 const { label = '', loading = false, modelValue = false, value = undefined, fluid = false, size = 'm' } = defineProps<CheckboxProps<T>>();
 

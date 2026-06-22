@@ -1,8 +1,8 @@
 <script setup lang="ts" generic="T, V extends keyof T = never">
-import type { DropDownEmits, DropDownProps, DropDownSlots, DropDownValue } from './types';
+import type { DropDownEmits, DropDownExposes, DropDownProps, DropDownSlots, DropDownValue } from './types';
 import { vElementHover } from '@vueuse/components';
 import { chevronDown } from '@/assets/icons/arrows';
-import { Button } from '../index';
+import Button from '../Button/index.vue';
 
 const {
   size = 'm',
@@ -107,6 +107,11 @@ useEventListener('scroll', (e) => {
 watch(isOutside, (value) => {
   if (!toggleOnHover || !canHover.value) return;
   if (value) closeDropDown();
+});
+
+defineExpose<DropDownExposes>({
+  openDropDown,
+  closeDropDown,
 });
 </script>
 

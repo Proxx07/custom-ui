@@ -2,7 +2,8 @@
 import type { InputEmits, InputModelValue, InputProps, InputSlots } from './types';
 import { cross } from '@/assets/icons/actions';
 import { attention, loader } from '@/assets/icons/general';
-import { Button, VIcon } from '../index';
+import Button from '../Button/index.vue';
+import VIcon from '../VIcon.vue';
 
 defineOptions({
   inheritAttrs: false,

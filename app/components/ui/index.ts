@@ -4,12 +4,13 @@ export type * from './Alert/types';
 export { default as Button } from './Button/index.vue';
 export type * from './Button/types';
 
+export { default as ButtonGroup } from './ButtonGroup/index.vue';
 export { default as Checkbox } from './CheckBox/index.vue';
+
 export type * from './CheckBox/types';
-
 export { default as Drawer } from './Drawer/index.vue';
-export type * from './Drawer/types';
 
+export type * from './Drawer/types';
 export { default as DropDown } from './DropDown/index.vue';
 
 export * from './DropDown/types';

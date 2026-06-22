@@ -2,7 +2,7 @@
 import type { ButtonProps, ButtonSlots } from './types';
 import { LazyNuxtLinkLocale } from '#components';
 import { loader } from '@/assets/icons/general';
-import { VIcon } from '../index';
+import VIcon from '../VIcon.vue';
 
 const {
   severity = 'primary',

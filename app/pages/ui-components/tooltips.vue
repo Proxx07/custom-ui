@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TColors } from '@/utils';
 import { directToOtherPage } from '@/assets/icons/arrows';
 import { phase } from '@/assets/icons/general';
 import {
@@ -10,6 +11,8 @@ import {
 } from '@/components/ui';
 
 const { $toast } = useNuxtApp();
+
+const phaseList: TColors[] = ['pearl', 'sapphire', 'ruby', 'emerald'];
 </script>
 
 <template>
@@ -90,21 +93,22 @@ const { $toast } = useNuxtApp();
     <PhaseLabel size="l" label="Phase pearl" phase="pearl" />
     <PhaseLabel size="l" label="Phase ruby" phase="ruby" />
 
-    <div class="color-pearl">
-      <VIcon :icon="phase" />
-    </div>
-
-    <div class="color-sapphire">
-      <VIcon :icon="phase" />
-    </div>
-
-    <div class="color-ruby">
-      <VIcon :icon="phase" />
-    </div>
-
-    <div class="color-emerald">
-      <VIcon :icon="phase" />
-    </div>
+    <Tooltip
+      v-for="phaseName in phaseList"
+      :key="phaseName"
+      :background="phaseName"
+      position="bottom"
+    >
+      <div
+        class="cursor-pointer"
+        :class="[`color-${phaseName}`]"
+      >
+        <VIcon :icon="phase" />
+      </div>
+      <template #content>
+        {{ phaseName }}
+      </template>
+    </Tooltip>
   </div>
 </template>
 

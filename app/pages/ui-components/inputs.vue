@@ -3,7 +3,7 @@ import { search } from '@/assets/icons/actions';
 import {
   Button,
   Checkbox,
-  DropDown,
+  DropDown, type DropDownExposes,
   Input,
 } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
@@ -22,10 +22,18 @@ const inputNumberVal = ref<number>(0);
 const searchQuery = ref('');
 const complexSelected = ref<number>(0);
 
+const complexDropDown = ref<DropDownExposes>();
+
 const complexDropdownList = computed(() => {
   if (!searchQuery.value) return [];
   return Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name: `${searchQuery.value}-${i + 1}` }));
 });
+
+const handleComplexDropdownUpdate = () => {
+  complexDropDown.value?.openDropDown();
+};
+
+const debouncedHandler = useDebounceFn(handleComplexDropdownUpdate, 200);
 </script>
 
 <template>
@@ -75,15 +83,15 @@ const complexDropdownList = computed(() => {
         suffix
       </template>
     </Input>
-
     <hr>
     <DropDown
+      ref="complexDropDown"
       v-model="complexSelected"
       :items="complexDropdownList"
       value="id"
       item-label="name"
     >
-      <template #target="{ openDropDown, closeDropDown, loading: isInputLoading }">
+      <template #target="{ closeDropDown, loading: isInputLoading }">
         <Input
           v-model="searchQuery"
           :loading="loaderStore.isLoading"
@@ -91,7 +99,7 @@ const complexDropdownList = computed(() => {
           placeholder="Placeholder"
           hint="Write smth for autocomplete"
           :invalid="toggleInvalid"
-          @focus="openDropDown"
+          @update:model-value="debouncedHandler"
           @blur="closeDropDown"
         >
           <template #prefix>

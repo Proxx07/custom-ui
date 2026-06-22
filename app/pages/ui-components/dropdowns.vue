@@ -1,22 +1,53 @@
 <script setup lang="ts">
-import { cross, tick } from '@/assets/icons/actions';
+import { cross, grid2x, grid3x, grid3x3, tick } from '@/assets/icons/actions';
 import { arrowDown } from '@/assets/icons/arrows';
 import {
   Button,
-  DropDown,
+  ButtonGroup,
+  DropDown, VIcon,
 } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 
 const dropdownValue = ref<number>();
 const dropdownOptions = Array.from({ length: 20 }, (_, i) => ({ id: i + 1, name: `option ${i + 1}` }));
 
+const buttonGroupItems = ['Label 1', 'Label 2', 'Label 3', 'Label 4'];
+const buttonGroupItems2 = [
+  {
+    label: grid2x,
+    value: 0,
+  },
+  {
+    label: grid3x,
+    value: 1,
+  },
+  {
+    label: grid3x3,
+    value: 2,
+  },
+];
+const selectedButton = ref<string>('');
+const selectedButton2 = ref<number>(0);
 const loaderStore = useLoaderStore();
 </script>
 
 <template>
   <div class="components">
     <h2>DropDowns:</h2>
-
+    <ButtonGroup
+      v-model="selectedButton"
+      :items="buttonGroupItems"
+    />
+    <hr>
+    <ButtonGroup
+      v-model="selectedButton2"
+      :items="buttonGroupItems2"
+      value="value"
+    >
+      <template #itemInner="{ item }">
+        <VIcon :icon="item.label" :size="18" />
+      </template>
+    </ButtonGroup>
     <DropDown
       v-model="dropdownValue"
       :items="dropdownOptions"
