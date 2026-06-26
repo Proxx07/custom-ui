@@ -3,10 +3,6 @@
 @use "./variables.scss";
 @use "./transitions.scss";
 
-* {
-  box-sizing: border-box;
-}
-
 html {
   font-size: 10px;
   -ms-text-size-adjust: 100%;
@@ -31,6 +27,11 @@ body {
   color: var(--on-surface);
   font: var(--font-14-m);
   position: relative;
+
+  * {
+    box-sizing: border-box;
+  }
+
 }
 
 header, footer {
@@ -51,4 +52,16 @@ header, footer {
 ::-webkit-scrollbar-thumb {
   background-color: var(--surface-container);
   border-radius: 5px;
+}
+
+
+img {
+  max-width: 100%;
+}
+
+button {
+  border: none;
+  box-shadow: none;
+  background: none;
+  cursor: pointer;
 }

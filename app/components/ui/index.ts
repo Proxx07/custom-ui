@@ -27,6 +27,10 @@ export type * from './Modal/types';
 export { default as PhaseLabel } from './PhaseLabel/index.vue';
 
 export type * from './PhaseLabel/types';
+
+export { default as Popover } from './Popover/index.vue';
+export type * from './Popover/types';
+
 export { default as RadioButton } from './RadioButton/index.vue';
 
 export type * from './RadioButton/types';

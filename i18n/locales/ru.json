@@ -1,12 +1,99 @@
 {
-  "hello-world": "Привет мир!",
-  "advantages": {
-    "test-text": "Текст преимущества"
+  "games": "Игры",
+  "price": "Цена",
+  "bestPrice": "Лучшая цена",
+  "only" : "Только",
+  "any": "Любой",
+  "without": "Без",
+
+  "exterior": {
+    "FN": "Factory new",
+    "MW": "Minimal wear",
+    "FT": "Field-tested",
+    "WW": "Well-worn",
+    "BS": "Battle-scarred"
+  },
+
+  "delivery": {
+    "1m": "Мгновенная доставка",
+    "5m": "5 минут",
+    "12h": "12 часов"
+  },
+
+  "colors": {
+    "BLUE": "Синий",
+    "BROWN": "Коричневый",
+    "GREEN": "Зеленый",
+    "ORANGE": "Оранжевый",
+    "GRAY": "Серый",
+    "PURPLE": "Пурпурный",
+    "RED": "Красный",
+    "YELLOW": "Желтый",
+    "VIOLET": "Фиолетовый",
+    "BLACK": "Черный",
+    "BEIGE": "Бежевый",
+    "WHITE": "Белый"
+  },
+
+  "phases": {
+    "p1": "Фаза 1",
+    "p2": "Фаза 2",
+    "p3": "Фаза 3",
+    "p4": "Фаза 4",
+    "sh": "Сапфир",
+    "rb": "Рубин",
+    "bp": "Чёрная жемчужина",
+    "em": "Изумруд"
+  },
+
+  "rarities": {
+    "covert": "Тайное",
+    "classified": "Засекреченное",
+    "restricted": "Запрещенное",
+    "mil_spec_grade": "Армейское качество",
+    "industrial_grade": "Промышленное качество",
+    "consumer_grade": "Ширпотреб",
+    "distinguished": "Выдающегося типа",
+    "exceptional": "Исключительного типа",
+    "superior": "Превосходного типа",
+    "master": "Мастерского типа",
+    "high_grade": "Высшего класса",
+    "remarkable": "Примечательного типа",
+    "exotic": "Экзотического вида",
+    "contraband": "Контрабандное",
+    "ancient": "Древнее",
+    "arcana": "Arcana",
+    "common": "Обычное",
+    "immortal": "Immortal",
+    "legendary": "Легендарное",
+    "mythical": "Мифическое",
+    "rare": "Редкое",
+    "seasonal": "Сезонное",
+    "uncommon": "Необычное",
+    "ascendant": "Восходящее",
+    "autographed": "С автографом",
+    "base": "Базовое",
+    "corrupted": "Испорченное",
+    "exalted": "Возвышенное",
+    "frozen": "Ледяное",
+    "genuine": "Высшей пробы",
+    "glitter": "Блёстки",
+    "gold": "Золотое",
+    "haunted": "Проклятое",
+    "holo": "Голографическое",
+    "infused": "Наполненное",
+    "legacy": "Наследие",
+    "lucky": "Счастливое",
+    "strange": "Странного типа",
+    "tournament": "Турнирное",
+    "unique": "Уникальное",
+    "unusual": "Необычного типа",
+    "vintage": "Старой школы"
   },
 
   "toast": {
     "error": "Ошибка",
-    "attention": "Внимание",
+    "attention": "Предупреждение",
     "success": "Успешно"
   }
 }

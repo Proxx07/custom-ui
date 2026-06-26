@@ -35,6 +35,7 @@ import paste from './paste.svg?raw';
 import phase from './phase.svg?raw';
 import playControls from './play-controls.svg?raw';
 import primeTime from './prime-time.svg?raw';
+import questionCircle from './question-circle.svg?raw';
 import question from './question.svg?raw';
 import shieldDeclined from './shield-declined.svg?raw';
 import shield from './shield.svg?raw';
@@ -85,6 +86,7 @@ export {
   playControls,
   primeTime,
   question,
+  questionCircle,
   shield,
   shieldDeclined,
   stack,

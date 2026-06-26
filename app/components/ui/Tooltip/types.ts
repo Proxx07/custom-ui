@@ -7,6 +7,7 @@ export interface TooltipProps {
   position?: TooltipPosition
   background?: TColors
   color?: TColors
+  maxWidth?: number // pixels
 }
 
 export interface TooltipSlots {

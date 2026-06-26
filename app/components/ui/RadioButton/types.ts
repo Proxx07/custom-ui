@@ -1,6 +1,6 @@
 import type { TSizes } from '@/utils';
 
-export type RadioValue = string | number;
+export type RadioValue = string | number | null;
 
 export interface RadioButtonProps<T extends RadioValue = RadioValue> {
   modelValue?: T

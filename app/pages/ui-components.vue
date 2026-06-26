@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Tabs } from '@/components/ui';
+import { Checkbox, Tabs } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 import { capitalizeFirstLetter } from '@/utils';
 
@@ -35,6 +35,8 @@ watch(() => pageModel.value, (newValue, oldValue) => {
 
 <template>
   <div class="wrapper">
+    <Checkbox v-model="loaderStore.isLoading" label="Toggle loader" />
+    <br>
     <div class="w-full" style="overflow-x: auto">
       <Tabs
         v-model="tabModel"

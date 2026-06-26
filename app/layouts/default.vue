@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { WAside, WFooter, WHeader } from '@/components/layout';
 
+const props = defineProps<{
+  hideSidebar?: boolean
+}>();
 const footerHeight = ref(0);
 const footerHeightPx = computed(() => `${footerHeight.value}px`);
 </script>
@@ -8,13 +11,21 @@ const footerHeightPx = computed(() => `${footerHeight.value}px`);
 <template>
   <div class="wrapper">
     <WHeader />
-    <WAside />
-    <main class="content">
+
+    <transition name="aside-animation">
+      <WAside
+        v-if="!props.hideSidebar"
+      />
+    </transition>
+
+    <main
+      class="content"
+      :class="[props.hideSidebar && 'colspan-2']"
+    >
       <slot />
     </main>
-    <WFooter
-      v-model:height="footerHeight"
-    />
+
+    <WFooter v-model:height="footerHeight" />
   </div>
 </template>
 
@@ -26,17 +37,17 @@ const footerHeightPx = computed(() => `${footerHeight.value}px`);
   --gap: 5px;
   --header-height: 69px;
   --footer-height: v-bind(footerHeightPx);
-  --aside-height: calc(100dvh - var(--footer-height) - var(--header-height) - var(--gap));
+  --aside-height: calc(100dvh - var(--footer-height) - var(--header-height) - var(--gap) - 3px);
   display: grid;
   grid-template-columns: 330px 1fr;
   grid-template-rows: auto 1fr auto;
   gap: var(--gap);
   flex-grow: 1;
   position: relative;
+
   @include media-max($tablet) {
     grid-template-columns: 1fr;
   }
-
 }
 
 .content {
@@ -49,5 +60,14 @@ const footerHeightPx = computed(() => `${footerHeight.value}px`);
   & > * {
     flex-grow: 1;
   }
+}
+
+.aside-animation-enter-active {
+  transition: transform var(--fast-timing);
+}
+
+.aside-animation-enter-from,
+.aside-animation-leave-to {
+  transform: translateX(-100%);
 }
 </style>

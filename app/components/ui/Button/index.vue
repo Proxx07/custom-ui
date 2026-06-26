@@ -19,6 +19,10 @@ const {
 defineSlots<ButtonSlots>();
 
 const slots = useSlots();
+
+const buttonRef = ref<HTMLElement>();
+const isHovered = useElementHover(buttonRef);
+
 const tag = computed(() => type === 'nuxt-link' ? LazyNuxtLinkLocale : type);
 const isOnlyIcon = computed(() => !label && !slots.default);
 
@@ -52,6 +56,7 @@ const colorVars = computed(() => {
 <template>
   <component
     :is="tag"
+    ref="buttonRef"
     class="w-button"
     :class="[
       severity, `size-${size}`, variant,
@@ -63,7 +68,7 @@ const colorVars = computed(() => {
     ]"
     :style="colorVars"
   >
-    <slot name="prepend">
+    <slot name="prepend" :is-hovered="isHovered">
       <VIcon
         v-if="iconLeft"
         :icon="(isOnlyIcon && loading) ? loader : iconLeft"
@@ -73,10 +78,10 @@ const colorVars = computed(() => {
         :class="[(!loading && rotateLeftIcon) && 'rotate']"
       />
     </slot>
-    <slot>
+    <slot :is-hovered="isHovered">
       {{ label }}
     </slot>
-    <slot name="append">
+    <slot name="append" :is-hovered="isHovered">
       <VIcon
         v-if="iconRight || (!isOnlyIcon && loading)"
         :icon="(!loading && iconRight) ? iconRight : loader"

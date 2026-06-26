@@ -32,7 +32,9 @@ const { currency, selectedCurrency, setCurrentCurrency } = useCurrencies();
     </template>
     <template #itemInner="{ item }">
       <span v-html="item.symbol" />
-      <span class="uppercase"> {{ item.code }} </span>
+      <span class="uppercase">
+        {{ item.code }}
+      </span>
     </template>
   </DropDown>
 </template>

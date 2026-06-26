@@ -13,6 +13,10 @@ export interface InputRangeProps {
   showValue?: boolean
   hideValue?: boolean
   fluidFill?: boolean
+
+  valuePrefix?: string
+  valueSuffix?: string
+  valueBg?: TColors
 }
 
 export interface InputRangeEmits {

@@ -16,6 +16,7 @@ const {
   hint = '',
   modelValue,
   loading = false,
+  clearable = true,
   type = 'text',
   min,
   max,
@@ -28,33 +29,46 @@ defineSlots<InputSlots>();
 const id = useId();
 const $attrs = useAttrs();
 
-const clampToBounds = (value: T): T => {
-  if (type !== 'number' || value === '' || value == null) return value;
-  const num = Number(value);
-  if (Number.isNaN(num)) return value;
-  let clamped = num;
-  if (max !== undefined && clamped > max) clamped = max;
-  if (min !== undefined && clamped < min) clamped = min;
-  if (clamped === num) return value;
-  return (typeof value === 'number' ? clamped : String(clamped)) as T;
-};
-
 const inputTemplateRef = ref<HTMLInputElement>();
+
+const localModel = ref<T | undefined>(modelValue);
+
+watch(() => modelValue, (value) => {
+  localModel.value = value;
+});
+
+let timer: NodeJS.Timeout;
+const validateNumberValue = () => {
+  if (min === undefined && max !== undefined) {
+    localModel.value = Math.min(localModel.value, max);
+  }
+  if (min !== undefined && max === undefined) {
+    localModel.value = Math.max(localModel.value, min);
+  }
+  if (min !== undefined && max !== undefined) {
+    localModel.value = Math.max(min, Math.min(localModel.value, max));
+  }
+  emit('update:modelValue', localModel.value);
+};
 
 const model = computed({
   get() {
-    return modelValue;
+    if (type === 'text') return modelValue;
+    return localModel.value;
   },
   set(value: T) {
-    const clamped = clampToBounds(value);
-    emit('update:modelValue', clamped);
-    if (clamped !== value) {
-      const next = clamped == null ? '' : String(clamped);
-      nextTick(() => {
-        if (inputTemplateRef.value && inputTemplateRef.value.value !== next) {
-          inputTemplateRef.value.value = next;
-        }
-      });
+    if (timer) clearTimeout(timer);
+
+    if (type === 'number') {
+      localModel.value = value;
+      if (min === undefined && max === undefined) {
+        return emit('update:modelValue', localModel.value);
+      }
+      timer = setTimeout(validateNumberValue, 500);
+    }
+    else {
+      localModel.value = value;
+      emit('update:modelValue', value);
     }
   },
 });
@@ -149,7 +163,7 @@ watch(() => loading, (val) => {
           :icon="attention"
         />
         <Button
-          v-else-if="hasValue"
+          v-else-if="hasValue && clearable"
           variant="text"
           :size="size"
           :icon-left="cross"
@@ -262,7 +276,7 @@ watch(() => loading, (val) => {
   outline: 1px solid var(--border);
   background: var(--bg);
   border-radius: var(--radius);
-  transition: background var(--fast-timing), color var(--fast-timing);
+  transition: background var(--fast-timing), color var(--fast-timing), outline-color var(--fast-timing);
   gap: var(--gap);
   max-width: v-bind(maxWidth);
 

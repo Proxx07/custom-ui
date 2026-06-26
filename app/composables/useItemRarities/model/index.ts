@@ -1,0 +1,103 @@
+import type { IRarity } from '../types';
+
+export const ITEM_RARITIES: IRarity[] = [
+  { value: 'covert', color: '#eb4b4b' },
+  { value: 'classified', color: '#d32ce6' },
+  { value: 'restricted', color: '#8847ff' },
+  { value: 'mil_spec_grade', color: '#4b69ff' },
+  { value: 'industrial_grade', color: '#5e98d9' },
+  { value: 'consumer_grade', color: '#b0c3d9' },
+];
+
+export const AGENT_RARITIES: IRarity[] = [
+  { value: 'distinguished', color: '#4b69ff' },
+  { value: 'exceptional', color: '#8847ff' },
+  { value: 'superior', color: '#d32ce6' },
+  { value: 'master', color: '#eb4b4b' },
+];
+
+export const STICKER_RARITIES: IRarity[] = [
+  { value: 'high_grade', color: '#4b69ff' },
+  { value: 'remarkable', color: '#8847ff' },
+  { value: 'exotic', color: '#d32ce6' },
+  { value: 'contraband', color: '#a3881f' },
+];
+
+export const DOTA_ITEM_RARITIES: IRarity[] = [
+  { value: 'ancient', color: '#EB4B4B' },
+  { value: 'arcana', color: '#ADE55C' },
+  { value: 'common', color: '#b0c3d9' },
+  { value: 'immortal', color: '#e4ae39' },
+  { value: 'legendary', color: '#d32ce6' },
+  { value: 'mythical', color: '#8847ff' },
+  { value: 'rare', color: '#4b69ff' },
+  { value: 'seasonal', color: '#FFF34F' },
+  { value: 'uncommon', color: '#5e98d9' },
+];
+
+export const DOTA_ITEM_QUALITIES: IRarity[] = [
+  { value: 'ascendant', color: '#EB4B4B' },
+  { value: 'autographed', color: '#ADE55C' },
+  { value: 'base', color: '#B2B2B2' },
+  { value: 'corrupted', color: '#A52A2A' },
+  { value: 'exalted', color: '#CCCCCC' },
+  { value: 'frozen', color: '#4682B4' },
+  { value: 'genuine', color: '#4D7455' },
+  { value: 'glitter', color: '#88ff88' },
+  { value: 'gold', color: '#ffd700' },
+  { value: 'haunted', color: '#8650AC' },
+  { value: 'holo', color: '#8847ff' },
+  { value: 'infused', color: '#8847ff' },
+  { value: 'legacy', color: '#FFFFFF' },
+  { value: 'lucky', color: '#32CD32' },
+  { value: 'strange', color: '#CF6A32' },
+  { value: 'tournament', color: '#8650AC' },
+  { value: 'unique', color: '#D2D2D2' },
+  { value: 'unusual', color: '#8650AC' },
+  { value: 'vintage', color: '#476291' },
+];
+
+export const RaritiesQueryMap: Record<IRarity['value'], string> = {
+  covert: 'Covert',
+  classified: 'Classified',
+  restricted: 'Restricted',
+  mil_spec_grade: 'Mil-Spec Grade',
+  industrial_grade: 'Industrial Grade',
+  consumer_grade: 'Consumer Grade',
+  distinguished: 'Distinguished',
+  exceptional: 'Exceptional',
+  superior: 'Superior',
+  master: 'Master',
+  high_grade: 'High Grade',
+  remarkable: 'Remarkable',
+  exotic: 'Exotic',
+  contraband: 'Contraband',
+  ancient: 'Ancient',
+  arcana: 'Arcana',
+  common: 'Common',
+  immortal: 'Immortal',
+  legendary: 'Legendary',
+  mythical: 'Mythical',
+  rare: 'Rare',
+  seasonal: 'Seasonal',
+  uncommon: 'Uncommon',
+  ascendant: 'ascendant',
+  autographed: 'autographed',
+  base: 'base',
+  corrupted: 'corrupted',
+  exalted: 'exalted',
+  frozen: 'frozen',
+  genuine: 'genuine',
+  glitter: 'glitter',
+  gold: 'gold',
+  haunted: 'haunted',
+  holo: 'holo',
+  infused: 'infused',
+  legacy: 'legacy',
+  lucky: 'lucky',
+  strange: 'strange',
+  tournament: 'tournament',
+  unique: 'unique',
+  unusual: 'unusual',
+  vintage: 'vintage',
+};

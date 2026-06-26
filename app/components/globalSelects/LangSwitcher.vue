@@ -44,7 +44,9 @@ const localesList = computed(() => {
     </template>
     <template #itemInner="{ item }">
       <VIcon :icon="item.icon" no-fill :size="16" style="margin-right: .4rem" />
-      {{ item.code.toUpperCase() }}
+      <span class="font-16-n">
+        {{ item.code.toUpperCase() }}
+      </span>
     </template>
   </DropDown>
 </template>

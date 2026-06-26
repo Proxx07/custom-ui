@@ -30,7 +30,7 @@ export interface ButtonProps {
 }
 
 export interface ButtonSlots {
-  append: () => unknown
-  default: () => unknown
-  prepend: () => unknown
+  append: (props: { isHovered: boolean }) => unknown
+  default: (props: { isHovered: boolean }) => unknown
+  prepend: (props: { isHovered: boolean }) => unknown
 }

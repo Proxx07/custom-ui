@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TooltipProps, TooltipSlots } from './types';
 
-const { text = '', position = 'bottom', background = 'surface-low-container', color = 'on-surface' } = defineProps<TooltipProps>();
+const { text = '', position = 'bottom', background = 'surface-low-container', color = 'on-surface', maxWidth = 0 } = defineProps<TooltipProps>();
 
 defineSlots<TooltipSlots>();
 
@@ -76,7 +76,11 @@ const arrowPosition = computed(() => ARROW_ANCHOR[position]);
           v-if="isTooltipVisible"
           ref="tooltipInner"
           class="tooltip-inner"
-          :style="[tooltipPosition, arrowPosition]"
+          :style="[
+            tooltipPosition,
+            arrowPosition,
+            { '--max-width': maxWidth ? `${maxWidth}px` : 'unset' },
+          ]"
         >
           <div class="tooltip-content" :class="[`bg-${background}`, `color-${color}`]">
             <span class="arrow" :class="[`bg-${background}`]" />
@@ -99,8 +103,9 @@ const arrowPosition = computed(() => ARROW_ANCHOR[position]);
   position: fixed;
   top: var(--y);
   left: var(--x);
+  max-width: var(--max-width);
   z-index: 10;
-  padding: .8rem;
+  padding: .8rem 0;
 }
 
 .tooltip-content {

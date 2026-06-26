@@ -39,3 +39,5 @@ export type TColors = 'surface'
   | 'good-price-container';
 
 export type TSizes = 'xl' | 'l' | 'm' | 's';
+
+export type FilterColorType = 'BLUE' | 'BROWN' | 'GREEN' | 'ORANGE' | 'GRAY' | 'PURPLE' | 'RED' | 'YELLOW' | 'VIOLET' | 'BLACK' | 'BEIGE' | 'WHITE';

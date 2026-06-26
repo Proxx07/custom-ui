@@ -10,6 +10,14 @@ const drawersState = useDrawersStore();
   <header>
     <span>{HEADER}</span>
 
+    <NuxtLinkLocale to="/" class="nav-item">
+      Main page
+    </NuxtLinkLocale>
+
+    <NuxtLinkLocale to="/rust/freshly-dug-grave/item/503987229661174232" class="nav-item">
+      Item page
+    </NuxtLinkLocale>
+
     <Button
       severity="tretiary"
       variant="text"
@@ -30,5 +38,11 @@ header {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: inherit;
+  font: var(--font-18-n);
 }
 </style>

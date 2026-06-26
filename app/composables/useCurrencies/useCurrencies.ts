@@ -1,4 +1,4 @@
-import type { CurrencyCode } from './types';
+import type { CurrencyCode, ICurrency } from './types';
 import { CURRENCIES, DEFAULT_CURRENCY_CODE } from './model';
 
 export const useCurrencies = () => {
@@ -17,8 +17,8 @@ export const useCurrencies = () => {
     },
   });
 
-  const selectedCurrency = computed(() => {
-    return CURRENCIES.find(c => c.code === currency.value);
+  const selectedCurrency = computed<ICurrency>(() => {
+    return CURRENCIES.find(c => c.code === currency.value) || CURRENCIES[0]!;
   });
 
   return {

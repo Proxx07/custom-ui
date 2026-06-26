@@ -99,6 +99,7 @@ label {
 }
 
 .checkbox {
+  min-width: var(--checkbox-size);
   width: var(--checkbox-size);
   height: var(--checkbox-size);
   border: 2px solid var(--border);

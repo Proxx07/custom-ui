@@ -6,6 +6,7 @@ import {
   Alert,
   Button,
   PhaseLabel,
+  Popover,
   Tooltip,
   VIcon,
 } from '@/components/ui';
@@ -13,6 +14,8 @@ import {
 const { $toast } = useNuxtApp();
 
 const phaseList: TColors[] = ['pearl', 'sapphire', 'ruby', 'emerald'];
+
+const popoverOpen = ref(false);
 </script>
 
 <template>
@@ -53,6 +56,59 @@ const phaseList: TColors[] = ['pearl', 'sapphire', 'ruby', 'emerald'];
         </template>
       </Tooltip>
     </div>
+
+    <h2 class="w-full">
+      Popovers
+    </h2>
+    <div class="flex items-center gap w-full">
+      <Popover>
+        <template #target>
+          <Button severity="secondary" label="Click me" size="s" />
+        </template>
+        <div class="flex-col gap">
+          <div class="font-16-m">
+            Popover content
+          </div>
+          <span class="font-14-n">Put anything you want here.</span>
+        </div>
+      </Popover>
+
+      <Button
+        severity="secondary"
+        size="s"
+        label="Toggle externally"
+        @click="popoverOpen = !popoverOpen"
+      />
+
+      <Popover v-model="popoverOpen" :width="320">
+        <template #target>
+          <Button label="Controlled (320px)" size="s" />
+        </template>
+        <template #default="{ close }">
+          <div class="flex-col gap">
+            <div class="font-16-m">
+              Controlled popover
+            </div>
+            <Button
+              severity="secondary"
+              size="s"
+              label="Close"
+              @click="close"
+            />
+          </div>
+        </template>
+      </Popover>
+
+      <Popover style="margin-left:auto">
+        <template #target>
+          <Button severity="secondary" label="Right edge" size="s" />
+        </template>
+        <div class="font-16-n" style="width:260px">
+          I stay fully on screen even at the edge.
+        </div>
+      </Popover>
+    </div>
+
     <h2 class="w-full">
       Alerts
     </h2>

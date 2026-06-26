@@ -28,52 +28,52 @@
 }
 
 .font-12-n {
-  font: var(--font-12-n);
+  font: var(--font-12-n) !important;
 }
 .font-13-n {
-  font: var(--font-13-n);
+  font: var(--font-13-n) !important;
 }
 .font-14-n {
-  font: var(--font-14-n);
+  font: var(--font-14-n) !important;
 }
 .font-16-n {
-  font: var(--font-16-n);
+  font: var(--font-16-n) !important;
 }
 .font-18-n {
-  font: var(--font-18-n);
+  font: var(--font-18-n) !important;
 }
 .font-12-m {
-  font: var(--font-12-m);
+  font: var(--font-12-m) !important;
 }
 .font-14-m {
-  font: var(--font-14-m);
+  font: var(--font-14-m) !important;
 }
 .font-16-m {
-  font: var(--font-16-m);
+  font: var(--font-16-m) !important;
 }
 .font-18-m {
-  font: var(--font-18-m);
+  font: var(--font-18-m) !important;
 }
 .font-20-m {
-  font: var(--font-20-m);
+  font: var(--font-20-m) !important;
 }
 .font-24-m {
-  font: var(--font-24-m);
+  font: var(--font-24-m) !important;
 }
 .font-20-sb {
-  font: var(--font-20-sb);
+  font: var(--font-20-sb) !important;
 }
 .font-24-sb {
-  font: var(--font-24-sb);
+  font: var(--font-24-sb) !important;
 }
 .font-28-sb {
-  font: var(--font-28-sb);
+  font: var(--font-28-sb) !important;
 }
 .font-32-sb {
-  font: var(--font-32-sb);
+  font: var(--font-32-sb) !important;
 }
 .font-48-sb {
-  font: var(--font-48-sb);
+  font: var(--font-48-sb) !important;
 }
 
 
@@ -380,4 +380,12 @@
 
 .gap {
   gap: 1.2rem
+}
+
+.colspan-2 {
+  grid-column: span 2;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }

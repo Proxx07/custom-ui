@@ -44,7 +44,12 @@ const debouncedHandler = useDebounceFn(handleComplexDropdownUpdate, 200);
     <Input v-model="inputStringVal" :loading="loaderStore.isLoading" placeholder="Size m" />
     <Input v-model="inputStringVal" :loading="loaderStore.isLoading" placeholder="Size s" size="s" />
     <br>
-    <Input v-model="inputNumberVal" type="number" placeholder="Number" :loading="loaderStore.isLoading" />
+    <Input
+      v-model="inputNumberVal"
+      type="number"
+      placeholder="Number"
+      :loading="loaderStore.isLoading"
+    />
     <hr>
     <Input v-model="inputStringVal" :loading="loaderStore.isLoading" label="Label xl" size="xl" />
     <Input v-model="inputStringVal" :loading="loaderStore.isLoading" label="Label l" size="l" />

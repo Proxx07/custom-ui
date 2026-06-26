@@ -15,12 +15,26 @@ const {
   to,
   fluidFill = false,
   hideValue = false,
+  valuePrefix = '',
+  valueSuffix = '',
+  valueBg = 'surface-container',
 } = defineProps<InputRangeProps>();
 
 const emit = defineEmits<InputRangeEmits>();
 
 const inputRangeWrapper = ref<HTMLDivElement>();
 const pressed = ref(false);
+
+const TILT_ANGLE = 20;
+const TILT_THRESHOLD = 1;
+const tilt = ref(0);
+let lastPointerX = 0;
+
+const { start: startTiltReset, stop: stopTiltReset } = useTimeoutFn(
+  () => { tilt.value = 0; },
+  120,
+  { immediate: false },
+);
 
 const span = computed(() => max - min);
 const decimals = computed(() => (String(step).split('.')[1] || '').length);
@@ -72,6 +86,8 @@ const rootStyle = computed<CSSProperties>(() => ({
   '--to': `${percentOf(range ? toValue.value : displayValue.value)}%`,
   '--fill-bg': `var(--${fillBg})`,
   '--knob-color': `var(--${fillBg})`,
+  '--tilt-from': pressed.value && range && activeThumb.value === 'from' ? `${tilt.value}deg` : '0deg',
+  '--tilt-to': pressed.value && (!range || activeThumb.value === 'to') ? `${tilt.value}deg` : '0deg',
 }));
 
 const isBgGradient = computed(() => {
@@ -80,7 +96,6 @@ const isBgGradient = computed(() => {
 
 const commitFromPx = (px: number, width: number) => {
   const next = valueFromPosition(px, width);
-
   if (!range) {
     if (next !== displayValue.value) emit('update:modelValue', next);
     return;
@@ -113,6 +128,9 @@ const onPointerDown = (event: PointerEvent) => {
   pressed.value = true;
   el.setPointerCapture?.(event.pointerId);
 
+  lastPointerX = event.clientX;
+  tilt.value = 0;
+
   commitFromPx(px, rect.width);
 };
 
@@ -123,11 +141,21 @@ const onPointerMove = (event: PointerEvent) => {
 
   const rect = el.getBoundingClientRect();
   commitFromPx(pxFromEvent(event, rect), rect.width);
+
+  const dx = event.clientX - lastPointerX;
+  if (Math.abs(dx) >= TILT_THRESHOLD) {
+    tilt.value = dx > 0 ? -TILT_ANGLE : TILT_ANGLE;
+    lastPointerX = event.clientX;
+    startTiltReset();
+  }
 };
 
 const endPress = (event?: PointerEvent) => {
   if (!pressed.value) return;
   pressed.value = false;
+
+  stopTiltReset();
+  tilt.value = 0;
 
   const el = inputRangeWrapper.value;
   if (el && event && el.hasPointerCapture?.(event.pointerId)) {
@@ -156,9 +184,9 @@ useEventListener(inputRangeWrapper, 'pointercancel', endPress);
       <div
         v-if="!hideValue"
         class="knob-value"
-        :class="[(pressed && activeThumb === 'from' || showValue) && 'show']"
+        :class="[`bg-${valueBg}`, (pressed && activeThumb === 'from' || showValue) && 'show']"
       >
-        {{ fromValue }}
+        {{ valuePrefix }} {{ fromValue }} {{ valueSuffix }}
       </div>
     </div>
 
@@ -166,9 +194,9 @@ useEventListener(inputRangeWrapper, 'pointercancel', endPress);
       <div
         v-if="!hideValue"
         class="knob-value"
-        :class="[(pressed && (!range || activeThumb === 'to' || showValue)) && 'show']"
+        :class="[`bg-${valueBg}`, (pressed && activeThumb === 'to' || showValue) && 'show']"
       >
-        {{ range ? toValue : displayValue }}
+        {{ valuePrefix }} {{ range ? toValue : displayValue }} {{ valueSuffix }}
       </div>
     </div>
   </div>
@@ -189,6 +217,8 @@ useEventListener(inputRangeWrapper, 'pointercancel', endPress);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  width: calc(100% - var(--size));
+  margin: 0 auto;
   &.disabled {
     opacity: .5;
     pointer-events: none;
@@ -246,30 +276,29 @@ useEventListener(inputRangeWrapper, 'pointercancel', endPress);
     inset: 0;
     border-radius: 50%;
     background: var(--knob-color);
-    // inset: var(--knob-border);
   }
 
   &-value {
     position: absolute;
     left: 50%;
     bottom: 100%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotate(var(--tilt, 0deg));
+    transform-origin: 50% 100%;
     min-width: 3.2rem;
     padding: .4rem;
     border-radius: var(--radius-sm);
-    background: var(--surface-container);
     color: var(--on-surface);
     text-align: center;
     pointer-events: none;
     opacity: 0;
-    transition: opacity var(--fast-timing);
-
+    transition: opacity var(--fast-timing), transform var(--fast-timing);
+    white-space: nowrap;
     &.show {
       opacity: 1;
     }
   }
 }
 
-.knob-from { left: var(--from); }
-.knob-to { left: var(--to); }
+.knob-from { left: var(--from); --tilt: var(--tilt-from, 0deg); }
+.knob-to { left: var(--to); --tilt: var(--tilt-to, 0deg); }
 </style>

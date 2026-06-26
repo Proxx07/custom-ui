@@ -10,6 +10,7 @@ export interface InputProps<T extends InputModelValue = string> {
   label?: string
   hint?: string | boolean
   loading?: boolean
+  clearable?: boolean
   type?: 'text' | 'number'
   min?: number
   max?: number

@@ -3,8 +3,14 @@ import type { SwitcherEmits, SwitcherProps, SwitcherSlots } from './types';
 import { loader } from '@/assets/icons/general';
 import VIcon from '../VIcon.vue';
 
-const { label = '', loading = false, modelValue = false, fluid = false, size = 'm' }
-    = defineProps<SwitcherProps>();
+const {
+  label = '',
+  loading = false,
+  modelValue = false,
+  reverseDirection = false,
+  fluid = false,
+  size = 'm',
+} = defineProps<SwitcherProps>();
 
 const emit = defineEmits<SwitcherEmits>();
 
@@ -29,7 +35,11 @@ const model = computed({
 </script>
 
 <template>
-  <label ref="labelRef" :for="id" :class="[loading && 'loading', `size-${size}`]">
+  <label
+    ref="labelRef"
+    :for="id"
+    :class="[loading && 'loading', reverseDirection && 'direction-reverse', `size-${size}`]"
+  >
     <input :id="id" v-model="model" type="checkbox">
     <span class="track">
       <span class="knob">
@@ -83,6 +93,9 @@ label {
   width: v-bind(width);
   gap: var(--gap);
   font: var(--font);
+  &.direction-reverse {
+    flex-direction: row-reverse;
+  }
   &.loading {
     cursor: wait;
     pointer-events: none;

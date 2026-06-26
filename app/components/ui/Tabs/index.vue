@@ -158,14 +158,10 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
 }
 
 button {
-  border: none;
-  box-shadow: none;
-  background: none;
   color: var(--color);
   font: var(--font);
   padding: var(--padding);
   transition: color var(--fast-timing);
-  cursor: pointer;
   &:hover {
     color: var(--hover-color);
   }

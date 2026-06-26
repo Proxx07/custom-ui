@@ -1,7 +1,94 @@
 {
-  "hello-world": "Hello world!",
-  "advantages": {
-    "test-text": "Advantage text"
+  "games": "Games",
+  "price": "Price",
+  "bestPrice": "Best price",
+  "only" : "Only",
+  "any": "Any",
+  "without": "Without",
+
+  "exterior": {
+    "FN": "Factory new",
+    "MW": "Minimal wear",
+    "FT": "Field-tested",
+    "WW": "Well-worn",
+    "BS": "Battle-scarred"
+  },
+
+  "delivery": {
+    "1m": "Instant delivery",
+    "5m": "5 minutes",
+    "12h": "12 hours"
+  },
+
+  "colors": {
+    "BLUE": "Blue",
+    "BROWN": "Brown",
+    "GREEN": "Green",
+    "ORANGE": "Orange",
+    "GRAY": "Gray",
+    "PURPLE": "Purple",
+    "RED": "Red",
+    "YELLOW": "Yellow",
+    "VIOLET": "Violet",
+    "BLACK": "Black",
+    "BEIGE": "Beige",
+    "WHITE": "White"
+  },
+
+  "phases": {
+    "p1": "Phase 1",
+    "p2": "Phase 2",
+    "p3": "Phase 3",
+    "p4": "Phase 4",
+    "sh": "Sapphire",
+    "rb": "Ruby",
+    "bp": "Black pearl",
+    "em": "Emerald"
+  },
+
+  "rarities": {
+    "covert": "Covert",
+    "classified": "Classified",
+    "restricted": "Restricted",
+    "mil_spec_grade": "Mil-Spec Grade",
+    "industrial_grade": "Industrial Grade",
+    "consumer_grade": "Consumer Grade",
+    "distinguished": "Distinguished",
+    "exceptional": "Exceptional",
+    "superior": "Superior",
+    "master": "Master",
+    "high_grade": "High Grade",
+    "remarkable": "Remarkable",
+    "exotic": "Exotic",
+    "contraband": "Contraband",
+    "ancient": "Ancient",
+    "arcana": "Arcana",
+    "common": "Common",
+    "immortal": "Immortal",
+    "legendary": "Legendary",
+    "mythical": "Mythical",
+    "rare": "Rare",
+    "seasonal": "Seasonal",
+    "uncommon": "Uncommon",
+    "ascendant": "ascendant",
+    "autographed": "autographed",
+    "base": "Base",
+    "corrupted": "Corrupted",
+    "exalted": "Exalted",
+    "frozen": "Frozen",
+    "genuine": "Genuine",
+    "glitter": "Glitter",
+    "gold": "Gold",
+    "haunted": "Haunted",
+    "holo": "Holo",
+    "infused": "Infused",
+    "legacy": "Legacy",
+    "lucky": "Lucky",
+    "strange": "Strange",
+    "tournament": "Tournament",
+    "unique": "Unique",
+    "unusual": "Unusual",
+    "vintage": "Vintage"
   },
 
   "toast": {

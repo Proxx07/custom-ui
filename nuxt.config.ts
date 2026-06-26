@@ -40,6 +40,8 @@ export default defineNuxtConfig({
     },
   },
 
+  hooks,
+
   imports: {
     scan: false,
   },
@@ -50,7 +52,6 @@ export default defineNuxtConfig({
 
   colorMode: colorModeConfig,
 
-  hooks,
   typescript: {
     typeCheck: true,
   },

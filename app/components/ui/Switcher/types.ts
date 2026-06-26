@@ -6,6 +6,7 @@ export interface SwitcherProps {
   loading?: boolean
   fluid?: boolean
   size?: Extract<TSizes, 's' | 'm'>
+  reverseDirection?: boolean
 }
 
 export interface SwitcherEmits {

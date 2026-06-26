@@ -19,13 +19,13 @@ const fadeTo = ref(100);
 <template>
   <div class="components">
     <h2>Ranges</h2>
-
+    {{ singleRange }}
     <div class="flex-col w-full" style="gap: 3rem; padding-left: 2rem">
       <div style="max-width: 300px">
         <Input
           v-model="singleRange"
           type="number"
-          :min="0"
+          :min="40"
           :max="100"
         />
       </div>

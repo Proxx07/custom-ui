@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { logIn, plus, tick } from '@/assets/icons/actions';
-import { Button } from '@/components/ui';
+import { Button, Checkbox } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 
 const loaderStore = useLoaderStore();
@@ -8,6 +8,8 @@ const loaderStore = useLoaderStore();
 
 <template>
   <div class="page-wrapper">
+    <Checkbox v-model="loaderStore.isLoading" label="Toggle loader" />
+    <br>
     <div class="buttons">
       <Button :loading="loaderStore.isLoading" size="xl" :icon-right="tick">
         Button

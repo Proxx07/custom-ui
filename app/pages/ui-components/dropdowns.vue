@@ -38,7 +38,6 @@ const loaderStore = useLoaderStore();
       v-model="selectedButton"
       :items="buttonGroupItems"
     />
-    <hr>
     <ButtonGroup
       v-model="selectedButton2"
       :items="buttonGroupItems2"
@@ -48,6 +47,8 @@ const loaderStore = useLoaderStore();
         <VIcon :icon="item.label" :size="18" />
       </template>
     </ButtonGroup>
+    <hr>
+
     <DropDown
       v-model="dropdownValue"
       :items="dropdownOptions"
