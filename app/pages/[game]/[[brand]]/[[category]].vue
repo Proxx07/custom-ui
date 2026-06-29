@@ -9,8 +9,6 @@ const filterStore = useCatalogFilterStore();
   <div class="page-wrapper">
     <h1> Main page </h1>
 
-    <br>
-
     <div>
       game: {{ $route.params.game || 'csgo' }}
     </div>

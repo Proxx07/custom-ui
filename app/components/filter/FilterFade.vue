@@ -44,7 +44,6 @@ const maxModel = computed({
       class="colspan-2"
       value-suffix="%"
       value-bg="surface-low-container"
-      show-value
     />
     <Input
       v-model="minModel"
