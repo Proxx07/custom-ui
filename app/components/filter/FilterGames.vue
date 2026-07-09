@@ -1,10 +1,20 @@
 <script setup lang="ts">
-import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST } from '@/composables/useGames';
+import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST, useGames } from '@/composables/useGames';
+
+const { setSelectedGame } = useGames();
+const localePath = useLocalePath();
 </script>
 
 <template>
   <div class="games-wrapper">
-    <NuxtLinkLocale v-for="game in GAMES_LIST" :key="game" :to="`/${game === 'csgo' ? '' : game}`" class="game-button">
+    <NuxtLink
+      v-for="game in GAMES_LIST"
+      :key="game"
+      :to="localePath(`/${game === 'csgo' ? '' : game}`)"
+      replace
+      class="game-button"
+      @click="setSelectedGame(game)"
+    >
       <img
         :src="GAMES_IMAGES[game]"
         :alt="GAMES_LABELS[game]"
@@ -12,7 +22,7 @@ import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST } from '@/composables/useGames';
       >
 
       {{ GAMES_LABELS[game] }}
-    </NuxtLinkLocale>
+    </NuxtLink>
   </div>
 </template>
 
@@ -30,10 +40,10 @@ import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST } from '@/composables/useGames';
   display: flex;
   flex-direction: column;
   font: var(--font-14-n);
-  color: var(--on-surface-tretiary);
+  color: var(--on-surface-tertiary);
   cursor: pointer;
   gap: .8rem;
-  transition: color var(--fast-timing);
+  @include transition(color);
   text-decoration: none;
   text-align: center;
   width: 100%;
@@ -45,7 +55,7 @@ import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST } from '@/composables/useGames';
     color: var(--on-surface);
   }
 
-  &.router-link-exact-active {
+  &.router-link-active {
     --img-opacity: 1;
     color: var(--on-surface);
   }
@@ -55,7 +65,7 @@ import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST } from '@/composables/useGames';
     flex-grow: 1;
     object-fit: cover;
     border-radius: var(--radius-sm);
-    transition: opacity var(--fast-timing);
+    @include transition(opacity);
     opacity: var(--img-opacity);
   }
 

@@ -19,3 +19,9 @@ export const parseRouteQuery = <ParseTo>(
   }
   return typeof query === 'string' ? query : undefined;
 };
+
+export const removeLocaleFromPath = (path?: string) => {
+  if (!path) return '';
+  const regex = /^\/[a-z]{2}(?=\/|$)/i;
+  return path.replace(regex, '') || '/';
+};

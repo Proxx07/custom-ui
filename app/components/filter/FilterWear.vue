@@ -16,6 +16,8 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
+const STEP = 0.0001;
+
 const minFloat = computed({
   get() {
     return props.min;
@@ -52,7 +54,7 @@ const exteriorModel = computed({
       range
       :min="0"
       :max="1"
-      :step="0.0001"
+      :step="STEP"
       hide-value
       fill-bg="float-bg"
       fluid-fill
@@ -65,7 +67,7 @@ const exteriorModel = computed({
       size="s"
       type="number"
       :clearable="false"
-      :max="1"
+      :max="maxFloat - STEP"
       :min="0"
     />
 
@@ -76,7 +78,7 @@ const exteriorModel = computed({
       size="s"
       :clearable="false"
       :max="1"
-      :min="0"
+      :min="minFloat + STEP"
     />
 
     <div class="colspan-2 flex-col gap">

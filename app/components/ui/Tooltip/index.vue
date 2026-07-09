@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import type { TooltipProps, TooltipSlots } from './types';
 
-const { text = '', position = 'bottom', background = 'surface-low-container', color = 'on-surface', maxWidth = 0 } = defineProps<TooltipProps>();
+const {
+  text = '',
+  position = 'bottom',
+  background = 'surface-low-container',
+  color = 'on-surface',
+  maxWidth = 0,
+  size = 'm',
+} = defineProps<TooltipProps>();
 
 defineSlots<TooltipSlots>();
 
@@ -70,27 +77,34 @@ const arrowPosition = computed(() => ARROW_ANCHOR[position]);
 <template>
   <div ref="tooltipWrapper" class="tooltip-wrapper">
     <slot />
-    <Teleport to="#teleports">
-      <transition :name="`tooltip-${position}`">
-        <div
-          v-if="isTooltipVisible"
-          ref="tooltipInner"
-          class="tooltip-inner"
-          :style="[
-            tooltipPosition,
-            arrowPosition,
-            { '--max-width': maxWidth ? `${maxWidth}px` : 'unset' },
-          ]"
-        >
-          <div class="tooltip-content" :class="[`bg-${background}`, `color-${color}`]">
-            <span class="arrow" :class="[`bg-${background}`]" />
-            <slot name="content">
-              {{ text }}
-            </slot>
+    <client-only>
+      <Teleport to="#teleports">
+        <transition :name="`tooltip-${position}`">
+          <div
+            v-if="isTooltipVisible"
+            ref="tooltipInner"
+            class="tooltip-inner"
+            :style="[
+              tooltipPosition,
+              arrowPosition,
+              {
+                '--max-width': maxWidth ? `${maxWidth}px` : 'unset',
+                '--arrow': size === 's' ? '0.45rem' : '0.9rem',
+                '--padding': size === 's' ? '.8rem' : '1.2rem',
+                '--font': size === 's' ? 'var(--font-12-n)' : 'var(--font-14-n)',
+              },
+            ]"
+          >
+            <div class="tooltip-content" :class="[`bg-${background}`, `color-${color}`]">
+              <span class="arrow" :class="[`bg-${background}`]" />
+              <slot name="content">
+                {{ text }}
+              </slot>
+            </div>
           </div>
-        </div>
-      </transition>
-    </Teleport>
+        </transition>
+      </Teleport>
+    </client-only>
   </div>
 </template>
 
@@ -99,7 +113,6 @@ const arrowPosition = computed(() => ARROW_ANCHOR[position]);
   display: inline-block;
 }
 .tooltip-inner {
-  --arrow: 0.9rem;
   position: fixed;
   top: var(--y);
   left: var(--x);
@@ -109,9 +122,10 @@ const arrowPosition = computed(() => ARROW_ANCHOR[position]);
 }
 
 .tooltip-content {
-  padding: 1.2rem;
+  padding: var(--padding);
   position: relative;
   border-radius: var(--radius-sm);
+  font: var(--font);
   .arrow {
     position: absolute;
     width: var(--arrow);
@@ -125,7 +139,7 @@ const arrowPosition = computed(() => ARROW_ANCHOR[position]);
 
 [class*="enter"],
 [class*="leave"] {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  @include transition(opacity transform);
 }
 [class*="enter-from"],
 [class*="leave-to"] {

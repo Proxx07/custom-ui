@@ -30,6 +30,11 @@ export const isDefault = (value: unknown, def: unknown): boolean => {
   return value === def || value === undefined || value === null;
 };
 
+export const isEqualValue = (a: unknown, b: unknown): boolean => {
+  if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((item, i) => item === b[i]);
+  return a === b;
+};
+
 export const cloneDefault = <T>(def: T): T => {
   if (Array.isArray(def)) return [...def] as T;
   if (def && typeof def === 'object') return { ...def } as T;

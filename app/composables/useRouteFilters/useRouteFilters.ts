@@ -2,15 +2,22 @@ import type { LocationQueryRaw } from 'vue-router';
 import type { Refs, Schema } from './types';
 import { cloneDefault, isDefault, parsers } from './model';
 
-export const useRouteFilters = <S extends Schema>(schema: S) => {
+export const useRouteFilters = <S extends Schema>(schema: S, writeToRouteDebounce?: number) => {
   const route = useRoute();
   const router = useRouter();
 
-  const refs = {} as Refs<S>;
-  for (const name in schema) {
+  const DEBOUNCE_TIME = writeToRouteDebounce || 350;
+
+  const parseFromRoute = (name: keyof S) => {
     const field = schema[name]!;
     const parsed = parsers[field.parse](route.query[field.key]);
-    refs[name] = ref(parsed === undefined ? cloneDefault(field.default) : parsed) as any;
+    return parsed === undefined ? cloneDefault(field.default) : parsed;
+  };
+
+  const refs = {} as Refs<S>;
+
+  for (const name in schema) {
+    refs[name] = ref(parseFromRoute(name)) as any;
   }
 
   const query = computed<LocationQueryRaw>(() => {
@@ -30,15 +37,21 @@ export const useRouteFilters = <S extends Schema>(schema: S) => {
       params: router.currentRoute.value.params,
       query: { ...query.value },
     });
-  }, 300);
+  }, DEBOUNCE_TIME);
 
   watch(query, writeToRoute, { flush: 'post' });
 
+  const resetField = (name: keyof S) => {
+    const field = schema[name];
+    if (!field) return;
+    refs[name].value = cloneDefault(field.default);
+  };
+
   const reset = () => {
     for (const name in schema) {
-      refs[name].value = cloneDefault(schema[name]?.default);
+      resetField(name as keyof S);
     }
   };
 
-  return { ...refs, query, reset };
+  return { ...refs, query, reset, resetField, writeToRoute };
 };

@@ -71,13 +71,14 @@ const onlyBestPrice = computed({
     </Input>
 
     <Switcher
+      v-if="bestPriceEnabled"
       v-model="onlyBestPrice"
       reverse-direction
       class="colspan-2"
     >
       <template #default>
         <div class="flex mr-auto gap items-center">
-          <VIcon :size="20" :icon="bestPrice" color="var(--best-price)" />
+          <VIcon :size="20" :icon="bestPrice" color="best-price" />
           Best price only
         </div>
       </template>

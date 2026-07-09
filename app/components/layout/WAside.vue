@@ -1,119 +1,100 @@
 <script setup lang="ts">
-import {
-  FilterAccordion,
-  FilterColors,
-  FilterDelivery, FilterFade,
-  FilterGames,
-  FilterPhase,
-  FilterPrice,
-  FilterRarities,
-  FilterWear,
-} from '@/components/filter';
+import { FilterBadgesWrapper } from '@/components/filter';
+import { Drawer } from '@/components/ui';
+import { FilterWidget } from '@/components/widgets';
 
-import { RadioButton } from '@/components/ui';
 import { useCurrencies } from '@/composables/useCurrencies';
-import { AGENT_RARITIES, ITEM_RARITIES, STICKER_RARITIES } from '@/composables/useItemRarities';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
+import { useDrawersStore } from '@/store/drawersState';
 
 const { t } = useI18n();
-const $router = useRouter();
 
 const { selectedCurrency } = useCurrencies();
-// const drawersState = useDrawersStore();
+const drawersStore = useDrawersStore();
 const filterStore = useCatalogFilterStore();
 
-const setQueriesToRoute = useDebounceFn(() => {
-  $router.replace({
-    name: $router.currentRoute.value.name,
-    params: $router.currentRoute.value.params,
-    query: { ...filterStore.filterQueries },
-  });
-}, 300);
+const selectedPricePreview = computed<string>(() => {
+  if (!filterStore.minPrice && !filterStore.maxPrice) return '';
+  return `${selectedCurrency.value.symbol} ${filterStore.minPrice} - ${selectedCurrency.value.symbol} ${filterStore.maxPrice}`;
+});
 
-watch(() => filterStore.filterQueries, setQueriesToRoute);
+const selectedFloatPreview = computed<string>(() => {
+  if (filterStore.minFloat === 0 && filterStore.maxFloat === 1) return '';
+  return `${filterStore.minFloat} - ${filterStore.maxFloat}`;
+});
+
+const selectedExteriorsPreview = computed<string>(() => {
+  return filterStore.exterior.reduce((acc, curr) => `${acc ? `${acc},` : acc} ${t(`exterior.${curr}`)}`, '');
+});
+
+const deliveryTimePreview = computed<string>(() => {
+  return filterStore.deliveryTime.reduce((acc, curr) => `${acc ? `${acc},` : acc} ${t(`delivery.${curr}`)}`, '');
+});
+
+const qualitiesPreview = computed<string>(() => {
+  return filterStore.quality.reduce((acc, curr) => `${acc ? `${acc},` : acc} ${t(`rarities.${curr}`)}`, '');
+});
+
+const raritiesPreview = computed<string>(() => {
+  return filterStore.rarities.reduce((acc, curr) => `${acc ? `${acc},` : acc} ${curr}`, '');
+});
+
+const selectedFadePreview = computed<string>(() => {
+  if (filterStore.fadeMin === 80 && filterStore.fadeMax === 100) return '';
+  return `${filterStore.fadeMin}% - ${filterStore.fadeMax}%`;
+});
+
+const statTrackPreview = computed<string>(() => {
+  if (filterStore.statTrack === 0) return `${t('without')} StatTrak`;
+  if (filterStore.statTrack === 1) return `${t('only')} StatTrak`;
+  return '';
+});
+
+const phasePreview = computed<string>(() => {
+  return filterStore.phase.reduce((acc, curr) => `${acc ? `${acc},` : acc} ${t(`phases.${curr}`)}`, '');
+});
 </script>
 
 <template>
   <aside>
-    <FilterAccordion title="Games" opened>
-      <FilterGames
-        :current-game="filterStore.selectedGame"
-      />
-    </FilterAccordion>
+    <FilterBadgesWrapper
+      :price-preview="selectedPricePreview"
+      :float-preview="selectedFloatPreview"
+      :stat-track-preview="statTrackPreview"
+      :fade-preview="selectedFadePreview"
+    />
 
-    <FilterAccordion title="Price" opened>
-      <FilterPrice
-        v-model:min="filterStore.minPrice"
-        v-model:max="filterStore.maxPrice"
-        v-model:best-price="filterStore.onlyBestPrice"
-        :best-price-enabled="filterStore.selectedGame === 'csgo'"
-        :currency-symbol="selectedCurrency.symbol"
-      />
-    </FilterAccordion>
+    <FilterWidget
+      :selected-price-preview="selectedPricePreview"
+      :selected-float-preview="selectedFloatPreview"
+      :selected-exteriors-preview="selectedExteriorsPreview"
+      :delivery-time-preview="deliveryTimePreview"
+      :rarities-preview="raritiesPreview"
+      :qualities-preview="qualitiesPreview"
+      :selected-fade-preview="selectedFadePreview"
+      :stat-track-preview="statTrackPreview"
+      :phase-preview="phasePreview"
+      :selected-currency="selectedCurrency"
+    />
 
-    <FilterAccordion title="Wear" opened>
-      <FilterWear
-        v-model:min="filterStore.minFloat"
-        v-model:max="filterStore.maxFloat"
-        v-model:exterior="filterStore.exterior"
-        @update:min="filterStore.updateExteriorsByFloat"
-        @update:max="filterStore.updateExteriorsByFloat"
-        @update:exterior="filterStore.resetFloats"
-      />
-    </FilterAccordion>
-
-    <FilterAccordion title="Delivery time" opened>
-      <FilterDelivery
-        v-model="filterStore.deliveryTime"
-      />
-    </FilterAccordion>
-
-    <FilterAccordion title="StatTrak">
-      <div class="flex-col gap">
-        <RadioButton v-model="filterStore.statTrack" :value="null" :label="t('any')" />
-        <RadioButton v-model="filterStore.statTrack" :value="1" :label="`${t('only')} StatTrak`" />
-        <RadioButton v-model="filterStore.statTrack" :value="0" :label="`${t('without')} StatTrak`" />
-      </div>
-    </FilterAccordion>
-
-    <FilterAccordion title="Color">
-      <FilterColors
-        v-model="filterStore.color"
-      />
-    </FilterAccordion>
-
-    <FilterAccordion title="Rarity">
-      <FilterRarities
-        v-model="filterStore.rarities"
-        :rarities-list="ITEM_RARITIES"
-        :additional-rarities="filterStore.selectedGame !== 'csgo' ? [] : [
-          { title: 'Agent rarity', list: AGENT_RARITIES },
-          { title: 'Sticker & patch rarity', list: STICKER_RARITIES },
-        ]"
-      />
-    </FilterAccordion>
-
-    <FilterAccordion title="Fade">
-      <FilterFade
-        v-model:min="filterStore.fadeMin"
-        v-model:max="filterStore.fadeMax"
-      />
-    </FilterAccordion>
-
-    <FilterAccordion title="Phase">
-      <FilterPhase v-model="filterStore.phase" />
-    </FilterAccordion>
-
-    <!--
     <client-only>
       <Drawer
-        v-model="drawersState.asideDrawer"
+        v-model="drawersStore.asideDrawer"
       >
-        <template #header="{ close }" />
-        <template #default="{ close }" />
+        <FilterWidget
+          :selected-price-preview="selectedPricePreview"
+          :selected-float-preview="selectedFloatPreview"
+          :selected-exteriors-preview="selectedExteriorsPreview"
+          :delivery-time-preview="deliveryTimePreview"
+          :rarities-preview="raritiesPreview"
+          :qualities-preview="qualitiesPreview"
+          :selected-fade-preview="selectedFadePreview"
+          :stat-track-preview="statTrackPreview"
+          :phase-preview="phasePreview"
+          :selected-currency="selectedCurrency"
+        />
       </Drawer>
     </client-only>
-     -->
   </aside>
 </template>
 
@@ -124,11 +105,13 @@ aside {
   height: var(--aside-height);
   overflow-y: auto;
   background: var(--surface-container);
-  padding: .6rem 2rem 6rem;
+  padding: 1rem 2rem 6rem;
   transition: var(--transition-slow);
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
+
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @include media-max($tablet) {
     display: none;
   }

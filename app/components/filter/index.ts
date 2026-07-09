@@ -1,4 +1,6 @@
 export { default as FilterAccordion } from './FilterAccordion.vue';
+export { default as FilterBadgesWrapper } from './FilterBadgesWrapper.vue';
+export { default as FilterCollections } from './FilterCollections.vue';
 export { default as FilterColors } from './FilterColors.vue';
 export { default as FilterDelivery } from './FilterDelivery.vue';
 export { default as FilterFade } from './FilterFade.vue';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { phase as phaseIcon } from '@/assets/icons/general';
-import { Checkbox, VIcon } from '@/components/ui';
+import { Checkbox, ListItem, VIcon } from '@/components/ui';
 import { PHASE_COLORS_RECORD, PHASE_LIST, type PhaseQueryTypes } from '@/composables/useItemFades';
 
 const props = defineProps<{
@@ -33,34 +33,29 @@ const { t } = useI18n();
       fluid
     >
       <template #default="{ isHovered }">
-        <div class="item-label">
-          <VIcon
-            :icon="phaseIcon"
-            :color="`var(--${PHASE_COLORS_RECORD[phase]})`"
-            class="icon"
-            :class="[isHovered && 'rotate']"
-          />
-          <div class="color-on-surface">
-            {{ t(`phases.${phase}`) }}
-          </div>
-        </div>
+        <ListItem
+          :label="t(`phases.${phase}`)"
+          :gap="12"
+          :left-slot-size="24"
+        >
+          <template #prepend>
+            <VIcon
+              :icon="phaseIcon"
+              :color="PHASE_COLORS_RECORD[phase]"
+              class="icon"
+              :size="24"
+              :class="[isHovered && 'rotate']"
+            />
+          </template>
+        </ListItem>
       </template>
     </Checkbox>
   </div>
 </template>
 
 <style scoped lang="scss">
-.item-label {
-  width: 100%;
-  display: flex;
-  gap: 1.2rem;
-  align-items: center;
-  color: var(--on-surface-tretiary);
-  padding: .2rem 0;
-}
-
 .icon {
-  transition: transform var(--slow-timing);
+  @include transition(transform, var(--slow-timing));
   &.rotate {
     transform: rotateZ(180deg);
   }

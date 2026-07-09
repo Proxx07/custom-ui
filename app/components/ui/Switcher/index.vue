@@ -47,7 +47,7 @@ const model = computed({
           v-if="loading"
           :icon="loader"
           :size="iconSize"
-          color="var(--on-surface)"
+          color="on-surface"
         />
       </span>
     </span>
@@ -62,20 +62,20 @@ const model = computed({
 <style scoped lang="scss">
 label {
   --bg: var(--outline);
-  --knob-bg: var(--on-surface-tretiary);
+  --knob-bg: var(--on-surface-tertiary);
   --track-w: 4rem;
   --track-h: 2rem;
   --knob: 2.4rem;
   --gap: 1.2rem;
   --font: var(--font-16-n);
 
-  &:has(input:checked) {
-    --bg: var(--secondary);
-    --knob-bg: var(--on-secondary);
-  }
-
   &:hover {
     --knob-bg: var(--on-surface);
+  }
+
+  &:has(input:checked) {
+    --bg: #{mix-color-transparent(var(--secondary))};
+    --knob-bg: var(--secondary);
   }
 
   &.size-s {
@@ -111,7 +111,7 @@ label {
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
-  transition: border-color var(--fast-timing), background var(--fast-timing);
+  @include transition(border-color background);
 }
 
 .knob {
@@ -123,7 +123,7 @@ label {
   align-items: center;
   justify-content: center;
   transform: translateX(-2px);
-  transition: transform var(--fast-timing), background var(--fast-timing);
+  @include transition(transform background);
 }
 
 label:has(input:checked) .knob {

@@ -108,7 +108,7 @@ const loaderStore = useLoaderStore();
       <template #target="{ selected, toggleDropDown, isOpened, loading }">
         <Button
           :label="selected?.name ?? 'Custom dd'"
-          severity="tretiary"
+          severity="tertiary"
           variant="text"
           hover-text-color="primary-variant"
           size="s"
@@ -144,10 +144,10 @@ const loaderStore = useLoaderStore();
         <Button
           :icon-left="isSelected ? tick : cross"
           :label="item.name"
-          :severity="isSelected ? 'secondary' : 'tretiary'"
+          :severity="isSelected ? 'secondary' : 'tertiary'"
           variant="text"
-          :text-color="!isSelected ? 'on-surface-tretiary' : undefined"
-          :hover-text-color="isSelected ? 'on-attention' : 'on-surface'"
+          :text-color="!isSelected ? 'on-surface-tertiary' : undefined"
+          :hover-text-color="isSelected ? 'attention' : 'on-surface'"
           size="s"
           padding="10px"
           no-hover-bg

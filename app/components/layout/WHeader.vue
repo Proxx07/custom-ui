@@ -1,48 +1,78 @@
 <script setup lang="ts">
+import WLogo from '~~/public/logo/logo.svg?raw';
 import { burgerMenu } from '@/assets/icons/general';
-import { Button } from '@/components/ui';
+import { HeaderNav } from '@/components/headerElemets';
+import { Button, VIcon } from '@/components/ui';
+import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 import { useDrawersStore } from '@/store/drawersState';
 
 const drawersState = useDrawersStore();
+const filterStore = useCatalogFilterStore();
 </script>
 
 <template>
-  <header>
-    <span>{HEADER}</span>
+  <header class="header">
+    <div class="header__logo">
+      <NuxtLinkLocale
+        :to="`/${filterStore.selectedGame !== 'csgo' ? filterStore.selectedGame : ''}`"
+        class="logo"
+        @click="filterStore.resetStoreFilter"
+      >
+        <VIcon :icon="WLogo" /> Waxpeer
+      </NuxtLinkLocale>
+    </div>
 
-    <NuxtLinkLocale to="/" class="nav-item">
-      Main page
-    </NuxtLinkLocale>
+    <div class="header__right">
+      <HeaderNav :selected-game="filterStore.selectedGame" />
 
-    <NuxtLinkLocale to="/rust/freshly-dug-grave/item/503987229661174232" class="nav-item">
-      Item page
-    </NuxtLinkLocale>
-
-    <Button
-      severity="tretiary"
-      variant="text"
-      class="ml-auto"
-      :icon-left="burgerMenu"
-      @click="drawersState.showAsideDrawer"
-    />
+      <Button
+        severity="tertiary"
+        variant="text"
+        class="ml-auto burger-button"
+        :icon-left="burgerMenu"
+        @click="drawersState.showAsideDrawer"
+      />
+    </div>
   </header>
 </template>
 
 <style scoped lang="scss">
-header {
+.header {
   padding: var(--container-padding-y) var(--container-padding-x);
   position: sticky;
   top: 0;
   grid-column: span 2;
   background: var(--surface-container);
-  display: flex;
+  display: grid;
+  grid-template-columns: subgrid;
   align-items: center;
-  gap: 1rem;
+  a {
+    color: var(--on-surface);
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+  }
 }
 
-.nav-item {
-  text-decoration: none;
-  color: inherit;
-  font: var(--font-18-n);
+.burger-button {
+  @include media-min($tablet) {
+    display: none;
+  }
+}
+
+.logo {
+  font-size: 0;
+  @include media-max($mobile) {
+    width: 4.1rem;
+    overflow: hidden;
+    :deep(svg) {
+      max-width: unset;
+    }
+    :deep(.logo-letter) {
+      display: none;
+    }
+  }
 }
 </style>

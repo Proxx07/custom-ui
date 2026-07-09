@@ -1,8 +1,6 @@
 import type { NuxtPage } from '@nuxt/schema';
-import { GAMES_LIST } from '../app/composables/useGames';
 
 const CATALOG_FILE = '@/pages/[game]/[[brand]]/[[category]].vue';
-const GAMES = GAMES_LIST.join('|'); // -> "csgo|rust|tf2|dota2"
 
 export const hooks = {
   'prepare:types': function (option: any) {
@@ -20,13 +18,26 @@ export const hooks = {
 
     pages.push(
       {
-        name: 'catalog-game',
-        path: `/:game(${GAMES})/:brand?/:category?`,
+        name: 'catalog-csgo',
+        path: '/:brand?/:category?',
         file: CATALOG_FILE,
       },
+
       {
-        name: 'catalog',
-        path: '/:brand?/:category?',
+        name: 'catalog-rust',
+        path: `/:game(rust)/:brand?/:category?`,
+        file: CATALOG_FILE,
+      },
+
+      {
+        name: 'catalog-tf2',
+        path: `/:game(tf2)/:brand?/:category?`,
+        file: CATALOG_FILE,
+      },
+
+      {
+        name: 'catalog-dota2',
+        path: `/:game(dota2)/:brand?/:category?`,
         file: CATALOG_FILE,
       },
     );

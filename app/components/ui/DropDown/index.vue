@@ -65,7 +65,6 @@ const openDropDown = async () => {
   update();
   toggle(true);
   await nextTick();
-  updatePosition();
 };
 
 const closeDropDown = () => {
@@ -102,12 +101,15 @@ useEventListener('scroll', (e) => {
   if (!isOpen.value) return;
   if (dropdownList.value?.contains(e.target as Node)) return;
   closeDropDown();
-}, { capture: true, passive: true });
+});
 
 watch(isOutside, (value) => {
   if (!toggleOnHover || !canHover.value) return;
   if (value) closeDropDown();
 });
+
+const { height } = useElementBounding(dropdownList);
+watch(height, updatePosition);
 
 defineExpose<DropDownExposes>({
   openDropDown,
@@ -143,59 +145,82 @@ defineExpose<DropDownExposes>({
         </slot>
       </Button>
     </slot>
-
-    <Teleport to="#teleports">
-      <transition name="slide-up">
-        <div
-          v-if="isOpen"
-          ref="dropdownList"
-          class="dropdown-list bg-surface-high-container"
-          :class="{ 'open-to-top': dropUp }"
-          :style="{
-            '--x': positions.x,
-            '--y': positions.y,
-            '--w': positions.w,
-          }"
-        >
-          <template v-if="!items.length || !items">
-            <div
-              class="font-16-n text-center"
-              style="padding: 2rem 0;"
-            >
-              No items...
-            </div>
-          </template>
-          <template v-for="(item, i) in items" :key="i">
+    <client-only>
+      <Teleport to="#teleports">
+        <transition name="slide-up">
+          <div
+            v-if="isOpen"
+            ref="dropdownList"
+            class="dropdown-list bg-surface-high-container"
+            :class="{ 'open-to-top': dropUp }"
+            :style="{
+              '--x': positions.x,
+              '--y': positions.y,
+              '--w': positions.w,
+            }"
+          >
             <slot
-              name="item"
-              :item="item"
+              name="contentPrepend"
+              :loading="loading"
               :selected="selectedItem"
-              :is-selected="selectedItem === item"
-              :select-item="() => selectItem(item)"
-            >
-              <Button
-                bg-color="surface-high-container"
-                hover-bg-color="surface-highest-container"
-                :text-color="selectedItem === item ? 'on-secondary' : undefined"
-                :size="size"
-                :padding="size === 's' ? '1rem' : undefined"
-                fluid
-                @click="selectItem(item)"
-              >
+              :close-drop-down="closeDropDown"
+            />
+            <div class="dropdown-list__inner">
+              <slot
+                name="listPrepend"
+                :loading="loading"
+                :selected="selectedItem"
+                :close-drop-down="closeDropDown"
+              />
+              <template v-if="!items.length || !items">
+                <slot name="emptyContent">
+                  <div
+                    class="font-16-n text-center"
+                    style="padding: 2rem 0;"
+                  >
+                    No items...
+                  </div>
+                </slot>
+              </template>
+              <template v-for="(item, i) in items" :key="i">
                 <slot
-                  name="itemInner"
+                  name="item"
                   :item="item"
                   :selected="selectedItem"
                   :is-selected="selectedItem === item"
+                  :select-item="() => selectItem(item)"
                 >
-                  {{ itemLabel ? String(item[itemLabel as keyof T]) : String(item) }}
+                  <Button
+                    bg-color="surface-high-container"
+                    hover-bg-color="surface-highest-container"
+                    :text-color="selectedItem === item ? 'secondary' : undefined"
+                    :size="size"
+                    :padding="size === 's' ? '1rem' : undefined"
+                    fluid
+                    @click="selectItem(item)"
+                  >
+                    <slot
+                      name="itemInner"
+                      :item="item"
+                      :selected="selectedItem"
+                      :is-selected="selectedItem === item"
+                    >
+                      {{ itemLabel ? String(item[itemLabel as keyof T]) : String(item) }}
+                    </slot>
+                  </Button>
                 </slot>
-              </Button>
-            </slot>
-          </template>
-        </div>
-      </transition>
-    </Teleport>
+              </template>
+              <slot
+                name="listAppend"
+                :loading="loading"
+                :selected="selectedItem"
+                :close-drop-down="closeDropDown"
+              />
+            </div>
+          </div>
+        </transition>
+      </Teleport>
+    </client-only>
   </div>
 </template>
 
@@ -206,15 +231,20 @@ defineExpose<DropDownExposes>({
   left: var(--x);
   width: var(--w);
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  padding: 0.4rem;
-  gap: 0.2rem;
   border: 1px solid var(--outline);
   border-radius: var(--radius-sm);
-  max-height: 35rem;
-  overflow-y: auto;
-  min-width: max-content;
+  display: flex;
+  flex-direction: column;
+  max-height: min(50dvh, 35rem);
+  overflow: hidden;
+  padding: 0.4rem;
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    overflow-y: auto;
+    flex-grow: 1;
+  }
   &.open-to-top {
     top: auto;
     bottom: var(--y);

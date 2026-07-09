@@ -1,14 +1,5 @@
 <script setup lang="ts">
 const $route = useRoute();
-
-definePageMeta({
-  layout: {
-    name: 'default',
-    props: {
-      hideSidebar: true,
-    },
-  },
-});
 </script>
 
 <template>

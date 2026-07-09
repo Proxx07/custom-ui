@@ -46,18 +46,20 @@ const updateOnlyCurrent = () => {
       <VIcon
         v-if="loading"
         :icon="loader"
-        :color="checked ? 'var(--surface-container)' : 'var(--on-surface-secondary)'"
+        :color="checked ? 'surface-container' : 'on-surface-secondary'"
       />
       <VIcon
         v-else-if="checked"
         :icon="tick"
-        color="var(--surface-container)"
+        color="surface-container"
       />
     </span>
-    <slot :is-hovered="isHovered" :update-only-current="updateOnlyCurrent" :label="label">
-      <span v-if="label">
-        {{ label }}
-      </span>
+    <slot
+      :is-hovered="isHovered"
+      :update-only-current="updateOnlyCurrent"
+      :label="label"
+    >
+      <span v-if="label"> {{ label }} </span>
     </slot>
   </label>
 </template>
@@ -105,7 +107,7 @@ label {
   border: 2px solid var(--border);
   background: var(--bg);
   border-radius: var(--radius-sm);
-  transition: border-color var(--fast-timing), background var(--fast-timing);
+  @include transition(border-color background);
 }
 
 input {

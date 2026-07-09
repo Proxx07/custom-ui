@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { logIn, plus, tick } from '@/assets/icons/actions';
+import { plus, tick } from '@/assets/icons/actions';
 import { Button, Checkbox } from '@/components/ui';
 import { useLoaderStore } from '@/store/loadingState';
 
@@ -140,68 +140,98 @@ const loaderStore = useLoaderStore();
 
       <hr>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="xl" :icon-right="tick">
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="xl" :icon-right="tick">
         Button
       </Button>
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="l" :icon-right="tick">
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="l" :icon-right="tick">
         Button
       </Button>
-      <Button :loading="loaderStore.isLoading" severity="tretiary" :icon-right="tick">
-        Button
-      </Button>
-
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="s" :icon-right="tick">
+      <Button :loading="loaderStore.isLoading" severity="tertiary" :icon-right="tick">
         Button
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="xl" :icon-right="plus" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="l" :icon-right="plus" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" :icon-right="plus" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="s" :icon-right="plus" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="s" :icon-right="tick">
+        Button
+      </Button>
+
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="xl" :icon-right="plus" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="l" :icon-right="plus" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" :icon-right="plus" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="s" :icon-right="plus" />
 
       <hr>
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="outlined" size="xl" :icon-right="plus" :icon-left="tick">
-        Tretiary outlined
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="outlined" size="xl" :icon-right="plus" :icon-left="tick">
+        Tertiary outlined
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="outlined" size="l" :icon-right="plus" :icon-left="tick">
-        Tretiary outlined
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="outlined" size="l" :icon-right="plus" :icon-left="tick">
+        Tertiary outlined
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="outlined" :icon-right="plus" :icon-left="tick">
-        Tretiary outlined
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="outlined" :icon-right="plus" :icon-left="tick">
+        Tertiary outlined
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="outlined" size="s" :icon-right="plus" :icon-left="tick">
-        Tretiary outlined
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="outlined" size="s" :icon-right="plus" :icon-left="tick">
+        Tertiary outlined
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="xl" :icon-right="plus" variant="outlined" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="l" :icon-right="plus" variant="outlined" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" :icon-right="plus" variant="outlined" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="s" :icon-right="plus" variant="outlined" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="xl" :icon-right="plus" variant="outlined" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="l" :icon-right="plus" variant="outlined" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" :icon-right="plus" variant="outlined" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="s" :icon-right="plus" variant="outlined" />
 
       <hr>
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="text" size="xl" :icon-right="plus" :icon-left="tick">
-        Tretiary text
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="text" size="xl" :icon-right="plus" :icon-left="tick">
+        Tertiary text
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="text" size="l" :icon-right="plus" :icon-left="tick">
-        Tretiary text
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="text" size="l" :icon-right="plus" :icon-left="tick">
+        Tertiary text
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="text" :icon-right="plus" :icon-left="tick">
-        Tretiary text
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="text" :icon-right="plus" :icon-left="tick">
+        Tertiary text
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" variant="text" size="s" :icon-right="plus" :icon-left="tick">
-        Tretiary text
+      <Button :loading="loaderStore.isLoading" severity="tertiary" variant="text" size="s" :icon-right="plus" :icon-left="tick">
+        Tertiary text
       </Button>
 
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="xl" :icon-right="plus" variant="text" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="l" :icon-right="plus" variant="text" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" :icon-right="plus" variant="text" />
-      <Button :loading="loaderStore.isLoading" severity="tretiary" size="s" :icon-right="plus" variant="text" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="xl" :icon-right="plus" variant="text" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="l" :icon-right="plus" variant="text" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" :icon-right="plus" variant="text" />
+      <Button :loading="loaderStore.isLoading" severity="tertiary" size="s" :icon-right="plus" variant="text" />
+      <hr>
+      <Button
+        :loading="loaderStore.isLoading"
+        severity="tertiary"
+        text-color="secondary"
+        hover-text-color="secondary"
+        :icon-right="plus"
+      >
+        Tertiary custom
+      </Button>
+
+      <Button
+        :loading="loaderStore.isLoading"
+        severity="tertiary"
+        text-color="error"
+        hover-text-color="error"
+        :icon-right="plus"
+      >
+        Tertiary custom
+      </Button>
+
+      <Button
+        :loading="loaderStore.isLoading"
+        severity="tertiary"
+        text-color="attention"
+        hover-text-color="attention"
+        :icon-right="plus"
+      >
+        Tertiary custom
+      </Button>
 
       <hr>
 
@@ -312,6 +342,7 @@ const loaderStore = useLoaderStore();
       <Button :loading="loaderStore.isLoading" severity="attention" size="s" :icon-right="plus" variant="outlined" />
 
       <hr>
+
       <Button :loading="loaderStore.isLoading" severity="attention" variant="text" size="xl" :icon-right="plus" :icon-left="tick">
         Attention text
       </Button>
@@ -334,65 +365,76 @@ const loaderStore = useLoaderStore();
       <Button :loading="loaderStore.isLoading" severity="attention" size="s" :icon-right="plus" variant="text" />
 
       <hr>
-      <Button
-        :loading="loaderStore.isLoading"
-        severity="tretiary"
-        variant="text"
-        hover-severity="primary"
-        no-hover-bg
-        padding=".5rem"
-        :icon-right="logIn"
-      >
-        Tretiary - hover:primary
+
+      <Button :loading="loaderStore.isLoading" severity="attention" variant="ghost" size="xl" :icon-right="plus" :icon-left="tick">
+        Attention text
       </Button>
+
+      <Button :loading="loaderStore.isLoading" severity="attention" variant="ghost" size="l" :icon-right="plus" :icon-left="tick">
+        Attention text
+      </Button>
+
+      <Button :loading="loaderStore.isLoading" severity="attention" variant="ghost" :icon-right="plus" :icon-left="tick">
+        Attention text
+      </Button>
+
+      <Button :loading="loaderStore.isLoading" severity="attention" variant="ghost" size="s" :icon-right="plus" :icon-left="tick">
+        Attention text
+      </Button>
+
+      <Button :loading="loaderStore.isLoading" severity="attention" size="xl" :icon-right="plus" variant="ghost" />
+      <Button :loading="loaderStore.isLoading" severity="attention" size="l" :icon-right="plus" variant="ghost" />
+      <Button :loading="loaderStore.isLoading" severity="attention" :icon-right="plus" variant="ghost" />
+      <Button :loading="loaderStore.isLoading" severity="attention" size="s" :icon-right="plus" variant="ghost" />
+
+      <hr>
 
       <Button
         :loading="loaderStore.isLoading"
-        severity="secondary"
+        severity="tertiary"
         variant="text"
-        hover-severity="attention"
-        no-hover-bg
-        padding=".5rem"
-      >
-        Secondary - hover:attention
-      </Button>
-
-      <Button
-        :loading="loaderStore.isLoading"
-        severity="destructive"
-        variant="text"
-        hover-severity="tretiary"
-        no-hover-bg
-        :icon-left="plus"
-        padding=".5rem"
-      >
-        Danger - hover:white
-      </Button>
-
-      <Button
-        :loading="loaderStore.isLoading"
-        type="nuxt-link"
-        severity="tretiary"
-        variant="text"
-        no-hover-bg
-        padding=".5rem"
-        text-color="on-surface-tretiary"
-        hover-text-color="on-surface"
-      >
-        For menu
-      </Button>
-
-      <Button
-        :loading="loaderStore.isLoading"
-        type="nuxt-link"
-        severity="tretiary"
-        variant="text"
-        no-hover-bg
         padding=".5rem"
         text-color="on-surface"
-        hover-text-color="on-surface-tretiary"
+        hover-text-color="primary"
+        no-hover-bg
       >
-        For menu contrast
+        Custom hover
+      </Button>
+
+      <Button
+        :loading="loaderStore.isLoading"
+        severity="tertiary"
+        variant="text"
+        padding=".5rem"
+        text-color="attention"
+        hover-text-color="secondary"
+        no-hover-bg
+      >
+        Custom hover
+      </Button>
+
+      <Button
+        :loading="loaderStore.isLoading"
+        severity="tertiary"
+        variant="text"
+        padding=".5rem"
+        text-color="on-surface-tertiary"
+        hover-text-color="on-surface"
+        no-hover-bg
+      >
+        Custom hover
+      </Button>
+
+      <Button
+        :loading="loaderStore.isLoading"
+        severity="tertiary"
+        variant="text"
+        padding=".5rem"
+        text-color="on-surface"
+        hover-text-color="on-surface-tertiary"
+        no-hover-bg
+      >
+        Custom hover
       </Button>
     </div>
   </div>

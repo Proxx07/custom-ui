@@ -2,6 +2,7 @@
 import { Alert } from '@/components/ui';
 
 const { $toast } = useNuxtApp();
+const { t } = useI18n();
 </script>
 
 <template>
@@ -10,22 +11,24 @@ const { $toast } = useNuxtApp();
       <NuxtPage />
     </NuxtLayout>
 
-    <div class="toasts-container">
-      <transition-group name="scale-fade">
-        <Alert
-          v-for="toast in $toast.list.value"
-          :key="toast.id"
-          :type="toast.type"
-          :close-timeout="toast.closeTimeout"
-          :title="toast.title"
-          :description="toast.description"
-          fluid
-          is-toast
-          no-icon
-          @update:model-value="() => $toast.removeToast(toast.id)"
-        />
-      </transition-group>
-    </div>
+    <client-only>
+      <div class="toasts-container">
+        <transition-group name="scale-fade">
+          <Alert
+            v-for="toast in $toast.list.value"
+            :key="toast.id"
+            :type="toast.type"
+            :close-timeout="toast.closeTimeout"
+            :title="toast.title?.includes('toast') ? t(toast.title) : toast.title"
+            :description="toast.description"
+            fluid
+            is-toast
+            no-icon
+            @update:model-value="() => $toast.removeToast(toast.id)"
+          />
+        </transition-group>
+      </div>
+    </client-only>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ButtonProps, ButtonSlots } from './types';
-import { LazyNuxtLinkLocale } from '#components';
+import { NuxtLinkLocale } from '#components';
 import { loader } from '@/assets/icons/general';
 import VIcon from '../VIcon.vue';
 
@@ -23,8 +23,20 @@ const slots = useSlots();
 const buttonRef = ref<HTMLElement>();
 const isHovered = useElementHover(buttonRef);
 
-const tag = computed(() => type === 'nuxt-link' ? LazyNuxtLinkLocale : type);
+const tag = computed(() => type === 'nuxt-link' ? NuxtLinkLocale : type);
 const isOnlyIcon = computed(() => !label && !slots.default);
+
+const colorStyles = computed(() => {
+  if (textColor || hoverTextColor || bgColor || hoverBgColor) {
+    return {
+      ...(bgColor && { '--bg': `var(--${bgColor})` }),
+      ...(hoverBgColor && { '--hover-bg': `var(--${hoverBgColor})` }),
+      ...(textColor && { '--color': `var(--${textColor})` }),
+      ...(hoverTextColor && { '--hover-color': `var(--${hoverTextColor})` }),
+    };
+  }
+  return undefined;
+});
 
 const pd = computed(() => {
   if (padding) return padding;
@@ -39,18 +51,6 @@ const iconSize = computed(() => {
   if (size === 's') return 20;
   return 24;
 });
-
-const colorVars = computed(() => {
-  if (textColor || hoverTextColor || bgColor || hoverBgColor) {
-    return {
-      ...(bgColor && { '--bg': `var(--${bgColor})` }),
-      ...(hoverBgColor && { '--hover-bg': `var(--${hoverBgColor})` }),
-      ...(textColor && { '--text': `var(--${textColor})` }),
-      ...(hoverTextColor && { '--hover-text': `var(--${hoverTextColor})` }),
-    };
-  }
-  return undefined;
-});
 </script>
 
 <template>
@@ -59,14 +59,13 @@ const colorVars = computed(() => {
     ref="buttonRef"
     class="w-button"
     :class="[
-      severity, `size-${size}`, variant,
+      severity, variant, `size-${size}`,
       fluid && 'fluid',
       noHoverBg && 'no-hover-bg',
       isOnlyIcon && 'icon-only',
-      hoverSeverity && `hover-${hoverSeverity}`,
       loading && 'loading',
     ]"
-    :style="colorVars"
+    :style="colorStyles"
   >
     <slot name="prepend" :is-hovered="isHovered">
       <VIcon
@@ -96,64 +95,90 @@ const colorVars = computed(() => {
 
 <style scoped lang="scss">
 .w-button {
-  --border: transparent;
   --radius: var(--radius-sm);
   --gap: .6rem;
   --padding: v-bind(pd);
   --font: var(--font-16-n);
-  --hover-text: var(--text);
+  --border-color: transparent;
 
-  &.hover-primary { --hover-text: var(--primary) }
-  &.hover-secondary { --hover-text: var(--on-secondary) }
-  &.hover-tretiary { --hover-text: var(--on-surface) }
-  &.hover-destructive { --hover-text: var(--on-error) }
-  &.hover-attention { --hover-text: var(--on-attention) }
-
-  line-height: 20px !important;
-  text-decoration: none;
+  &.primary     { --severity-color: var(--primary) };
+  &.secondary   { --severity-color: var(--secondary) };
+  &.tertiary    { --severity-color: var(--on-surface) };
+  &.destructive { --severity-color: var(--error) };
+  &.attention   { --severity-color: var(--attention) };
 
   &.primary {
-    --bg: var(--primary);
-    --text: var(--on-surface);
+    --bg: var(--severity-color);
     --hover-bg: var(--primary-variant);
-    &.outlined, &.text {
-      --text: var(--primary);
-    }
+    --color: var(--on-surface);
+    --hover-color: currentColor;
   }
 
+  &.destructive,
+  &.attention,
   &.secondary {
-    --bg: var(--secondary);
-    --text: var(--on-secondary);
-    --hover-bg: var(--secondary);
+    --bg: var(--severity-color);
+    --hover-bg: #{mix-color-contrast(var(--bg))};
+    --color: var(--on-surface);
+    --hover-color: currentColor;
   }
 
-  &.tretiary, &.destructive, &.attention {
+  &.tertiary {
     --bg: var(--outline);
-    --text: var(--on-surface);
-    --hover-bg: var(--surface-highest-container);
-  }
-
-  &.destructive {
-    --text: var(--on-error);
-  }
-
-  &.attention {
-    --text: var(--on-attention);
+    --hover-bg: var(--outline-variant);
+    --color: var(--on-surface);
+    --hover-color: currentColor;
   }
 
   &.outlined {
-    --bg: transparent;
-    --border: var(--outline-variant);
-    --hover-bg: var(--surface-high-container);
+    --border-color: var(--severity-color);
   }
 
-  &.text {
+  &.text, &.outlined {
     --bg: transparent;
-    --hover-bg: var(--surface-high-container);
+    --hover-bg: #{mix-color-transparent()};
+    --color: var(--severity-color);
+    --hover-color: var(--severity-color);
   }
 
-  &.no-hover-bg {
-    --hover-bg: transparent;
+  &.ghost {
+    --bg: #{mix-color-transparent()};
+    --hover-bg: #{mix-color-contrast(var(--bg))};;
+    --color: var(--severity-color);
+    --hover-color: var(--severity-color);
+  }
+
+  gap: var(--gap);
+  padding: var(--padding);
+  font: var(--font);
+  border-radius: var(--radius);
+
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+  line-height: 20px !important;
+  text-decoration: none;
+  @include transition(opacity background color);
+
+  background: var(--bg);
+  color: var(--color);
+  border-color: var(--border-color);
+
+  &:not([disabled], .loading) {
+    &:hover,
+    &.active {
+      color: var(--hover-color);
+    }
+  }
+
+  &:not(.no-hover-bg) {
+    &:hover,
+    &.active {
+      background: var(--hover-bg);
+    }
   }
 
   &.size-s {
@@ -171,7 +196,7 @@ const colorVars = computed(() => {
   }
 
   &.icon-only {
-    &.size-s, &.size-m{
+    &.size-s, &.size-m {
       --padding: .95rem;
     }
 
@@ -183,41 +208,8 @@ const colorVars = computed(() => {
     }
   }
 
-  background: var(--bg);
-  color: var(--text);
-  border-color: var(--border);
-
-  gap: var(--gap);
-  padding: var(--padding);
-  font: var(--font);
-
-  border-radius: var(--radius);
-
-  transition: opacity var(--fast-timing), background var(--fast-timing), color var(--fast-timing);
-
-  &:not([disabled], .loading) {
-    &:hover,
-    &.active {
-      background: var(--hover-bg);
-      color: var(--hover-text);
-    }
-  }
-
-  display: inline-flex;
-  cursor: pointer;
-  align-items: center;
-  border-width: 1px;
-  border-style: solid;
-  box-shadow: none;
   &.fluid {
     width: 100%;
-  }
-
-  .icon {
-    transition: var(--transition-fast);
-    &.rotate {
-      transform: rotateZ(180deg);
-    }
   }
 
   &[disabled] {
@@ -227,6 +219,13 @@ const colorVars = computed(() => {
 
   &.loading {
     cursor: wait;
+  }
+
+  .icon {
+    transition: var(--transition-fast);
+    &.rotate {
+      transform: rotateZ(180deg);
+    }
   }
 }
 </style>

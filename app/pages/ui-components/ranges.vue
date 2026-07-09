@@ -34,7 +34,7 @@ const fadeTo = ref(100);
           v-model="singleRange"
           :min="0"
           :max="100"
-          fill-bg="on-secondary"
+          fill-bg="secondary"
         />
       </div>
 
@@ -51,7 +51,7 @@ const fadeTo = ref(100);
           v-model="singleRange"
           :min="0"
           :max="100"
-          fill-bg="on-attention"
+          fill-bg="attention"
         />
       </div>
       <div class="w-full" style="max-width: 450px; padding-right: 1rem">
@@ -59,7 +59,7 @@ const fadeTo = ref(100);
           v-model="singleRange"
           :min="0"
           :max="100"
-          fill-bg="on-error"
+          fill-bg="error"
         />
       </div>
 

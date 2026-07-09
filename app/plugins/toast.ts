@@ -9,8 +9,6 @@ export default defineNuxtPlugin({
   setup() {
     const CLOSE_TIMEOUT = 4;
     const toasts = useState<ToastOption[]>('toasts', () => []);
-    // const { t } = useI18n({ useScope: 'global' });
-    const t = (string: string) => string;
 
     const defaultTitles: Record<AlertType, string> = {
       error: 'toast.error',
@@ -29,7 +27,7 @@ export default defineNuxtPlugin({
     };
 
     const fireToast = (type: AlertType, title: string, text?: string) => {
-      const summary = text ? title : t(defaultTitles[type]!);
+      const summary = text ? title : defaultTitles[type];
       const message = text || title;
       const props = setToast({ title: summary, description: message, type });
       toasts.value.push(props);

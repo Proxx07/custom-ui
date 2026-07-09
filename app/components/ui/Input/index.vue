@@ -167,7 +167,7 @@ watch(() => loading, (val) => {
           variant="text"
           :size="size"
           :icon-left="cross"
-          severity="tretiary"
+          severity="tertiary"
           @click="clearInput"
         />
       </slot>
@@ -212,7 +212,7 @@ watch(() => loading, (val) => {
   }
 
   &.invalid {
-    --color: var(--on-error);
+    --color: var(--error);
     --border: currentColor;
   }
 
@@ -224,7 +224,7 @@ watch(() => loading, (val) => {
       &:focus {
         &::placeholder {
           opacity: 1;
-          transition: opacity var(--fast-timing);
+          @include transition(opacity);
         }
       }
     }
@@ -235,7 +235,7 @@ watch(() => loading, (val) => {
     position: absolute;
     left: 0;
     top: 0;
-    transition: transform var(--fast-timing), color var(--fast-timing);
+    @include transition(transform color);
     transform: v-bind(labelPosition);
     color: var(--placeholder-color);
     pointer-events: none;
@@ -276,7 +276,7 @@ watch(() => loading, (val) => {
   outline: 1px solid var(--border);
   background: var(--bg);
   border-radius: var(--radius);
-  transition: background var(--fast-timing), color var(--fast-timing), outline-color var(--fast-timing);
+  @include transition(background color outline-color);
   gap: var(--gap);
   max-width: v-bind(maxWidth);
 

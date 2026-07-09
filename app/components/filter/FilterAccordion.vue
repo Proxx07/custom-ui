@@ -2,7 +2,10 @@
 import { chevronDown } from '@/assets/icons/arrows';
 import { Button } from '@/components/ui/';
 
-const { title = '', opened = false } = defineProps<{
+const {
+  title = '',
+  opened = false,
+} = defineProps<{
   title?: string
   opened?: boolean
 }>();
@@ -14,7 +17,7 @@ const emit = defineEmits<{
 
 defineSlots<{
   default: () => unknown
-  headerBottomSlot: () => unknown
+  slotForClosed: () => unknown
 }>();
 
 const isOpened = ref(opened);
@@ -24,87 +27,91 @@ const handleOpen = () => {
   if (isOpened.value) return emit('after-open');
   return emit('after-close');
 };
+
+const isMounted = ref(false);
+const body = ref<HTMLDivElement>();
+const { height } = useElementBounding(body);
+
+onMounted(() => {
+  isMounted.value = true;
+});
 </script>
 
 <template>
-  <div class="filter" :class="{ opened: isOpened }">
-    <div class="button-wrapper">
-      <Button
-        :label="title"
-        :icon-right="chevronDown"
-        :rotate-right-icon="isOpened"
-        severity="tretiary"
-        variant="text"
-        padding="14px 0 15px"
-        size="l"
-        class="accordion-button"
-        no-hover-bg
-        fluid
-        @click="handleOpen"
-      />
-      <transition name="slide-down">
-        <slot
-          v-if="!isOpened"
-          name="headerBottomSlot"
-        />
+  <div class="filter">
+    <Button
+      :label="title"
+      :icon-right="chevronDown"
+      :rotate-right-icon="isOpened"
+      severity="tertiary"
+      variant="text"
+      padding="14px 0 15px"
+      size="l"
+      class="accordion-button"
+      no-hover-bg
+      fluid
+      @click="handleOpen"
+    />
+    <div
+      class="body-wrapper"
+      :class="[isOpened && 'opened']"
+      :style="{ '--height': !isMounted ? 'auto' : `${Math.round(height)}px` }"
+    >
+      <transition name="accordion-body">
+        <div v-if="isOpened" ref="body" class="body">
+          <slot name="default" />
+        </div>
       </transition>
-    </div>
-
-    <div class="body" :class="[!isOpened && 'overflow-hidden']">
-      <div
-        class="body-content"
-        :class="{ 'slide-in': isOpened }"
-      >
-        <slot name="default" />
-      </div>
+      <transition name="slide-down">
+        <div
+          v-if="!isOpened && $slots.slotForClosed"
+          ref="body"
+          class="body color-on-surface-tertiary"
+        >
+          <slot name="slotForClosed" />
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .filter {
-  display: grid;
-  transition: grid-template-rows var(--fast-timing);
-  transition-delay: .2s;
-  grid-template-rows: auto 0fr;
+  .body-wrapper {
+    position: relative;
+    height: var(--height);
+    transition-delay: .2s;
+    @include transition(height);
 
-  &.opened {
-    grid-template-rows: 50px 1fr;
-    transition-delay: 0s;
-  }
-
-  .body {
-    min-height: 0;
-  }
-
-  .body-content {
-    transition: transform var(--slow-timing), opacity var(--slow-timing);
-    transform: translateX(-100%);
-    height: auto;
-    opacity: 0;
-    padding-top: .9rem;
-    &.slide-in {
-      opacity: 1;
-      transform: translateX(0);
+    &.opened {
+      transition-delay: 0s;
     }
   }
 
-  .button-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: .6rem;
+  .body:has(+ .body) {
+    position: absolute;
+    left: 0;
+    right: 0;
   }
+}
 
-  .accordion-button {
-    font: var(--font-18-m);
-    :deep(.icon) {
-      color: var(--on-surface-tretiary) !important;
-    }
-    &:hover {
-      :deep(.icon) {
-        color: var(--on-surface) !important;
-      }
-    }
+.accordion-body-enter-active,
+.accordion-body-leave-active {
+  @include transition(opacity transform, var(--slow-timing));
+}
+
+.accordion-body-enter-from,
+.accordion-body-leave-to {
+  opacity: 0;
+  transform: translateX(-20%);
+}
+
+.accordion-button {
+  font: var(--font-18-m);
+  --icon-color: var(--on-surface-tertiary);
+  &:hover { --icon-color: var(--on-surface) };
+  :deep(.icon) {
+    color: var(--icon-color) !important;
   }
 }
 </style>

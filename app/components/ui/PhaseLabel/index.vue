@@ -13,8 +13,6 @@ const font = computed(() => {
   return 'font-14-n';
 });
 
-const bgVar = computed(() => `var(--${phase}-container)`);
-
 const padding = computed(() => {
   const fontSize = font.value.split('-')[1];
   const fz = fontSize ? +fontSize : 14;
@@ -25,9 +23,9 @@ const padding = computed(() => {
 <template>
   <div
     class="phase"
-    :class="[font]"
+    :class="[font, `color-${phase}`]"
   >
-    <span :class="[`color-${phase}`]">
+    <span>
       {{ label }}
     </span>
   </div>
@@ -41,13 +39,13 @@ const padding = computed(() => {
   span{
     padding: .4rem v-bind(padding) .4rem 0;
     border-radius: 1px var(--radius-sm) var(--radius-sm) 1px;
-    background: v-bind(bgVar);
+    background: #{mix-color-transparent()};
   }
   &:before {
     content: '';
     align-self: stretch;
     width: 1em;
-    background: v-bind(bgVar);
+    background: #{mix-color-transparent()};
     clip-path: polygon(0 52%, 101% 0, 101% 100%);
   }
 }

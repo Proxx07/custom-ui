@@ -291,7 +291,7 @@ useEventListener(inputRangeWrapper, 'pointercancel', endPress);
     text-align: center;
     pointer-events: none;
     opacity: 0;
-    transition: opacity var(--fast-timing), transform var(--fast-timing);
+    @include transition(opacity transform);
     white-space: nowrap;
     &.show {
       opacity: 1;

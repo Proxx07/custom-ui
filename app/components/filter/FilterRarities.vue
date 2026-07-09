@@ -108,7 +108,7 @@ const model = computed({
     <Button
       v-if="additionalRarities?.length"
       :label="showMore ? 'Show less' : 'Show more'"
-      severity="tretiary"
+      severity="tertiary"
       size="s"
       class="justify-center my-12"
       @click="showMore = !showMore"

@@ -15,7 +15,7 @@ const { currency, selectedCurrency, setCurrentCurrency } = useCurrencies();
   >
     <template #target="{ toggleDropDown, isOpened, downIcon }">
       <Button
-        severity="tretiary"
+        severity="tertiary"
         variant="text"
         no-hover-bg
         padding="1rem"

@@ -1,15 +1,15 @@
 import type { TColors, TSizes } from '@/utils';
 
-type Severity = 'primary' | 'secondary' | 'tretiary' | 'destructive' | 'attention';
+type Severity = 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'attention';
 
 export interface ButtonProps {
   severity?: Severity
-  hoverSeverity?: Severity
   size?: TSizes
-  variant?: 'outlined' | 'text'
+  variant?: 'outlined' | 'text' | 'ghost'
 
   type?: 'button' | 'nuxt-link'
   label?: string
+
   iconLeft?: string // svg icons from assets
   iconRight?: string // svg icons from assets
 

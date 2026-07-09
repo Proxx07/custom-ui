@@ -6,38 +6,28 @@ export type TColors = 'surface'
   | 'surface-accent-container'
   | 'on-surface'
   | 'on-surface-secondary'
-  | 'on-surface-tretiary'
+  | 'on-surface-tertiary'
   | 'outline'
   | 'outline-variant'
+
   | 'primary'
   | 'primary-variant'
   | 'secondary'
-  | 'on-secondary'
-  | 'tretiary'
-  | 'on-tretiary'
+  | 'tertiary'
   | 'quality-fn'
   | 'quality-mv'
   | 'quality-ft'
   | 'quality-ww'
   | 'phase'
-  | 'phase-container'
   | 'ruby'
-  | 'ruby-container'
   | 'pearl'
-  | 'pearl-container'
   | 'sapphire'
-  | 'sapphire-container'
   | 'emerald'
-  | 'emerald-container'
   | 'attention'
-  | 'on-attention'
   | 'error'
-  | 'on-error'
   | 'best-price'
-  | 'best-price-container'
-  | 'good-price'
-  | 'good-price-container';
+  | 'good-price';
 
 export type TSizes = 'xl' | 'l' | 'm' | 's';
 
-export type FilterColorType = 'BLUE' | 'BROWN' | 'GREEN' | 'ORANGE' | 'GRAY' | 'PURPLE' | 'RED' | 'YELLOW' | 'VIOLET' | 'BLACK' | 'BEIGE' | 'WHITE';
+export type FilterColorType = 'BLUE' | 'BROWN' | 'GREEN' | 'ORANGE' | 'GRAY' | 'PURPLE' | 'RED' | 'YELLOW' | 'VIOLET' | 'BLACK' | 'BEIGE' | 'WHITE' | '';

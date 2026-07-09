@@ -1,6 +1,14 @@
+@use "./mixins.scss" as *;
+
+
+[class*="enter-from"],
+[class*="leave-to"] {
+  pointer-events: none !important;
+}
+
 .page-enter-active,
 .page-leave-active {
-  transition: opacity var(--fast-timing), filter var(--fast-timing);
+  @include transition(opacity filter);
 }
 .page-enter-from,
 .page-leave-to {
@@ -11,6 +19,12 @@
 @keyframes rotate {
   100% {
     transform: rotate(1turn);
+  }
+}
+
+@keyframes rotate-left {
+  100% {
+    transform: rotate(-1turn);
   }
 }
 
@@ -40,11 +54,14 @@
 .rotate-animation {
   animation: rotate 1s infinite linear;
 }
+.rotate-left-animation {
+  animation: rotate-left 1s infinite linear;
+}
 
 /*=== fade ===*/
 .fade-enter-active,
 .fade-leave-active {
-  transition: var(--transition-fast);
+  @include transition(opacity);
 }
 
 .fade-enter-from {
@@ -58,7 +75,7 @@
 
 .slide-in-right-enter-active,
 .slide-in-right-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  @include transition(opacity transform);
 }
 
 .slide-in-right-enter-from {
@@ -73,7 +90,7 @@
 
 .slide-in-left-enter-active,
 .slide-in-left-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  @include transition(opacity transform);
 }
 
 .slide-in-left-enter-from {
@@ -89,7 +106,7 @@
 .scale-fade-move,
 .scale-fade-enter-active,
 .scale-fade-leave-active {
-  transition: all var(--fast-timing);
+  @include transition(opacity transform);
 }
 
 .scale-fade-leave-active {
@@ -108,7 +125,7 @@
 
 .slide-up-enter-active,
 .slide-up-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  @include transition(opacity transform);
 }
 
 .slide-up-enter-from {
@@ -124,7 +141,7 @@
 
 .slide-down-enter-active,
 .slide-down-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  @include transition(opacity transform);
 }
 
 .slide-down-enter-from {

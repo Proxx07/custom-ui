@@ -14,6 +14,10 @@ export default defineNuxtConfig({
     viewTransition: false,
   },
 
+  runtimeConfig: {
+    apiBaseUrl: 'NUXT_API_BASE_URL',
+  },
+
   css: ['~/assets/styles/global.scss'],
 
   modules: [

@@ -2,42 +2,46 @@
 import { WAside, WFooter, WHeader } from '@/components/layout';
 
 const props = defineProps<{
-  hideSidebar?: boolean
+  showSidebar?: boolean
 }>();
-const footerHeight = ref(0);
-const footerHeightPx = computed(() => `${footerHeight.value}px`);
+
+const footer = ref<InstanceType<typeof WFooter>>();
 </script>
 
 <template>
-  <div class="wrapper">
+  <div
+    class="wrapper" :style="{
+      '--footer-height': `${footer?.isFooterVisible ? (footer?.height ?? 0) : 0}px`,
+      '--header-height': '62px',
+    }"
+  >
     <WHeader />
 
     <transition name="aside-animation">
       <WAside
-        v-if="!props.hideSidebar"
+        v-if="props.showSidebar"
       />
     </transition>
 
     <main
       class="content"
-      :class="[props.hideSidebar && 'colspan-2']"
+      :class="[!props.showSidebar && 'colspan-2']"
     >
       <slot />
     </main>
 
-    <WFooter v-model:height="footerHeight" />
+    <WFooter ref="footer" />
   </div>
 </template>
 
 <style scoped lang="scss">
 .wrapper {
-  --container-padding-y: 1.2rem;
+  --container-padding-y: .9rem;
   --container-padding-x: 1.6rem;
-
   --gap: 5px;
-  --header-height: 69px;
-  --footer-height: v-bind(footerHeightPx);
+
   --aside-height: calc(100dvh - var(--footer-height) - var(--header-height) - var(--gap) - 3px);
+
   display: grid;
   grid-template-columns: 330px 1fr;
   grid-template-rows: auto 1fr auto;
@@ -63,7 +67,7 @@ const footerHeightPx = computed(() => `${footerHeight.value}px`);
 }
 
 .aside-animation-enter-active {
-  transition: transform var(--fast-timing);
+  @include transition(transform);
 }
 
 .aside-animation-enter-from,

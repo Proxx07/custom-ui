@@ -130,7 +130,6 @@ const debouncedHandler = useDebounceFn(handleComplexDropdownUpdate, 200);
                   :label="selected ? selected.name : 'DropDown'"
                   severity="attention"
                   variant="text"
-                  padding="1rem"
                   :loading="loading"
                   :icon-right="downIcon"
                   :rotate-right-icon="isOpened"
@@ -142,6 +141,7 @@ const debouncedHandler = useDebounceFn(handleComplexDropdownUpdate, 200);
         </Input>
       </template>
     </DropDown>
+    <div style="min-height: 500px" />
   </div>
 </template>
 

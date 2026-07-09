@@ -16,10 +16,22 @@ export interface DropDownProps<T, V extends keyof T = never> {
 }
 
 export interface DropDownSlots<T> {
-  target: (props: { openDropDown: () => void, closeDropDown: () => void, toggleDropDown: () => void, isOpened: boolean, selected: T | undefined, downIcon?: string, loading: boolean }) => unknown
+  target: (props: {
+    openDropDown: () => void
+    closeDropDown: () => void
+    toggleDropDown: () => void
+    isOpened: boolean
+    selected: T | undefined
+    downIcon?: string
+    loading: boolean
+  }) => unknown
   targetInner: (props: { selected: T | undefined }) => unknown
+  contentPrepend: (props: { selected: T | undefined, loading: boolean, closeDropDown: () => void }) => unknown
+  listPrepend: (props: { selected: T | undefined, loading: boolean, closeDropDown: () => void }) => unknown
+  listAppend: (props: { selected: T | undefined, loading: boolean, closeDropDown: () => void }) => unknown
   item: (props: { item: T, selected: T | undefined, isSelected: boolean, selectItem: () => void }) => unknown
   itemInner: (props: { item: T, selected: T | undefined, isSelected: boolean }) => unknown
+  emptyContent: () => unknown
 }
 
 export interface DropDownEmits<T, V extends keyof T = never> {

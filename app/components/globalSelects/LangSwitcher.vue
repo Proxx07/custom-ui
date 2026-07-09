@@ -28,7 +28,7 @@ const localesList = computed(() => {
   >
     <template #target="{ toggleDropDown, isOpened, selected, downIcon }">
       <Button
-        severity="tretiary"
+        severity="tertiary"
         variant="text"
         no-hover-bg
         padding="1rem"

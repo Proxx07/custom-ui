@@ -21,49 +21,51 @@ const close = () => {
 </script>
 
 <template>
-  <Teleport to="#teleports">
-    <transition name="fade">
-      <div
-        v-if="modelValue"
-        class="backdrop"
-        :style="{ '--top': offsetTop }"
-        @click="close"
-      />
-    </transition>
-    <transition :name="`drawer-${position}`">
-      <div
-        v-if="modelValue"
-        class="drawer-wrapper"
-        :style="{ '--top': offsetTop }"
-        :class="[`position-${position}`]"
-      >
+  <client-only>
+    <Teleport to="#teleports">
+      <transition name="fade">
         <div
-          class="drawer"
-          :class="[`bg-${drawerBg}`]"
+          v-if="modelValue"
+          class="backdrop"
+          :style="{ '--top': offsetTop }"
+          @click="close"
+        />
+      </transition>
+      <transition :name="`drawer-${position}`">
+        <div
+          v-if="modelValue"
+          class="drawer-wrapper"
+          :style="{ '--top': offsetTop }"
+          :class="[`position-${position}`]"
         >
-          <div class="drawer__header">
-            <slot name="header" :close="close">
-              {{ title }}
-              <Button
-                :icon-left="cross"
-                severity="tretiary"
-                variant="text"
-                size="s"
-                class="ml-auto"
-                @click="close"
-              />
-            </slot>
-          </div>
-          <div class="drawer__content">
-            <slot name="default" :close="close" />
-          </div>
-          <div class="drawer__footer">
-            <slot name="footer" />
+          <div
+            class="drawer"
+            :class="[`bg-${drawerBg}`]"
+          >
+            <div class="drawer__header">
+              <slot name="header" :close="close">
+                {{ title }}
+                <Button
+                  :icon-left="cross"
+                  severity="tertiary"
+                  variant="text"
+                  size="s"
+                  class="ml-auto"
+                  @click="close"
+                />
+              </slot>
+            </div>
+            <div class="drawer__content">
+              <slot name="default" :close="close" />
+            </div>
+            <div class="drawer__footer">
+              <slot name="footer" />
+            </div>
           </div>
         </div>
-      </div>
-    </transition>
-  </Teleport>
+      </transition>
+    </Teleport>
+  </client-only>
 </template>
 
 <style scoped lang="scss">

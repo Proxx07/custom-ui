@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { questionCircle } from '@/assets/icons/general';
-import { Checkbox, Tooltip, VIcon } from '@/components/ui';
+import { Checkbox, ListItem, Tooltip, VIcon } from '@/components/ui';
 import { DELIVERY_TIME_LIST, DELIVERY_TIME_RECORD, type DeliveryTimeTypes } from '@/composables/useDeliveryTime';
 
 const props = defineProps<{
@@ -33,45 +33,43 @@ const { t } = useI18n();
       fluid
     >
       <template #default>
-        <div class="item-label">
-          <VIcon
-            :icon="DELIVERY_TIME_RECORD[deliveryTime].icon"
-          />
-          <div class="color-on-surface">
-            {{ t(DELIVERY_TIME_RECORD[deliveryTime].name) }}
-          </div>
-
-          <Tooltip
-            v-if="deliveryTime === '12h'"
-            text="The buyer can cancel the trade for free if the seller does not deliver the item within 30 minutes"
-            position="bottom"
-            class="ml-auto"
-            :max-width="200"
-          >
-            <div class="cancellation">
-              <VIcon :icon="questionCircle" />
-              Free cancellation
-            </div>
-          </Tooltip>
-        </div>
+        <ListItem
+          :label="t(DELIVERY_TIME_RECORD[deliveryTime].name)"
+          :left-slot-size="24"
+          :right-slot-size="140"
+          :gap="4"
+        >
+          <template #prepend>
+            <VIcon
+              :icon="DELIVERY_TIME_RECORD[deliveryTime].icon"
+              color="on-surface-tertiary"
+              :size="24"
+            />
+          </template>
+          <template v-if="deliveryTime === '12h'" #append>
+            <Tooltip
+              text="The buyer can cancel the trade for free if the seller does not deliver the item within 30 minutes"
+              position="bottom"
+              class="ml-auto"
+              :max-width="200"
+            >
+              <div class="cancellation">
+                <VIcon :icon="questionCircle" />
+                Free cancellation
+              </div>
+            </Tooltip>
+          </template>
+        </ListItem>
       </template>
     </Checkbox>
   </div>
 </template>
 
 <style scoped lang="scss">
-.item-label {
-  width: 100%;
-  display: flex;
-  gap: .4rem;
-  align-items: center;
-  color: var(--on-surface-tretiary);
-}
-
 .cancellation {
   background: var(--outline);
   font: var(--font-14-n);
-  color: var(--on-surface-tretiary);
+  color: var(--on-surface-tertiary);
   cursor: pointer;
   padding: .3rem .5rem;
   border-radius: var(--radius-sm);

@@ -17,3 +17,8 @@ export type Schema = Record<string, FieldSchema<any>>;
 export type Refs<S extends Schema> = {
   [K in keyof S]: Ref<S[K]['default']>
 };
+
+export interface IFilterSelectedItem<T> {
+  label: string
+  value: T
+}

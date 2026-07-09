@@ -99,14 +99,14 @@ const { $toast } = useNuxtApp();
             <Button
               :icon-left="chevronLeft"
               size="s"
-              severity="tretiary"
+              severity="tertiary"
               variant="text"
               @click="$toast.success('Prev')"
             />
             <Button
               :icon-right="chevronRight"
               size="s"
-              severity="tretiary"
+              severity="tertiary"
               variant="text"
               @click="$toast.success('Next')"
             />

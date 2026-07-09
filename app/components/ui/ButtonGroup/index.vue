@@ -9,7 +9,7 @@ const {
   groupBg = 'outline',
   color = 'on-surface',
   hoverColor = 'on-surface',
-  activeColor = 'on-tretiary',
+  activeColor = 'on-tertiary',
 
   bg = 'transparent',
   hoverBg = 'surface-high-container',

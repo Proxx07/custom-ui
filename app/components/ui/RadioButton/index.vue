@@ -36,7 +36,7 @@ const checked = computed(() => value !== undefined && modelValue === value);
       <VIcon
         v-if="loading"
         :icon="loader"
-        color="var(--on-surface-secondary)"
+        color="on-surface-secondary"
       />
       <span v-else-if="checked" class="dot" />
     </span>
@@ -94,7 +94,7 @@ label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: border-color var(--fast-timing), background var(--fast-timing);
+  @include transition(border-color background);
 }
 
 .dot {
@@ -102,7 +102,7 @@ label {
   height: var(--dot-size);
   border-radius: 50%;
   background: var(--bg);
-  transition: background var(--fast-timing);
+  @include transition(background);
 }
 
 input {

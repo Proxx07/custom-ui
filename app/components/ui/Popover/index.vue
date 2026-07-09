@@ -82,24 +82,25 @@ useEventListener('keydown', (e) => {
       :toggle="toggle"
       :is-open="isOpened"
     />
-
-    <Teleport to="#teleports">
-      <transition name="slide-up">
-        <div
-          v-if="isOpened"
-          ref="content"
-          class="popover"
-          :class="[`bg-${bg}`, dropUp && 'open-to-top']"
-          :style="{
-            '--x': positions.x,
-            '--y': positions.y,
-            '--w': widthVar,
-          }"
-        >
-          <slot :close="close" />
-        </div>
-      </transition>
-    </Teleport>
+    <client-only>
+      <Teleport to="#teleports">
+        <transition name="slide-up">
+          <div
+            v-if="isOpened"
+            ref="content"
+            class="popover"
+            :class="[`bg-${bg}`, dropUp && 'open-to-top']"
+            :style="{
+              '--x': positions.x,
+              '--y': positions.y,
+              '--w': widthVar,
+            }"
+          >
+            <slot :close="close" />
+          </div>
+        </transition>
+      </Teleport>
+    </client-only>
   </div>
 </template>
 
@@ -114,7 +115,7 @@ useEventListener('keydown', (e) => {
   left: var(--x);
   width: var(--w);
   max-width: calc(100vw - 16px);
-  max-height: calc(100vh - 16px);
+  max-height: calc(70vh - 16px);
   overflow-y: auto;
   z-index: 10;
   padding: 0.8rem;

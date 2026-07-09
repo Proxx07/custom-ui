@@ -59,7 +59,7 @@ const updateHandler = (value: FilterColorType) => {
       background: currentColor;
       inset: 0;
       opacity: 0;
-      transition: opacity var(--fast-timing);
+      @include transition(opacity);
       border-radius: 50%;
     }
 

@@ -9,6 +9,7 @@
   --radius-sm: .4rem;
   --radius-m: .6rem;
   --radius-l: .8rem;
+  --radius-xl: 1rem;
 
   --float-bg: linear-gradient(
     to right, rgb(66, 209, 175) 0%, rgb(66, 209, 175) 6.5%,
@@ -27,6 +28,9 @@
   --footer-shadow: 0px -4px 20px 0px hsla(0, 0%, 0%, 0.25);
 }
 
+.fz-0 {
+  font-size: 0 !important;
+}
 .font-12-n {
   font: var(--font-12-n) !important;
 }
@@ -76,7 +80,6 @@
   font: var(--font-48-sb) !important;
 }
 
-
 .bg-surface {
   background: var(--surface);
 }
@@ -101,8 +104,8 @@
 .bg-on-surface-secondary {
   background: var(--on-surface-secondary);
 }
-.bg-on-surface-tretiary {
-  background: var(--on-surface-tretiary);
+.bg-on-surface-tertiary {
+  background: var(--on-surface-tertiary);
 }
 .bg-outline {
   background: var(--outline);
@@ -119,14 +122,8 @@
 .bg-secondary {
   background: var(--secondary);
 }
-.bg-on-secondary {
-  background: var(--on-secondary);
-}
-.bg-tretiary {
-  background: var(--tretiary);
-}
-.bg-on-tretiary {
-  background: var(--on-tretiary);
+.bg-tertiary {
+  background: var(--tertiary);
 }
 .bg-quality-fn {
   background: var(--quality-fn);
@@ -143,56 +140,29 @@
 .bg-phase {
   background: var(--phase);
 }
-.bg-phase-container {
-  background: var(--phase-container);
-}
 .bg-ruby {
   background: var(--ruby);
-}
-.bg-ruby-container {
-  background: var(--ruby-container);
 }
 .bg-pearl {
   background: var(--pearl);
 }
-.bg-pearl-container {
-  background: var(--pearl-container);
-}
 .bg-sapphire {
   background: var(--sapphire);
-}
-.bg-sapphire-container {
-  background: var(--sapphire-container);
 }
 .bg-emerald {
   background: var(--emerald);
 }
-.bg-emerald-container {
-  background: var(--emerald-container);
-}
 .bg-attention {
   background: var(--attention);
-}
-.bg-on-attention {
-  background: var(--on-attention);
 }
 .bg-error {
   background: var(--error);
 }
-.bg-on-error {
-  background: var(--on-error);
-}
 .bg-best-price {
   background: var(--best-price);
 }
-.bg-best-price-container {
-  background: var(--best-price-container);
-}
 .bg-good-price {
   background: var(--good-price);
-}
-.bg-good-price-container {
-  background: var(--good-price-container);
 }
 
 .color-surface {
@@ -219,8 +189,8 @@
 .color-on-surface-secondary {
   color: var(--on-surface-secondary);
 }
-.color-on-surface-tretiary {
-  color: var(--on-surface-tretiary);
+.color-on-surface-tertiary {
+  color: var(--on-surface-tertiary);
 }
 .color-outline {
   color: var(--outline);
@@ -237,14 +207,8 @@
 .color-secondary {
   color: var(--secondary);
 }
-.color-on-secondary {
-  color: var(--on-secondary);
-}
-.color-tretiary {
-  color: var(--tretiary);
-}
-.color-on-tretiary {
-  color: var(--on-tretiary);
+.color-tertiary {
+  color: var(--tertiary);
 }
 .color-quality-fn {
   color: var(--quality-fn);
@@ -261,57 +225,31 @@
 .color-phase {
   color: var(--phase);
 }
-.color-phase-container {
-  color: var(--phase-container);
-}
 .color-ruby {
   color: var(--ruby);
-}
-.color-ruby-container {
-  color: var(--ruby-container);
 }
 .color-pearl {
   color: var(--pearl);
 }
-.color-pearl-container {
-  color: var(--pearl-container);
-}
 .color-sapphire {
   color: var(--sapphire);
-}
-.color-sapphire-container {
-  color: var(--sapphire-container);
 }
 .color-emerald {
   color: var(--emerald);
 }
-.color-emerald-container {
-  color: var(--emerald-container);
-}
 .color-attention {
   color: var(--attention);
-}
-.color-on-attention {
-  color: var(--on-attention);
 }
 .color-error {
   color: var(--error);
 }
-.color-on-error {
-  color: var(--on-error);
-}
 .color-best-price {
   color: var(--best-price);
-}
-.color-best-price-container {
-  color: var(--best-price-container);
 }
 .color-good-price {
   color: var(--good-price);
 }
-.color-good-price-container {
-  color: var(--good-price-container);
-}
+
 
 .backdrop {
   background: hsla(var(--h), var(--s), var(--l-9), 0.6);

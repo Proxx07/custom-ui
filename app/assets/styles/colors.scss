@@ -36,40 +36,30 @@ html {
 
   --on-surface:           hsla(var(--h) var(--s) var(--l-100));
   --on-surface-secondary: hsla(var(--h) var(--s) var(--l-75));
-  --on-surface-tretiary:  hsla(var(--h) var(--s) var(--l-65));
+  --on-surface-tertiary:  hsla(var(--h) var(--s) var(--l-65));
 
   --outline: hsla(var(--h) var(--s) var(--l-19));
   --outline-variant: hsla(var(--h) var(--s) var(--l-30));
 
   --primary: rgba(41, 94, 213, 1);
   --primary-variant: rgba(35, 81, 183, 1);
-  --secondary: color-mix(in srgb, var(--on-secondary) 20%, transparent);
-  --on-secondary: rgba(54, 201, 115, 1);
-  --tretiary: color-mix(in srgb, var(--on-tretiary) 20%, transparent);
-  --on-tretiary: rgba(83, 167, 237, 1);
+
+  --secondary: rgba(54, 201, 115, 1);
+  --tertiary: rgba(83, 167, 237, 1);
 
   --quality-fn: rgba(139, 207, 72, 1);
   --quality-mv: rgba(72, 207, 126, 1);
   --quality-ft: rgba(207, 153, 72, 1);
   --quality-ww: rgba(192, 116, 81, 1);
 
-  --phase: var(--on-tretiary);
-  --phase-container: color-mix(in srgb, var(--phase) 20%, transparent);
-  --ruby: var(--on-error);
-  --ruby-container: color-mix(in srgb, var(--ruby) 20%, transparent);
+  --phase: var(--tertiary);
+  --ruby: var(--error);
   --pearl: rgba(154, 130, 255, 1);
-  --pearl-container: color-mix(in srgb, var(--pearl) 20%, transparent);
-  --sapphire: var(--on-tretiary);
+  --sapphire: var(--tertiary);
+  --emerald: var(--secondary);
 
-  --sapphire-container: hsla(226, 100%, 58%, 0.2);
-  --emerald: var(--on-secondary);
-  --emerald-container: color-mix(in srgb, var(--emerald) 20%, transparent);
-
-
-  --on-attention: rgba(255, 175, 100, 1);
-  --on-error: rgba(255, 92, 92, 1);
-  --attention: color-mix(in srgb, var(--on-attention) 20%, transparent);
-  --error: color-mix(in srgb, var(--on-error) 20%, transparent);
+  --attention: rgba(255, 175, 100, 1);
+  --error: rgba(255, 92, 92, 1);
 
   --best-price: rgba(255, 189, 60, 1);
   --best-price-container: rgba(55, 51, 36, 1);
@@ -107,8 +97,12 @@ html.light {
 
   --on-surface:           hsla(var(--h) var(--s) calc(100% - var(--l-100)));
   --on-surface-secondary: hsla(var(--h) var(--s) calc(100% - var(--l-75)));
-  --on-surface-tretiary:  hsla(var(--h) var(--s) calc(100% - var(--l-65)));
+  --on-surface-tertiary:  hsla(var(--h) var(--s) calc(100% - var(--l-65)));
 
   --outline:         hsla(var(--h) var(--s) calc(100% - var(--l-19)));
   --outline-variant: hsla(var(--h) var(--s) calc(100% - var(--l-30)));
+
+  --secondary: rgba(45, 186, 104, 1);
+  --attention: rgba(230, 126, 28, 1);
+  --error: rgba(234, 66, 66, 1);
 }

@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import type { TColors } from '@/utils';
+
 const props = defineProps<{
   icon: string // svg icons from asset
   spanBg?: string
-  color?: string
+  color?: TColors
   noFill?: boolean
   size?: number
 }>();
 
-const colorVal = computed(() => props.color || 'currentColor');
+const colorVal = computed(() => props.color ? `var(--${props.color})` : 'currentColor');
 const background = computed(() => props.spanBg || 'transparent');
 const iconSize = computed(() => props.size ? `${props.size}px` : 'auto');
 </script>

@@ -1,14 +1,14 @@
 import type { DeliveryTimeTypes } from '@/composables/useDeliveryTime';
 import type { PhaseQueryTypes } from '@/composables/useItemFades';
+import type { IRarity } from '@/composables/useItemRarities';
 import type { FilterColorType } from '@/utils';
-import { useRoute } from 'vue-router';
-import { GAMES_LIST, type gameTypes } from '@/composables/useGames';
 
+import { type gameTypes, useGames } from '@/composables/useGames';
 import { useRouteFilters } from '@/composables/useRouteFilters';
 import { EXTERIORS_LIST, type ExteriorTypes, getExteriorListFromFloatRange } from '@/composables/useSkinItem';
 
 export const useCatalogFilterStore = defineStore('catalog-filter', () => {
-  const $route = useRoute();
+  const { selectedGame: game } = useGames();
 
   const {
     minPrice,
@@ -24,7 +24,13 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     fadeMin,
     fadeMax,
     phase,
+    search,
+    collection,
+    quality,
     query: filterQueries,
+    reset: resetStoreFilter,
+    resetField,
+    writeToRoute,
   } = useRouteFilters({
     minPrice: { key: 'min_price', parse: 'number', default: undefined },
     maxPrice: { key: 'max_price', parse: 'number', default: undefined },
@@ -35,27 +41,59 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     deliveryTime: { key: 'time', parse: 'array', default: [] as DeliveryTimeTypes[] },
     statTrack: { key: 'stat_trak', parse: 'number', default: null },
     color: { key: 'color', parse: 'string', default: '' as FilterColorType },
+
     rarities: { key: 'rarity', parse: 'array', default: [] as string[] },
+    quality: { key: 'quality', parse: 'array', default: [] as string[] },
+
     fadeMin: { key: 'fade_min', parse: 'number', default: 80 },
     fadeMax: { key: 'fade_max', parse: 'number', default: 100 },
     phase: { key: 'phase', parse: 'array', default: [] as PhaseQueryTypes[] },
-  });
+    search: { key: 'search', parse: 'string', default: '' },
+    collection: { key: 'collection', parse: 'string', default: '' },
+  }, 1200);
 
-  const selectedGame = computed<gameTypes>(() => {
-    if (typeof $route.params.game !== 'string' || !GAMES_LIST.includes($route.params.game as gameTypes)) return 'csgo';
-    return $route.params.game as gameTypes;
-  });
+  const selectedGame = computed<gameTypes>(() => game.value);
   // $route.params.brand
   // $route.params.category
 
-  const updateExteriorsByFloat = useDebounceFn(() => {
+  const updateExteriorsByFloat = () => {
     const exteriorsArray = getExteriorListFromFloatRange(minFloat.value, maxFloat.value);
     exterior.value = exteriorsArray.length === EXTERIORS_LIST.length ? [] : exteriorsArray;
-  }, 300);
+  };
 
   const resetFloats = () => {
-    minFloat.value = 0;
-    maxFloat.value = 1;
+    resetField('minFloat');
+    resetField('maxFloat');
+  };
+
+  const resetPrice = () => {
+    resetField('minPrice');
+    resetField('maxPrice');
+  };
+
+  const resetFade = () => {
+    resetField('fadeMin');
+    resetField('fadeMax');
+  };
+
+  const removeSingleExterior = (value: ExteriorTypes) => {
+    exterior.value = exterior.value.filter(ext => ext !== value);
+  };
+
+  const removeSingleRarity = (value: IRarity['value']) => {
+    rarities.value = rarities.value.filter(rarity => rarity !== value);
+  };
+
+  const removeSingleQuality = (value: IRarity['value']) => {
+    quality.value = quality.value.filter(q => q !== value);
+  };
+
+  const removeSinglePhase = (value: PhaseQueryTypes) => {
+    phase.value = phase.value.filter(ph => ph !== value);
+  };
+
+  const removeSingleDeliveryTime = (value: DeliveryTimeTypes) => {
+    deliveryTime.value = deliveryTime.value.filter(delivery => delivery !== value);
   };
 
   return {
@@ -74,7 +112,21 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     fadeMin,
     fadeMax,
     phase,
+    search,
+    collection,
+    quality,
+
+    resetField,
+    removeSingleExterior,
+    removeSingleRarity,
+    removeSingleQuality,
+    removeSinglePhase,
+    removeSingleDeliveryTime,
     resetFloats,
     updateExteriorsByFloat,
+    resetPrice,
+    resetFade,
+    writeToRoute,
+    resetStoreFilter,
   };
 });

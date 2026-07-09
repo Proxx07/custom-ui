@@ -1,4 +1,5 @@
 import type { ExteriorTypes } from '../types';
+import type { IFilterSelectedItem } from '@/composables/useRouteFilters';
 
 export const EXTERIORS_LIST: ExteriorTypes[] = ['FN', 'MW', 'FT', 'WW', 'BS'];
 
@@ -47,4 +48,11 @@ export const getExteriorListFromFloatRange = (minFloat?: number, maxFloat?: numb
   return EXTERIOR_RANGES
     .filter(({ min, max }) => minFloat < max && maxFloat >= min)
     .map(({ type }) => type);
+};
+
+export const setFilterBadgeItemFromTypes = <T>(value: T, labelPrefix?: string): IFilterSelectedItem<T> => {
+  return {
+    label: `${labelPrefix ? `${labelPrefix}.` : ''}${value}`,
+    value,
+  };
 };

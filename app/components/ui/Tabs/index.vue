@@ -94,14 +94,14 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
     bottom: 0;
     left: 0;
     height: 2px;
-    background: var(--on-secondary);
+    background: var(--secondary);
   }
 
   &:not(&.loading) {
     &:before {
       width: var(--w);
       transform: translateX(var(--x));
-      transition: transform var(--fast-timing), width var(--fast-timing);
+      @include transition(transform width);
     }
 
     .tab.active-bottom  {
@@ -112,7 +112,7 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
         height: 2px;
         left: 0;
         right: 0;
-        background: var(--on-secondary);
+        background: var(--secondary);
       }
     }
   }
@@ -131,13 +131,13 @@ const updateModelValue = (i: number, bounds?: { width: number, left: number }) =
 
   &:has(.tab:not(.active):hover) {
     .tab.active {
-        --color: var(--on-surface-tretiary);
+        --color: var(--on-surface-tertiary);
     }
   }
 
   .tab {
     position: relative;
-    --color: var(--on-surface-tretiary);
+    --color: var(--on-surface-tertiary);
     --hover-color: var(--on-surface);
     &.size-s {
       --font: var(--font-16-n);
@@ -161,7 +161,7 @@ button {
   color: var(--color);
   font: var(--font);
   padding: var(--padding);
-  transition: color var(--fast-timing);
+  @include transition(color);
   &:hover {
     color: var(--hover-color);
   }

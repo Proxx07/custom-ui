@@ -19,6 +19,7 @@ const isVisible = defineModel<boolean>({ default: true });
 const font = isToast ? 'font-16-n' : 'font-14-n';
 const radius = isToast ? 'var(--radius-l)' : 'var(--radius-sm)';
 const color = computed(() => type === 'success' ? 'secondary' : type);
+const bgVar = computed(() => `var(--${color.value})`);
 
 const closeProgressBar = ref<HTMLSpanElement>();
 const animationDuration = computed(() => `${closeTimeout * 1000}ms`);
@@ -43,10 +44,11 @@ onBeforeUnmount(() => {
     v-if="isVisible"
     class="alert"
     :class="[
-      `color-on-${color} bg-${color} ${font}`,
+      `color-${color} ${font}`,
       fluid && 'w-full',
       isToast && 'is-toast',
     ]"
+    :style="{ '--bg': bgVar }"
   >
     <div class="inner">
       <div v-if="title" class="title">
@@ -96,6 +98,7 @@ onBeforeUnmount(() => {
   display: flex;
   position: relative;
   overflow: hidden;
+  background: #{mix-color-transparent(var(--bg))};
   &.is-toast {
     backdrop-filter: blur(10px);
   }

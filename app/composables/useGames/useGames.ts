@@ -1,7 +1,7 @@
 import type { gameTypes } from './types';
 
 export const useGames = () => {
-  const selectedGame = ref<gameTypes>('csgo');
+  const selectedGame = useCookie<gameTypes>('game', { default: () => 'csgo' });
 
   const setSelectedGame = (value: gameTypes) => {
     selectedGame.value = value;

@@ -87,133 +87,135 @@ watch(() => modelValue, () => {
 </script>
 
 <template>
-  <Teleport to="#teleports">
-    <transition name="fade">
-      <div
-        v-if="modelValue"
-        class="backdrop"
-        @click="closeModal"
-      />
-    </transition>
-
-    <transition name="modal">
-      <div
-        v-if="modelValue"
-        ref="modalWrapper"
-        class="modal-wrapper"
-        :style="{
-          '--width': `${maxWidth + 46}px`,
-          '--content-min-height': `${contentMinHeight ? contentMinHeight : '320'}px`,
-          '--footer-height': `${footerHeight}px`,
-          '--header-height': `${headerHeight}px`,
-        }"
-      >
+  <client-only>
+    <Teleport to="#teleports">
+      <transition name="fade">
         <div
-          ref="modalInnerRef"
-          class="modal-inner "
-          :class="[animationOffset && 'animated-offset']"
-          :style="{
-            '--top-offset': `${modalScrollOffset}px`,
-          }"
+          v-if="modelValue"
+          class="backdrop"
           @click="closeModal"
+        />
+      </transition>
+
+      <transition name="modal">
+        <div
+          v-if="modelValue"
+          ref="modalWrapper"
+          class="modal-wrapper"
+          :style="{
+            '--width': `${maxWidth + 46}px`,
+            '--content-min-height': `${contentMinHeight ? contentMinHeight : '320'}px`,
+            '--footer-height': `${footerHeight}px`,
+            '--header-height': `${headerHeight}px`,
+          }"
         >
-          <div class="modal-dialog-outer" @click.prevent.stop>
-            <div
-              class="modal-dialog"
-              :class="[`bg-${modalBg}`]"
-            >
+          <div
+            ref="modalInnerRef"
+            class="modal-inner "
+            :class="[animationOffset && 'animated-offset']"
+            :style="{
+              '--top-offset': `${modalScrollOffset}px`,
+            }"
+            @click="closeModal"
+          >
+            <div class="modal-dialog-outer" @click.prevent.stop>
               <div
-                ref="headerRef"
-                class="modal-dialog__header-outer"
+                class="modal-dialog"
+                :class="[`bg-${modalBg}`]"
               >
-                <slot name="header-above" />
+                <div
+                  ref="headerRef"
+                  class="modal-dialog__header-outer"
+                >
+                  <slot name="header-above" />
 
-                <div :class="[`bg-${modalBg}`]">
-                  <slot name="header">
-                    <div class="modal-dialog__header">
-                      <slot name="header-inner">
-                        <div
-                          class="modal-dialog__header-inner"
-                          :class="[!noHeaderBorder && 'with-border']"
-                        >
-                          <slot name="header-prepend" :emit-back="emitBack">
-                            <Button
-                              v-if="backButton"
-                              severity="tretiary"
-                              variant="text"
-                              size="s"
-                              class="modal-button"
-                              :icon-left="chevronLeft"
-                              @click="emitBack"
-                            />
-                          </slot>
-
-                          <div class="font-18-m">
-                            {{ title }}
-                          </div>
-
-                          <div class="header-append ml-auto">
-                            <slot name="header-append">
+                  <div :class="[`bg-${modalBg}`]">
+                    <slot name="header">
+                      <div class="modal-dialog__header">
+                        <slot name="header-inner">
+                          <div
+                            class="modal-dialog__header-inner"
+                            :class="[!noHeaderBorder && 'with-border']"
+                          >
+                            <slot name="header-prepend" :emit-back="emitBack">
                               <Button
-                                severity="tretiary"
+                                v-if="backButton"
+                                severity="tertiary"
                                 variant="text"
                                 size="s"
                                 class="modal-button"
-                                :icon-left="cross"
-                                @click="closeModal"
+                                :icon-left="chevronLeft"
+                                @click="emitBack"
                               />
                             </slot>
+
+                            <div class="font-18-m">
+                              {{ title }}
+                            </div>
+
+                            <div class="header-append ml-auto">
+                              <slot name="header-append">
+                                <Button
+                                  severity="tertiary"
+                                  variant="text"
+                                  size="s"
+                                  class="modal-button"
+                                  :icon-left="cross"
+                                  @click="closeModal"
+                                />
+                              </slot>
+                            </div>
                           </div>
-                        </div>
+                        </slot>
+                      </div>
+                    </slot>
+                  </div>
+                </div>
+
+                <div class="modal-dialog__content">
+                  <div class="modal-dialog__content-inner">
+                    <slot name="content">
+                      {DIALOG_CONTENT}
+                    </slot>
+                  </div>
+                </div>
+
+                <div
+                  ref="footerRef"
+                  class="modal-dialog__footer-outer"
+                  :class="[`bg-${modalBg}`]"
+                >
+                  <slot name="footer">
+                    <div class="modal-dialog__footer">
+                      <slot name="footer-inner">
+                        <div class="modal-dialog__footer-inner" />
                       </slot>
                     </div>
                   </slot>
                 </div>
               </div>
-
-              <div class="modal-dialog__content">
-                <div class="modal-dialog__content-inner">
-                  <slot name="content">
-                    {DIALOG_CONTENT}
-                  </slot>
-                </div>
-              </div>
-
-              <div
-                ref="footerRef"
-                class="modal-dialog__footer-outer"
-                :class="[`bg-${modalBg}`]"
-              >
-                <slot name="footer">
-                  <div class="modal-dialog__footer">
-                    <slot name="footer-inner">
-                      <div class="modal-dialog__footer-inner" />
-                    </slot>
-                  </div>
-                </slot>
-              </div>
+              <Button
+                severity="tertiary"
+                class="close-button align-self-start"
+                :bg-color="modalBg"
+                :icon-right="cross"
+                size="s"
+                @click="closeModal"
+              />
             </div>
-            <Button
-              severity="tretiary"
-              class="close-button align-self-start"
-              :bg-color="modalBg"
-              :icon-right="cross"
-              size="s"
-              @click="closeModal"
-            />
           </div>
         </div>
-      </div>
-    </transition>
-  </Teleport>
+      </transition>
+    </Teleport>
+  </client-only>
 </template>
 
 <style scoped lang="scss">
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity var(--fast-timing), transform var(--fast-timing);
+  @include transition(opacity transform);
   @include media-max($mobile) {
-    transition: opacity var(--slow-timing), transform var(--slow-timing);
+    @include transition(opacity transform, var(--slow-timing));
   }
 }
 .modal-enter-from {
@@ -255,7 +257,7 @@ watch(() => modelValue, () => {
   pointer-events: all;
   will-change: padding;
   &.animated-offset {
-    transition: padding var(--slow-timing);
+    @include transition(padding, var(--slow-timing));
   }
   @include media-max($mobile) {
     padding-top: var(--top-offset);

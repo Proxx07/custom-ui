@@ -1,4 +1,4 @@
-import type { TColors } from '@/utils';
+import type { TColors, TSizes } from '@/utils';
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
@@ -8,6 +8,7 @@ export interface TooltipProps {
   background?: TColors
   color?: TColors
   maxWidth?: number // pixels
+  size?: Extract<TSizes, 'm' | 's'>
 }
 
 export interface TooltipSlots {

@@ -2,16 +2,16 @@
   "games": "Игры",
   "price": "Цена",
   "bestPrice": "Лучшая цена",
-  "only" : "Только",
+  "only": "Только",
   "any": "Любой",
   "without": "Без",
 
   "exterior": {
-    "FN": "Factory new",
-    "MW": "Minimal wear",
-    "FT": "Field-tested",
-    "WW": "Well-worn",
-    "BS": "Battle-scarred"
+    "FN": "Прямо с завода",
+    "MW": "Немного поношенное",
+    "FT": "После полевых испытаний",
+    "WW": "Поношенное",
+    "BS": "Закалённое в боях"
   },
 
   "delivery": {

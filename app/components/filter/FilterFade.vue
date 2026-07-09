@@ -40,7 +40,6 @@ const maxModel = computed({
       :max="100"
       :step="1"
       fill-bg="fade-bg"
-      fluid-fill
       class="colspan-2"
       value-suffix="%"
       value-bg="surface-low-container"
@@ -51,7 +50,7 @@ const maxModel = computed({
       size="s"
       type="number"
       :clearable="false"
-      :max="100"
+      :max="maxModel - 1"
       :min="80"
     >
       <template #prefix>
@@ -66,7 +65,7 @@ const maxModel = computed({
       size="s"
       :clearable="false"
       :max="100"
-      :min="80"
+      :min="minModel + 1"
     >
       <template #prefix>
         %
