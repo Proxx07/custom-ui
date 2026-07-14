@@ -9,7 +9,7 @@ import { EXTERIORS_LIST, type ExteriorTypes, getExteriorListFromFloatRange } fro
 
 export const useCatalogFilterStore = defineStore('catalog-filter', () => {
   const { selectedGame } = useGames();
-  const $route = useRoute();
+  const $router = useRouter();
   const {
     minPrice,
     maxPrice,
@@ -31,6 +31,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     reset: resetStoreFilter,
     resetField,
     writeToRoute,
+    syncFromRoute,
   } = useRouteFilters({
     minPrice: { key: 'min_price', parse: 'number', default: undefined },
     maxPrice: { key: 'max_price', parse: 'number', default: undefined },
@@ -50,13 +51,13 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     phase: { key: 'phase', parse: 'array', default: [] as PhaseQueryTypes[] },
     search: { key: 'search', parse: 'string', default: '' },
     collection: { key: 'collection', parse: 'string', default: '' },
-  }, 1200);
+  }, { writeToRouteDebounce: 1200 });
 
   const filterQueries = computed(() => {
     return {
       ...query.value,
-      ...($route.params.brand && { brand: $route.params.brand }),
-      ...($route.params.category && { type: $route.params.category }),
+      ...($router.currentRoute.value.params.brand && { brand: $router.currentRoute.value.params.brand }),
+      ...($router.currentRoute.value.params.category && { type: $router.currentRoute.value.params.category }),
     };
   });
 
@@ -132,5 +133,6 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     resetFade,
     writeToRoute,
     resetStoreFilter,
+    syncFromRoute,
   };
 });

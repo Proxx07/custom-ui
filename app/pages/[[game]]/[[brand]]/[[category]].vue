@@ -4,6 +4,15 @@ import { useSkinsList } from '@/composables/useSkinsList';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 
 definePageMeta({
+  middleware: [
+    function (to, from) {
+      const nuxtApp = useNuxtApp();
+      if (import.meta.server || nuxtApp.isHydrating || !from.name) return true;
+      const routeBaseName = useRouteBaseName();
+      if (!routeBaseName(from) || routeBaseName(from) === 'game-brand-category') return true;
+      useCatalogFilterStore().syncFromRoute(to.query);
+    },
+  ],
   layout: {
     name: 'default',
     props: {
@@ -12,11 +21,11 @@ definePageMeta({
   },
 });
 
-const $route = useRoute();
-const filterStore = useCatalogFilterStore();
-
 const { loading, fetchSkins } = useSkinsList();
 const { locale } = useI18n();
+
+const $route = useRoute();
+const filterStore = useCatalogFilterStore();
 
 await useLazyAsyncData(
   `items-${filterStore.selectedGame}-${$route.params.brand}-${$route.params.category}-${locale.value}`,
@@ -37,7 +46,7 @@ const routeRestFilter = (to: RouteLocationNormalizedGeneric, from: RouteLocation
   const isRoutesSimilar = getRouteBaseName(from) === getRouteBaseName(to);
   const isParamsDifferent = from.params.brand !== to.params.brand || from.params.category !== to.params.category || from.params.game !== to.params.game;
   if (!isRoutesSimilar || isParamsDifferent) {
-    filterStore.resetStoreFilter();
+    filterStore.resetStoreFilter(false);
     stopQueryWatcher();
   }
 };
