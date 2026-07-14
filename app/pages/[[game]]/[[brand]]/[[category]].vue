@@ -13,6 +13,7 @@ definePageMeta({
       useCatalogFilterStore().syncFromRoute(to.query);
     },
   ],
+
   layout: {
     name: 'default',
     props: {
@@ -21,7 +22,7 @@ definePageMeta({
   },
 });
 
-const { loading, fetchSkins } = useSkinsList();
+const { list, loading, fetchSkins } = useSkinsList();
 const { locale } = useI18n();
 
 const $route = useRoute();
@@ -67,35 +68,54 @@ onBeforeRouteUpdate((to, from, next) => {
     <h1>
       Main page
 
-      <span class="font-12-n">
-        {{ loading ? 'Items loading' : 'Items loaded' }}
-      </span>
+      <NuxtLinkLocale v-if="filterStore.selectedGame === 'csgo'" to="/knives/karambit" class="font-12-n">
+        Karambit
+      </NuxtLinkLocale>
     </h1>
 
-    <NuxtLinkLocale
-      v-if="filterStore.selectedGame === 'csgo'"
-      to="/knives/karambit"
-    >
-      Karambit
-    </NuxtLinkLocale>
-
-    <div v-if="$route.params.brand">
-      brand: {{ $route.params.brand }}
+    <div v-if="loading">
+      Loading ....
     </div>
 
-    <div v-if="$route.params.category">
-      category: {{ $route.params.category }}
+    <div v-if="!loading" class="list">
+      <div v-for="item in list" :key="item.item_id" class="skin">
+        <div class="image-wrapper">
+          <img :src="item.image" :alt="item.name">
+        </div>
+        <div class="font-14-b">
+          {{ item.name }}
+        </div>
+        {{ item.price }}
+      </div>
     </div>
-
-    <pre>
-      {{ filterStore.filterQueries }}
-    </pre>
   </div>
 </template>
 
 <style scoped lang="scss">
+h1 {
+  margin-bottom: 2rem;
+}
 .page-wrapper {
   display: flex;
   flex-direction: column;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1.2rem;
+  max-width: 100%;
+  .skin {
+    max-width: 100%;
+    .image-wrapper {
+      width: 100%;
+      aspect-ratio: 4/3;
+      font-size: 0;
+    }
+    img {
+      max-width: 100%;
+      aspect-ratio: 4/3;
+    }
+  }
 }
 </style>
