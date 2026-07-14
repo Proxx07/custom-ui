@@ -44,7 +44,7 @@ const popoverOpen = ref(false);
             </div>
             <Button
               severity="secondary"
-              type="nuxt-link"
+              button-type="nuxt-link"
               label="Go to main"
               no-hover-bg
               to="/"

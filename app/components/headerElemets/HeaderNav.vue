@@ -7,8 +7,8 @@ const props = defineProps<{
 
 const pagesList = computed(() => [
   { name: 'Main page', link: `/${props.selectedGame !== 'csgo' ? props.selectedGame : ''}` },
-  { name: 'Sell items', link: '/manage/inventory' },
-  { name: 'My shop', link: '/manage/sell-offers' },
+  { name: 'Sell items', link: `${props.selectedGame !== 'csgo' ? `/${props.selectedGame}` : ''}/manage/inventory` },
+  { name: 'My shop', link: `${props.selectedGame !== 'csgo' ? `/${props.selectedGame}` : ''}/manage/sell-offers` },
   { name: 'Blog', link: '/blog' },
 ]);
 </script>

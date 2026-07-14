@@ -1,11 +1,7 @@
 <script setup lang="ts">
+import type { RouteLocationNormalizedGeneric } from 'vue-router';
 import { useSkinsList } from '@/composables/useSkinsList';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
-
-const $route = useRoute();
-const filterStore = useCatalogFilterStore();
-
-const { loading, fetchSkins } = useSkinsList();
 
 definePageMeta({
   layout: {
@@ -16,34 +12,43 @@ definePageMeta({
   },
 });
 
-await useLazyAsyncData(`items-${filterStore.selectedGame}-${$route.params.brand}-${$route.params.category}`, async () => {
-  await fetchSkins(filterStore.selectedGame, filterStore.filterQueries);
-  return true;
-});
+const $route = useRoute();
+const filterStore = useCatalogFilterStore();
 
-const stopSkinsFetchWatcher = watch(
+const { loading, fetchSkins } = useSkinsList();
+const { locale } = useI18n();
+
+await useLazyAsyncData(
+  `items-${filterStore.selectedGame}-${$route.params.brand}-${$route.params.category}-${locale.value}`,
+  async () => {
+    await fetchSkins(filterStore.selectedGame, filterStore.filterQueries);
+    return true;
+  },
+);
+
+const stopQueryWatcher = watch(
   () => $route.query,
   () => fetchSkins(filterStore.selectedGame, filterStore.filterQueries),
   { flush: 'post' },
 );
 
 const getRouteBaseName = useRouteBaseName();
-
-onBeforeMount(filterStore.writeToRoute);
+const routeRestFilter = (to: RouteLocationNormalizedGeneric, from: RouteLocationNormalizedGeneric) => {
+  const isRoutesSimilar = getRouteBaseName(from) === getRouteBaseName(to);
+  const isParamsDifferent = from.params.brand !== to.params.brand || from.params.category !== to.params.category || from.params.game !== to.params.game;
+  if (!isRoutesSimilar || isParamsDifferent) {
+    filterStore.resetStoreFilter();
+    stopQueryWatcher();
+  }
+};
 
 onBeforeRouteLeave((to, from, next) => {
-  if (getRouteBaseName(to)?.toString().includes('catalog')) {
-    stopSkinsFetchWatcher();
-    filterStore.resetStoreFilter();
-  }
+  routeRestFilter(to, from);
   next();
 });
 
 onBeforeRouteUpdate((to, from, next) => {
-  if ((to.params.brand !== from.params.brand) || (to.params.category !== from.params.category)) {
-    stopSkinsFetchWatcher();
-    filterStore.resetStoreFilter();
-  }
+  routeRestFilter(to, from);
   next();
 });
 </script>
@@ -60,9 +65,9 @@ onBeforeRouteUpdate((to, from, next) => {
 
     <NuxtLinkLocale
       v-if="filterStore.selectedGame === 'csgo'"
-      to="/knives/kerambit"
+      to="/knives/karambit"
     >
-      Kerambit
+      Karambit
     </NuxtLinkLocale>
 
     <div v-if="$route.params.brand">

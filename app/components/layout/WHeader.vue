@@ -1,29 +1,36 @@
 <script setup lang="ts">
 import WLogo from '~~/public/logo/logo.svg?raw';
 import { burgerMenu } from '@/assets/icons/general';
+import { steam } from '@/assets/icons/logos';
 import { HeaderNav } from '@/components/headerElemets';
 import { Button, VIcon } from '@/components/ui';
-import { useCatalogFilterStore } from '@/store/catalogFilterStore';
+import { useGames } from '@/composables/useGames';
 import { useDrawersStore } from '@/store/drawersState';
 
 const drawersState = useDrawersStore();
-const filterStore = useCatalogFilterStore();
+const { selectedGame } = useGames();
 </script>
 
 <template>
   <header class="header">
     <div class="header__logo">
       <NuxtLinkLocale
-        :to="`/${filterStore.selectedGame !== 'csgo' ? filterStore.selectedGame : ''}`"
+        :to="`/${selectedGame !== 'csgo' ? selectedGame : ''}`"
         class="logo"
-        @click="filterStore.resetStoreFilter"
       >
         <VIcon :icon="WLogo" /> Waxpeer
       </NuxtLinkLocale>
     </div>
 
     <div class="header__right">
-      <HeaderNav :selected-game="filterStore.selectedGame" />
+      <HeaderNav :selected-game="selectedGame" />
+
+      <Button
+        label="Sign in with Steam"
+        :icon-left="steam"
+        class="ml-auto"
+        padding="1.2rem 1.6rem 1.1rem"
+      />
 
       <Button
         severity="tertiary"
@@ -58,7 +65,7 @@ const filterStore = useCatalogFilterStore();
 
 .burger-button {
   @include media-min($tablet) {
-    display: none;
+    display: none !important;
   }
 }
 

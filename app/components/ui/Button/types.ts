@@ -7,7 +7,7 @@ export interface ButtonProps {
   size?: TSizes
   variant?: 'outlined' | 'text' | 'ghost'
 
-  type?: 'button' | 'nuxt-link'
+  buttonType?: 'button' | 'nuxt-link'
   label?: string
 
   iconLeft?: string // svg icons from assets

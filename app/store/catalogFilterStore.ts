@@ -1,15 +1,15 @@
 import type { DeliveryTimeTypes } from '@/composables/useDeliveryTime';
 import type { PhaseQueryTypes } from '@/composables/useItemFades';
 import type { IRarity } from '@/composables/useItemRarities';
-import type { FilterColorType } from '@/utils';
 
-import { type gameTypes, useGames } from '@/composables/useGames';
+import type { FilterColorType } from '@/utils';
+import { useGames } from '@/composables/useGames';
 import { useRouteFilters } from '@/composables/useRouteFilters';
 import { EXTERIORS_LIST, type ExteriorTypes, getExteriorListFromFloatRange } from '@/composables/useSkinItem';
 
 export const useCatalogFilterStore = defineStore('catalog-filter', () => {
-  const { selectedGame: game } = useGames();
-
+  const { selectedGame } = useGames();
+  const $route = useRoute();
   const {
     minPrice,
     maxPrice,
@@ -27,7 +27,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     search,
     collection,
     quality,
-    query: filterQueries,
+    query,
     reset: resetStoreFilter,
     resetField,
     writeToRoute,
@@ -52,9 +52,13 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     collection: { key: 'collection', parse: 'string', default: '' },
   }, 1200);
 
-  const selectedGame = computed<gameTypes>(() => game.value);
-  // $route.params.brand
-  // $route.params.category
+  const filterQueries = computed(() => {
+    return {
+      ...query.value,
+      ...($route.params.brand && { brand: $route.params.brand }),
+      ...($route.params.category && { type: $route.params.category }),
+    };
+  });
 
   const updateExteriorsByFloat = () => {
     const exteriorsArray = getExteriorListFromFloatRange(minFloat.value, maxFloat.value);

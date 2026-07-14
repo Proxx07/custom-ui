@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST, useGames } from '@/composables/useGames';
+import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST } from '@/composables/useGames';
 
-const { setSelectedGame } = useGames();
 const localePath = useLocalePath();
+const $route = useRoute();
+const selectedGameInRoute = computed(() => !$route.params.game ? 'csgo' : $route.params.game);
 </script>
 
 <template>
@@ -13,14 +14,13 @@ const localePath = useLocalePath();
       :to="localePath(`/${game === 'csgo' ? '' : game}`)"
       replace
       class="game-button"
-      @click="setSelectedGame(game)"
+      :class="[game === selectedGameInRoute && 'active']"
     >
       <img
         :src="GAMES_IMAGES[game]"
         :alt="GAMES_LABELS[game]"
         loading="lazy"
       >
-
       {{ GAMES_LABELS[game] }}
     </NuxtLink>
   </div>
@@ -55,7 +55,7 @@ const localePath = useLocalePath();
     color: var(--on-surface);
   }
 
-  &.router-link-active {
+  &.router-link-active.active {
     --img-opacity: 1;
     color: var(--on-surface);
   }

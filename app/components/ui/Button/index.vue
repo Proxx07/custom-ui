@@ -7,7 +7,7 @@ import VIcon from '../VIcon.vue';
 const {
   severity = 'primary',
   size = 'm',
-  type = 'button',
+  buttonType = 'button',
   label = '',
   padding = '',
   textColor = '',
@@ -23,7 +23,7 @@ const slots = useSlots();
 const buttonRef = ref<HTMLElement>();
 const isHovered = useElementHover(buttonRef);
 
-const tag = computed(() => type === 'nuxt-link' ? NuxtLinkLocale : type);
+const tag = computed(() => buttonType === 'nuxt-link' ? NuxtLinkLocale : buttonType);
 const isOnlyIcon = computed(() => !label && !slots.default);
 
 const colorStyles = computed(() => {

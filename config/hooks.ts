@@ -1,6 +1,8 @@
 import type { NuxtPage } from '@nuxt/schema';
+import { GAMES_LIST } from '../app/composables/useGames/model';
 
-const CATALOG_FILE = '@/pages/[game]/[[brand]]/[[category]].vue';
+const PREFIXED_GAMES = GAMES_LIST.filter(game => game !== 'csgo');
+const GAME_PARAM = `:game(${PREFIXED_GAMES.join('|')})`;
 
 export const hooks = {
   'prepare:types': function (option: any) {
@@ -11,35 +13,9 @@ export const hooks = {
   },
 
   'pages:extend': function (pages: NuxtPage[]) {
-    const idx = pages.findIndex(p =>
-      p.file?.replace(/\\/g, '/').endsWith('pages/[game]/[[brand]]/[[category]].vue'),
-    );
-    if (idx !== -1) pages.splice(idx, 1);
-
-    pages.push(
-      {
-        name: 'catalog-csgo',
-        path: '/:brand?/:category?',
-        file: CATALOG_FILE,
-      },
-
-      {
-        name: 'catalog-rust',
-        path: `/:game(rust)/:brand?/:category?`,
-        file: CATALOG_FILE,
-      },
-
-      {
-        name: 'catalog-tf2',
-        path: `/:game(tf2)/:brand?/:category?`,
-        file: CATALOG_FILE,
-      },
-
-      {
-        name: 'catalog-dota2',
-        path: `/:game(dota2)/:brand?/:category?`,
-        file: CATALOG_FILE,
-      },
-    );
+    for (const page of pages) {
+      if (!page.path.startsWith('/:game?/')) continue;
+      page.path = `/${GAME_PARAM}?${page.path.slice('/:game?'.length)}`;
+    }
   },
 };
