@@ -84,10 +84,6 @@ onBeforeUnmount(stopIntersection);
 
 <template>
   <div class="page-wrapper">
-    <h1>
-      Main page
-    </h1>
-
     <div style="text-align: right; margin-bottom: 2rem">
       <ListGridSize v-model="cardSize" />
     </div>
