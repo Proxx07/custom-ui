@@ -6,4 +6,10 @@ export const viteConfig = {
       },
     },
   },
+  build: {
+    assetsInlineLimit(filePath: string) {
+      if (filePath.includes('assets/icons/skins')) return true;
+      return undefined;
+    },
+  },
 };

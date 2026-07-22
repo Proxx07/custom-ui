@@ -2,16 +2,15 @@
 import { Button, DropDown } from '@/components/ui';
 import { CURRENCIES, useCurrencies } from '@/composables/useCurrencies';
 
-const { currency, selectedCurrency, setCurrentCurrency } = useCurrencies();
+const { currency, selectedCurrency } = useCurrencies();
 </script>
 
 <template>
   <DropDown
-    :model-value="currency"
+    v-model="currency"
     :items="CURRENCIES"
     size="s"
     value="code"
-    @update:model-value="setCurrentCurrency"
   >
     <template #target="{ toggleDropDown, isOpened, downIcon }">
       <Button

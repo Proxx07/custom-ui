@@ -47,6 +47,15 @@
   }
 }
 
+@keyframes skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 .linear-loader {
   animation: lineLoader 1.3s ease-in-out infinite;
 }

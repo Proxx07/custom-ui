@@ -41,10 +41,10 @@ span {
   }
   &:not(.no-fill) {
     :deep(svg) {
-      [fill]:not([fill='none']) {
+      [fill]:not([fill='none'], .no-fill) {
         fill: currentColor;
       }
-      [stroke]:not([stroke='none']) {
+      [stroke]:not([stroke='none'], .no-fill) {
         stroke: currentColor;
       }
     }

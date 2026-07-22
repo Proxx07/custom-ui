@@ -1,3 +1,10 @@
+import type { CardSizeType } from '@/composables/UI';
+import type { gameTypes } from '@/composables/useGames';
+import type { TColors } from '@/utils';
+
+export type SkinPlaceholderTypes = 'ak47' | 'bayonet' | 'butterfly' | 'flipKnive' | 'glock' | 'gloves' | 'kerambit'
+  | 'key' | 'm4a1s' | 'm4a4' | 'machineGun' | 'mp9' | 'shadowDaggers' | 'shotgun' | 'skeleton' | 'sniperRifels';
+
 export type ExteriorTypes = 'FN' | 'MW' | 'FT' | 'WW' | 'BS';
 
 export type SkinItemId = string;
@@ -55,12 +62,13 @@ export interface IGem {
 
 export interface ISkin {
   item_id: SkinItemId
+  game: gameTypes
   name: string
   market_name: string
   image: string
   brand?: string
   category?: string
-  exterior?: string
+  exterior?: ExteriorTypes
   full_ex?: string
   tag?: string
   price: number
@@ -72,11 +80,18 @@ export interface ISkin {
   // present only on some items
   blue_percent?: number
   fade_percent?: number
-  game?: string
   float?: number
   phase?: string
   inspect_item?: InspectItem
   thumb_image?: string
   twit_image?: string
   gems?: IGem[]
+}
+
+export interface SkinItemProps {
+  item: ISkin
+  cardSize?: CardSizeType
+
+  background?: TColors
+  hoverBackground?: TColors
 }

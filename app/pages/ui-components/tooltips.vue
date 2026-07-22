@@ -7,6 +7,7 @@ import {
   Button,
   PhaseLabel,
   Popover,
+  Skeleton,
   Tooltip,
   VIcon,
 } from '@/components/ui';
@@ -20,6 +21,25 @@ const popoverOpen = ref(false);
 
 <template>
   <div class="components">
+    <h2>Skeletons</h2>
+
+    <Skeleton width="100px" height="50px" />
+
+    <Skeleton size="5rem" round />
+    <Skeleton size="5rem" />
+    <Skeleton width="200px" height="10px" />
+
+    <Skeleton width="200px" height="100px" :skin="0" />
+    <Skeleton width="200px" height="100px" :skin="1" />
+    <Skeleton width="200px" height="100px" :skin="2" />
+    <Skeleton width="200px" height="100px" :skin="3" />
+    <Skeleton width="200px" height="100px" :skin="4" />
+    <Skeleton width="200px" height="100px" :skin="5" />
+    <Skeleton width="200px" height="100px" :skin="6" />
+    <Skeleton width="200px" height="100px" :skin="7" />
+    <Skeleton width="200px" height="100px" :skin="8" />
+    <Skeleton width="200px" height="100px" :skin="9" />
+
     <h2>Tooltips</h2>
     <div class="flex items-center gap">
       <Tooltip text="Top tooltip" position="top">

@@ -7,15 +7,6 @@ const slots = defineSlots<ListItemSlots>();
 
 const slotLeft = computed(() => leftSlotSize ? `${leftSlotSize}px` : 'auto');
 const slotRight = computed(() => rightSlotSize ? `${rightSlotSize}px` : 'auto');
-
-/*
-const gridTemplateColumns = computed(() => {
-  if (!slots?.prepend && !slots?.append) return 'auto';
-  if (slots?.prepend && !slots?.append) return `${slotLeft.value} auto`;
-  if (!slots?.prepend && slots?.append) return `auto ${slotRight.value}`;
-  return `${slotLeft.value} auto ${slotRight.value}`;
-});
-*/
 </script>
 
 <template>

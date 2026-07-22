@@ -1,3 +1,6 @@
+import type { CookieRef } from '#app';
+import type { InjectionKey } from 'vue';
+
 export type TColors = 'surface'
   | 'surface-container'
   | 'surface-high-container'
@@ -26,8 +29,12 @@ export type TColors = 'surface'
   | 'attention'
   | 'error'
   | 'best-price'
-  | 'good-price';
+  | 'good-price'
+  | 'souvenir'
+  | 'stattrak';
 
 export type TSizes = 'xl' | 'l' | 'm' | 's';
 
 export type FilterColorType = 'BLUE' | 'BROWN' | 'GREEN' | 'ORANGE' | 'GRAY' | 'PURPLE' | 'RED' | 'YELLOW' | 'VIOLET' | 'BLACK' | 'BEIGE' | 'WHITE' | '';
+
+export const SKINS_LOCALIZED: InjectionKey<CookieRef<boolean>> = Symbol('skins-localized');

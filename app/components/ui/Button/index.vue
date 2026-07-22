@@ -131,7 +131,7 @@ const iconSize = computed(() => {
   }
 
   &.outlined {
-    --border-color: var(--severity-color);
+    --border-color: #{mix-color-transparent(var(--severity-color))};
   }
 
   &.text, &.outlined {

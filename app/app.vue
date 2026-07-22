@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { Alert } from '@/components/ui';
+import { useCurrenciesStore } from '@/store/currencyStore';
 
 const { $toast } = useNuxtApp();
 const { t } = useI18n();
+
+const currenciesStore = useCurrenciesStore();
+
+await useAsyncData('currencies', async () => {
+  await currenciesStore.fetchCurrencies();
+  return true;
+});
 </script>
 
 <template>

@@ -237,13 +237,14 @@ defineExpose<DropDownExposes>({
   flex-direction: column;
   max-height: min(50dvh, 35rem);
   overflow: hidden;
-  padding: 0.4rem;
+  padding: 0.4rem 0;
   &__inner {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
     overflow-y: auto;
     flex-grow: 1;
+    padding: 0 0.4rem;
   }
   &.open-to-top {
     top: auto;

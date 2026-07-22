@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { LocaleItemType } from '~~/i18n/types';
 import { russia, unitedStates } from '@/assets/icons/flags';
-import { Button, DropDown, VIcon } from '@/components/ui';
+import { Button, Checkbox, DropDown, VIcon } from '@/components/ui';
+import { SKINS_LOCALIZED } from '@/utils';
 
 const { locales, locale, setLocale } = useI18n();
 
@@ -16,6 +17,8 @@ const setLocaleHandler = async (value: LocaleItemType['code']) => {
 const localesList = computed(() => {
   return locales.value.map(locale => ({ ...locale, icon: flagsMap[locale.code] }));
 });
+
+const skinsLocalized = inject(SKINS_LOCALIZED);
 </script>
 
 <template>
@@ -26,6 +29,15 @@ const localesList = computed(() => {
     size="s"
     @update:model-value="setLocaleHandler"
   >
+    <template v-if="locale !== 'en' && skinsLocalized !== undefined" #listPrepend>
+      <div class="checkbox-wrapper">
+        <Checkbox
+          v-model="skinsLocalized"
+          label="Перевод скинов"
+          size="s"
+        />
+      </div>
+    </template>
     <template #target="{ toggleDropDown, isOpened, selected, downIcon }">
       <Button
         severity="tertiary"
@@ -50,3 +62,13 @@ const localesList = computed(() => {
     </template>
   </DropDown>
 </template>
+
+<style lang="scss" scoped>
+.checkbox-wrapper {
+  padding: .6rem .3rem;
+  border-bottom: 1px solid var(--outline);
+  :deep(label) {
+    --font: var(--font-12-n);
+  }
+}
+</style>

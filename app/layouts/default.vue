@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { WAside, WFooter, WHeader } from '@/components/layout';
+import { SKINS_LOCALIZED } from '@/utils';
 
 const props = defineProps<{
   showSidebar?: boolean
 }>();
 
 const footer = ref<InstanceType<typeof WFooter>>();
+const skinsLocalized = useCookie('skins-localized', { default: () => true });
+provide(SKINS_LOCALIZED, skinsLocalized);
 </script>
 
 <template>
@@ -51,6 +54,7 @@ const footer = ref<InstanceType<typeof WFooter>>();
 
   @include media-max($tablet) {
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
   }
 }
 
@@ -63,6 +67,10 @@ const footer = ref<InstanceType<typeof WFooter>>();
   padding-bottom: 6rem;
   & > * {
     flex-grow: 1;
+  }
+  @include media-max($mobile) {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 

@@ -37,6 +37,9 @@ export type * from './Popover/types';
 export { default as RadioButton } from './RadioButton/index.vue';
 
 export type * from './RadioButton/types';
+export { default as Skeleton } from './Skeleton/index.vue';
+
+export type * from './Skeleton/types';
 export { default as Switcher } from './Switcher/index.vue';
 
 export type * from './Switcher/types';

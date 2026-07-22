@@ -8,6 +8,12 @@ export default defineNuxtPlugin({
     const instance = $fetch.create({
       baseURL: '/',
 
+      onRequest({ options }) {
+        options.headers = new Headers(options.headers);
+        const lang = useCookie('lang', { default: () => 'en' });
+        options.headers.set('Lang', lang.value);
+      },
+
       onResponse({ response, options }) {
         if (options.silent || !response.ok) return;
         const data = response._data;
@@ -19,8 +25,12 @@ export default defineNuxtPlugin({
       onResponseError({ response, options }) {
         if (options.silent) return;
         const data = response?._data;
-        const message
-          = data && typeof data === 'string' ? data : (data.msg && typeof data.msg === 'string') ? data.msg : response?.statusText;
+        const message = data && typeof data === 'string'
+          ? data
+          : (data.msg && typeof data.msg === 'string')
+            ? data.msg
+            : response?.statusText;
+
         $toast.error(message);
       },
     });

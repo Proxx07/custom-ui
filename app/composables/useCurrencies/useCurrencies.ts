@@ -1,19 +1,17 @@
-import type { CurrencyCode, ICurrency } from './types';
+import type { CurrenciesResponse, CurrencyCode, CurrencyWithPrice, ICurrency } from './types';
 import { CURRENCIES, DEFAULT_CURRENCY_CODE } from './model';
 
 export const useCurrencies = () => {
-  const currentCurrency = useCookie<CurrencyCode>('currency', { default: () => DEFAULT_CURRENCY_CODE });
+  const { $request } = useNuxtApp();
 
-  const setCurrentCurrency = (value: CurrencyCode) => {
-    currentCurrency.value = value;
-  };
+  const _currency = useCookie<CurrencyCode>('currency', { default: () => DEFAULT_CURRENCY_CODE });
 
   const currency = computed({
     get() {
-      return currentCurrency.value;
+      return _currency.value;
     },
     set(value: CurrencyCode) {
-      setCurrentCurrency(value);
+      _currency.value = value;
     },
   });
 
@@ -21,9 +19,18 @@ export const useCurrencies = () => {
     return CURRENCIES.find(c => c.code === currency.value) || CURRENCIES[0]!;
   });
 
+  const currencies = useState<CurrencyWithPrice[]>('currencies', () => shallowRef([]));
+
+  const fetchCurrencies = async () => {
+    const response = await $request<CurrenciesResponse>('/api/currencies', { silent: true });
+    currencies.value = response.data?.data || [];
+  };
+
   return {
     currency,
     selectedCurrency,
-    setCurrentCurrency,
+
+    currencies,
+    fetchCurrencies,
   };
 };

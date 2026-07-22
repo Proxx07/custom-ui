@@ -3,6 +3,15 @@ export function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+export function formatCompact(num: number): string {
+  if (num === 0) return '';
+  return new Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 1,
+  }).format(num);
+}
+/*
 export const parseRouteQuery = <ParseTo>(
   query?: string | null | Array<string | null>,
   options?: { parseTo: ParseTo },
@@ -25,3 +34,4 @@ export const removeLocaleFromPath = (path?: string) => {
   const regex = /^\/[a-z]{2}(?=\/|$)/i;
   return path.replace(regex, '') || '/';
 };
+*/

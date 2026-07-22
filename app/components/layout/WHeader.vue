@@ -48,11 +48,21 @@ const { selectedGame } = useGames();
   padding: var(--container-padding-y) var(--container-padding-x);
   position: sticky;
   top: 0;
-  grid-column: span 2;
   background: var(--surface-container);
   display: grid;
-  grid-template-columns: subgrid;
+  grid-template-columns: 330px 1fr;
+  gap: var(--gap);
   align-items: center;
+  @include media-min($tablet) {
+    grid-column: span 2;
+  }
+  @include media-max($tablet) {
+    grid-template-columns: auto 1fr;
+    :deep(nav) {
+      display: none;
+    }
+  }
+
   a {
     color: var(--on-surface);
   }

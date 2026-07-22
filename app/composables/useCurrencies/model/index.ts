@@ -1,16 +1,18 @@
 import type { CurrencyCode, ICurrency } from '../types';
 
-export const DEFAULT_CURRENCY_CODE: CurrencyCode = 'usd';
+export const DEFAULT_CURRENCY_CODE: CurrencyCode = 'USD';
 
 export const CURRENCIES: ICurrency[] = [
-  { code: 'usd', label: 'USD', symbol: '$' }, // $
-  { code: 'eur', label: 'EUR', symbol: '€' }, // €
-  { code: 'gbp', label: 'GBP', symbol: '£' }, // £
-  { code: 'try', label: 'TRY', symbol: '₺' }, // ₺
-  { code: 'rub', label: 'RUB', symbol: '₽' }, // ₽
-  { code: 'uah', label: 'UAH', symbol: '₴' }, // ₴
-  { code: 'krw', label: 'KRW', symbol: '₩' }, // ₩
-  { code: 'jpy', label: 'JPY', symbol: '¥' }, // ¥
-  { code: 'ils', label: 'ILS', symbol: '₪' }, // ₪
-  { code: 'yen', label: 'CNY', symbol: '¥' }, // ¥
+  { code: 'USD', label: 'USD', symbol: '$' },
+  { code: 'EUR', label: 'EUR', symbol: '€' },
+  { code: 'GBP', label: 'GBP', symbol: '£' },
+  { code: 'TRY', label: 'TRY', symbol: '₺' },
+  { code: 'RUB', label: 'RUB', symbol: '₽' },
+  { code: 'UAH', label: 'UAH', symbol: '₴' },
+  { code: 'KRW', label: 'KRW', symbol: '₩' },
+  { code: 'JPY', label: 'JPY', symbol: '¥' },
+  { code: 'ILS', label: 'ILS', symbol: '₪' },
+  { code: 'CNY', label: 'CNY', symbol: '¥' },
 ];
+
+export const CURRENCY_DENOMINATOR = 1000;

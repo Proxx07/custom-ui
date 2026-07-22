@@ -9,7 +9,7 @@ const {
   groupBg = 'outline',
   color = 'on-surface',
   hoverColor = 'on-surface',
-  activeColor = 'on-tertiary',
+  activeColor = 'tertiary',
 
   bg = 'transparent',
   hoverBg = 'surface-high-container',
@@ -66,7 +66,7 @@ const selectItem = (item: T) => {
 
 <style scoped lang="scss">
 .button-group {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   background: v-bind(wrapperBg);
   padding: 2px;

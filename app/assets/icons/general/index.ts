@@ -1,5 +1,4 @@
 import threeD from './3d.svg?raw';
-import addToCart from './add-to-cart.svg?raw';
 import apiKey from './api-key.svg?raw';
 import asterisk from './asterisk.svg?raw';
 import attention from './attention.svg?raw';
@@ -21,6 +20,7 @@ import eye from './eye.svg?raw';
 import globeWorld from './globe-world.svg?raw';
 import goodPrice from './good-price.svg?raw';
 import heartLike from './heart-like.svg?raw';
+import hexagon from './hexagon.svg?raw';
 import history from './history.svg?raw';
 import idKey from './id-key.svg?raw';
 import image from './image.svg?raw';
@@ -49,7 +49,6 @@ import volumeDown from './volume-down.svg?raw';
 import volumeUp from './volume-up.svg?raw';
 
 export {
-  addToCart,
   apiKey,
   asterisk,
   attention,
@@ -71,6 +70,7 @@ export {
   globeWorld,
   goodPrice,
   heartLike,
+  hexagon,
   history,
   idKey,
   image,

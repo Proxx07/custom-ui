@@ -59,5 +59,6 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
+
   vite: viteConfig,
 });
