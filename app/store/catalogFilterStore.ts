@@ -57,7 +57,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     return {
       ...query.value,
       ...($router.currentRoute.value.params.brand && { brand: $router.currentRoute.value.params.brand }),
-      ...($router.currentRoute.value.params.category && { type: $router.currentRoute.value.params.category }),
+      ...($router.currentRoute.value.params.category && { category: $router.currentRoute.value.params.category }),
     };
   });
 

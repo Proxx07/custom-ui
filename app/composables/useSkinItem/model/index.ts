@@ -59,7 +59,7 @@ export const parsePhaseToPhaseKey = (phase?: string): PhaseQueryTypes | '' => {
 };
 
 export const parseSkinName = (itemName: string, phase?: string) => {
-  const hasSeparator = itemName.includes('|');
+  const hasSeparator = itemName?.includes('|');
   const [type, name = '', nameSuffix = ''] = itemName.split('|');
   let exactName = name.replace(/\s*\([^)]*\)/g, '');
 
@@ -125,6 +125,6 @@ export const imageProxy = (url: string | null, options?: { width?: number, heigh
   }
 
   const fit = `rs:fit${width ? `:${width}` : ''}${height ? `:${height}` : ''}:0`;
-  const webp = !isWebp ? 'f:webp' : '';
-  return `${IMAGE_PROXY_BASE_URL}/${fit}/g:nowe/${webp}/plain/${src}`;
+  const webp = !isWebp ? 'f:webp/' : '';
+  return `${IMAGE_PROXY_BASE_URL}/${fit}/g:nowe/${webp}plain/${src}`;
 };

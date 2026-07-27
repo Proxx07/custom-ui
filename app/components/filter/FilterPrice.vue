@@ -10,6 +10,7 @@ const props = defineProps<{
 
   currencySymbol: ICurrency['symbol']
   bestPriceEnabled: boolean
+  bestPriceText?: string
 }>();
 
 const emit = defineEmits<{
@@ -79,7 +80,7 @@ const onlyBestPrice = computed({
       <template #default>
         <div class="flex mr-auto gap items-center">
           <VIcon :size="20" :icon="bestPrice" color="best-price" />
-          Best price only
+          {{ bestPriceText }}
         </div>
       </template>
     </Switcher>

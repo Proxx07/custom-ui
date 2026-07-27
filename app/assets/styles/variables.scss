@@ -31,6 +31,9 @@
 .fz-0 {
   font-size: 0 !important;
 }
+.fz-i {
+  font-size: inherit !important;
+}
 .font-12-n {
   font: var(--font-12-n) !important;
 }
@@ -327,10 +330,18 @@
 .uppercase {
   text-transform: uppercase;
 }
+
+.text-left {
+  text-align: right;
+}
+
 .text-center {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -345,4 +356,11 @@
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.capitalize-first-letter {
+  text-transform: lowercase;
+  &:first-letter {
+    text-transform: uppercase;
+  }
 }

@@ -1,8 +1,14 @@
-import type { ISkin } from '@/composables/useSkinItem';
+import type { CatalogSkinItem, ISkin } from '@/composables/useSkinItem';
 
 export interface SkinsListResponse {
-  hasMore: boolean
   items: ISkin[]
   nextCursor: string
+  success: boolean
+}
+
+export interface CatalogSkinListResponse {
+  nextCursor: string
+  items: CatalogSkinItem[]
+  available_filters: string[]
   success: boolean
 }

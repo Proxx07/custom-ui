@@ -54,19 +54,25 @@ provide(SKINS_LOCALIZED, skinsLocalized);
 
   @include media-max($tablet) {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+  }
+}
+
+#content-top {
+  width: 100%;
+  &:empty {
+    display: none !important;
   }
 }
 
 .content {
   display: flex;
   flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
   padding: var(--container-padding-y) var(--container-padding-x);
   padding-bottom: 6rem;
+  overflow: hidden;
   & > * {
     flex-grow: 1;
+    max-width: 100%;
   }
   @include media-max($mobile) {
     padding-left: 0;

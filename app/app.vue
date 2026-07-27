@@ -7,9 +7,8 @@ const { t } = useI18n();
 
 const currenciesStore = useCurrenciesStore();
 
-await useAsyncData('currencies', async () => {
-  await currenciesStore.fetchCurrencies();
-  return true;
+onMounted(() => {
+  currenciesStore.fetchCurrencies();
 });
 </script>
 

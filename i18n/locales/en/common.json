@@ -2,9 +2,12 @@
   "games": "Games",
   "price": "Price",
   "bestPrice": "Best price",
-  "only": "Only",
+  "only": "{text} only",
   "any": "Any",
   "without": "Without",
+  "all": "All",
+  "wear": "Wear",
+  "quality": "Quality",
 
   "exterior": {
     "FN": "Factory new",
@@ -14,12 +17,14 @@
     "BS": "Battle-scarred"
   },
 
+  "delivery_time" : "Delivery time",
   "delivery": {
     "1m": "Instant delivery",
     "5m": "5 minutes",
     "12h": "12 hours"
   },
 
+  "color": "Color",
   "colors": {
     "BLUE": "Blue",
     "BROWN": "Brown",
@@ -35,6 +40,7 @@
     "WHITE": "White"
   },
 
+  "phase": "Phase",
   "phases": {
     "p1": "Phase 1",
     "p2": "Phase 2",
@@ -46,6 +52,9 @@
     "em": "Emerald"
   },
 
+  "collections": "Collections",
+
+  "rarity": "Rarity",
   "rarities": {
     "covert": "Covert",
     "classified": "Classified",

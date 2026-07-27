@@ -3,7 +3,6 @@ import { CURRENCIES, DEFAULT_CURRENCY_CODE } from './model';
 
 export const useCurrencies = () => {
   const { $request } = useNuxtApp();
-
   const _currency = useCookie<CurrencyCode>('currency', { default: () => DEFAULT_CURRENCY_CODE });
 
   const currency = computed({
@@ -21,15 +20,18 @@ export const useCurrencies = () => {
 
   const currencies = useState<CurrencyWithPrice[]>('currencies', () => shallowRef([]));
 
+  const currenciesListLoading = ref(true);
   const fetchCurrencies = async () => {
-    const response = await $request<CurrenciesResponse>('/api/currencies', { silent: true });
-    currencies.value = response.data?.data || [];
+    currenciesListLoading.value = true;
+    const { data } = await $request<CurrenciesResponse>('/api/currencies', { silent: true });
+    currencies.value = data?.data || [];
+    currenciesListLoading.value = false;
   };
 
   return {
     currency,
     selectedCurrency,
-
+    currenciesListLoading,
     currencies,
     fetchCurrencies,
   };

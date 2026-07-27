@@ -8,10 +8,10 @@ export default defineNuxtPlugin({
     const instance = $fetch.create({
       baseURL: '/',
 
-      onRequest({ options }) {
-        options.headers = new Headers(options.headers);
-        const lang = useCookie('lang', { default: () => 'en' });
-        options.headers.set('Lang', lang.value);
+      onRequest() {
+        // options.headers = new Headers(options.headers);
+        // const lang = useCookie('lang', { default: () => 'en' });
+        // options.headers.set('Lang', lang.value);
       },
 
       onResponse({ response, options }) {

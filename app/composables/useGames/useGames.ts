@@ -11,7 +11,12 @@ export const useGames = () => {
     return game;
   });
 
+  const gamePrefixForLink = computed(() => {
+    return selectedGame.value === 'csgo' ? '/' : `/${selectedGame.value}/`;
+  });
+
   return {
     selectedGame,
+    gamePrefixForLink,
   };
 };

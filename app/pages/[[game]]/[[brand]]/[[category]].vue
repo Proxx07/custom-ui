@@ -3,8 +3,9 @@ import type { RouteLocationNormalizedGeneric } from 'vue-router';
 import { addToCart } from '@/assets/icons/actions';
 import { steam } from '@/assets/icons/logos';
 import { ListGridSize } from '@/components/globalSelects';
+import { CatalogList } from '@/components/navigations';
 import { ListGrid, MarketplaceSkeleton, SkinCard, SkinImage, SkinType } from '@/components/skin';
-import { Button, VIcon } from '@/components/ui';
+import { Button, DotLoader, VIcon } from '@/components/ui';
 import { useCardSize } from '@/composables/UI';
 import { SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
 import { MARKETPLACE_SKIN_IMAGES_QUERY, useSkinsList } from '@/composables/useSkinsList';
@@ -31,7 +32,12 @@ definePageMeta({
 });
 
 const currencyStore = useCurrenciesStore();
-const { list, loading, hasMore, fetchSkins, loadMoreSkins } = useSkinsList();
+
+const {
+  list, loading, hasMore,
+  fetchSkins, loadMoreSkins,
+} = useSkinsList();
+
 const { locale } = useI18n();
 
 const $route = useRoute();
@@ -77,14 +83,15 @@ onBeforeRouteUpdate((to, from, next) => {
   next();
 });
 
-const { cardSize, nameFontsBySize } = useCardSize();
-
 onBeforeUnmount(stopIntersection);
+
+const { cardSize, nameFontsBySize } = useCardSize();
 </script>
 
 <template>
   <div class="page-wrapper">
-    <div style="text-align: right; margin-bottom: 2rem">
+    <CatalogList />
+    <div class="text-right">
       <ListGridSize v-model="cardSize" />
     </div>
 
@@ -93,13 +100,14 @@ onBeforeUnmount(stopIntersection);
         ¯\_(ツ)_/¯
       </div>
     </div>
+
     <ListGrid
       :size="cardSize"
       :loading="loading"
       :style="{ '--skin-padding': cardSize === 'small' ? '12px' : '16px' }"
     >
       <SkinCard
-        v-for="item in list"
+        v-for="(item, index) in list"
         :key="item.item_id"
         :item="item"
         :card-size="cardSize"
@@ -111,13 +119,21 @@ onBeforeUnmount(stopIntersection);
             <div class="flex items-center gap color-on-surface-secondary">
               {{ offersCount }}
               <div
+                v-if="steamPrice"
                 class="flex items-center gap-1 ml-auto"
                 :class="cardSize === 'small' ? 'font-12-n' : 'font-14-n'"
               >
                 <VIcon :icon="steam" :size="20" />
-                {{ $toCurrency(steamPrice) }}
+                <DotLoader
+                  v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
+                  :count="5"
+                />
+                <template v-else>
+                  {{ currencyStore.priceToCurrency(steamPrice, false) }}
+                </template>
               </div>
             </div>
+
             <SkinImage
               :image="image"
               :card-size="cardSize"
@@ -126,7 +142,7 @@ onBeforeUnmount(stopIntersection);
               :rarity-color="rarityColor"
               rarity-image="hex"
               :alt="skinName"
-              loading="lazy"
+              :loading="index < 10 ? 'eager' : 'lazy'"
             />
 
             <SkinType
@@ -143,7 +159,14 @@ onBeforeUnmount(stopIntersection);
             </div>
 
             <div class="font-16-m price">
-              {{ currencyStore.selectedCurrency.symbol }} {{ $toCurrency(price) }}
+              {{ currencyStore.selectedCurrency.symbol }}
+              <DotLoader
+                v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
+                :count="5"
+              />
+              <template v-else>
+                {{ currencyStore.priceToCurrency(price, false) }}
+              </template>
             </div>
 
             <div class="buttons">
@@ -192,6 +215,7 @@ h1 {
 .page-wrapper {
   display: flex;
   flex-direction: column;
+  gap: .8rem;
 }
 
 .gap-1 { gap: 4px }

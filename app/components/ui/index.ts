@@ -24,27 +24,28 @@ export type * from './InputRange/types';
 export { default as ListItem } from './ListItem/index.vue';
 export type * from './ListItem/types';
 
+export { default as DotLoader } from './Loaders/dotLoader.vue';
 export { default as Modal } from './Modal/index.vue';
+
 export type * from './Modal/types';
 
 export { default as PhaseLabel } from './PhaseLabel/index.vue';
 
 export type * from './PhaseLabel/types';
-
 export { default as Popover } from './Popover/index.vue';
+
 export type * from './Popover/types';
 
 export { default as RadioButton } from './RadioButton/index.vue';
-
 export type * from './RadioButton/types';
+
 export { default as Skeleton } from './Skeleton/index.vue';
-
 export type * from './Skeleton/types';
+
 export { default as Switcher } from './Switcher/index.vue';
-
 export type * from './Switcher/types';
-export { default as Tabs } from './Tabs/index.vue';
 
+export { default as Tabs } from './Tabs/index.vue';
 export type * from './Tabs/types';
 export { default as Tooltip } from './Tooltip/index.vue';
 

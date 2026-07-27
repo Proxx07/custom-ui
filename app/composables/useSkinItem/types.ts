@@ -95,3 +95,24 @@ export interface SkinItemProps {
   background?: TColors
   hoverBackground?: TColors
 }
+
+export interface CatalogSkinItem {
+  item_id: SkinItemId
+
+  image: string
+  inspect_images: {
+    back: string
+    front: string
+  }
+  game?: gameTypes
+  localized_name: string
+  market_name: string
+  max_price: number
+  min_price: number
+  offer_count: number
+  phase: string
+  rarity: string
+  rarity_color: string
+  skin_name: string
+  stickers: Sticker[]
+}

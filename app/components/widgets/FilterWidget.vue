@@ -21,6 +21,7 @@ import {
   STICKER_RARITIES,
 } from '@/composables/useItemRarities';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
+import { capitalizeFirstLetter } from '@/utils';
 
 defineProps<{
   selectedPricePreview: string
@@ -39,19 +40,23 @@ defineProps<{
 const filterStore = useCatalogFilterStore();
 
 const { t } = useI18n();
+
+const bestPriceOnlyText = computed<string>(() => {
+  return capitalizeFirstLetter(t('only', { text: t('bestPrice') }).toLowerCase());
+});
 </script>
 
 <template>
   <div class="filter-widget">
-    <FilterAccordion title="Games" opened>
+    <FilterAccordion :title="t('games')" opened>
       <FilterGames :current-game="filterStore.selectedGame" />
     </FilterAccordion>
-    <FilterAccordion title="Price" opened>
+    <FilterAccordion :title="t('price')" opened>
       <template v-if="selectedPricePreview" #slotForClosed>
         <div class="flex gap items-center">
           <Tooltip
             v-if="filterStore.onlyBestPrice"
-            text="Best price only"
+            :text="bestPriceOnlyText"
             position="right"
             class="fz-0 cursor-pointer"
             size="s"
@@ -67,10 +72,11 @@ const { t } = useI18n();
         v-model:best-price="filterStore.onlyBestPrice"
         :best-price-enabled="filterStore.selectedGame === 'csgo'"
         :currency-symbol="selectedCurrency.symbol"
+        :best-price-text="bestPriceOnlyText"
       />
     </FilterAccordion>
 
-    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" title="Wear" opened>
+    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" :title="t('wear')" opened>
       <template #slotForClosed>
         {{ `${selectedExteriorsPreview} ${selectedFloatPreview ? ' / ' : ''}` }} {{ selectedFloatPreview }}
       </template>
@@ -84,7 +90,7 @@ const { t } = useI18n();
       />
     </FilterAccordion>
 
-    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" title="Delivery time" opened>
+    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" :title="t('delivery_time')" opened>
       <template #slotForClosed>
         {{ deliveryTimePreview }}
       </template>
@@ -105,7 +111,7 @@ const { t } = useI18n();
       </div>
     </FilterAccordion>
 
-    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" title="Color">
+    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" :title="t('color')">
       <template v-if="filterStore.color" #slotForClosed>
         {{ t(`colors.${filterStore.color}`) }}
       </template>
@@ -114,10 +120,7 @@ const { t } = useI18n();
       />
     </FilterAccordion>
 
-    <FilterAccordion
-      v-if="filterStore.selectedGame === 'dota2'"
-      title="Quality"
-    >
+    <FilterAccordion v-if="filterStore.selectedGame === 'dota2'" :title="t('quality')">
       <template #slotForClosed>
         {{ qualitiesPreview }}
       </template>
@@ -127,10 +130,7 @@ const { t } = useI18n();
       />
     </FilterAccordion>
 
-    <FilterAccordion
-      v-if="filterStore.selectedGame === 'csgo' || filterStore.selectedGame === 'dota2'"
-      title="Rarity"
-    >
+    <FilterAccordion v-if="filterStore.selectedGame === 'csgo' || filterStore.selectedGame === 'dota2'" :title="t('rarity')">
       <template #slotForClosed>
         {{ raritiesPreview }}
       </template>
@@ -154,7 +154,7 @@ const { t } = useI18n();
       />
     </FilterAccordion>
 
-    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" title="Collections">
+    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" :title="t('collections')">
       <template #slotForClosed>
         {{ filterStore.collection }}
       </template>
@@ -163,7 +163,7 @@ const { t } = useI18n();
       />
     </FilterAccordion>
 
-    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" title="Phase">
+    <FilterAccordion v-if="filterStore.selectedGame === 'csgo'" :title="t('phase')">
       <template #slotForClosed>
         {{ phasePreview }}
       </template>
