@@ -209,6 +209,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
               rarity-image="hex"
               :alt="skinName"
               :loading="index < 10 ? 'eager' : 'lazy'"
+              :fetchpriority="index < 10 ? 'high' : undefined"
             />
 
             <div class="flex font-12-n">
