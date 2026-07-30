@@ -14,6 +14,7 @@ export interface InputProps<T extends InputModelValue = string> {
   type?: 'text' | 'number'
   min?: number
   max?: number
+  fluid?: boolean
 }
 
 export interface InputSlots {

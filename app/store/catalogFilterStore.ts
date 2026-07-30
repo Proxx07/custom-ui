@@ -27,6 +27,8 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     search,
     collection,
     quality,
+    sort,
+    order,
     query,
     reset: resetStoreFilter,
     resetField,
@@ -51,6 +53,9 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     phase: { key: 'phase', parse: 'array', default: [] as PhaseQueryTypes[] },
     search: { key: 'search', parse: 'string', default: '' },
     collection: { key: 'collection', parse: 'string', default: '' },
+
+    order: { key: 'order', parse: 'string', default: 'recommended' },
+    sort: { key: 'sort', parse: 'string', default: 'DESC' },
   }, { writeToRouteDebounce: 1200 });
 
   const filterQueries = computed(() => {
@@ -79,6 +84,10 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
   const resetFade = () => {
     resetField('fadeMin');
     resetField('fadeMax');
+  };
+
+  const toggleSort = () => {
+    sort.value = sort.value === 'ASC' ? 'DESC' : 'ASC';
   };
 
   const removeSingleExterior = (value: ExteriorTypes) => {
@@ -121,7 +130,11 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     collection,
     quality,
 
+    sort,
+    order,
+
     resetField,
+    toggleSort,
     removeSingleExterior,
     removeSingleRarity,
     removeSingleQuality,

@@ -3,6 +3,7 @@ import { FilterBadgesWrapper } from '@/components/filter';
 import { Drawer } from '@/components/ui';
 import { FilterWidget } from '@/components/widgets';
 
+import { useResponsive } from '@/composables/UI';
 import { useCurrencies } from '@/composables/useCurrencies';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 import { useDrawersStore } from '@/store/drawersState';
@@ -53,6 +54,8 @@ const statTrackPreview = computed<string>(() => {
 const phasePreview = computed<string>(() => {
   return filterStore.phase.reduce((acc, curr) => `${acc ? `${acc},` : acc} ${t(`phases.${curr}`)}`, '');
 });
+
+const { isMax } = useResponsive();
 </script>
 
 <template>
@@ -77,7 +80,7 @@ const phasePreview = computed<string>(() => {
       :selected-currency="selectedCurrency"
     />
 
-    <client-only>
+    <client-only v-if="isMax('laptop-s')">
       <Drawer
         v-model="drawersStore.asideDrawer"
       >
@@ -112,7 +115,7 @@ aside {
   &::-webkit-scrollbar {
     display: none;
   }
-  @include media-max($tablet) {
+  @include media-max($laptop-s) {
     display: none;
   }
 }

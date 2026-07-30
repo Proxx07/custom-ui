@@ -1,5 +1,6 @@
 import type { CardSizeType } from '@/composables/UI';
 import type { gameTypes } from '@/composables/useGames';
+import type { SkinItemId } from '@/composables/useSkinsList';
 import type { TColors } from '@/utils';
 
 export type SkinPlaceholderTypes = 'ak47' | 'bayonet' | 'butterfly' | 'flipKnive' | 'glock' | 'gloves' | 'kerambit'
@@ -7,85 +8,40 @@ export type SkinPlaceholderTypes = 'ak47' | 'bayonet' | 'butterfly' | 'flipKnive
 
 export type ExteriorTypes = 'FN' | 'MW' | 'FT' | 'WW' | 'BS';
 
-export type SkinItemId = string;
+export interface ISkinCardSticker {
 
-export interface ISteamPrice {
-  market_name: string
-  item_id?: SkinItemId
-  average: number
-  current?: number
-  popular: boolean
-  lowest_price?: number
-  type?: string
-  tag_type?: string
-  rarity_color?: string
-  rarity?: string
-  ru_name?: string
-  ch_name?: string
-  localized_name?: string
-}
-
-export interface StickerSteamPrice {
-  average: number
-  img: string
-  type: string
-  localized_name?: string
-}
-
-export interface Sticker {
-  id: SkinItemId
-  sticker_id: number
-  wear?: number
-  name: string
-  image: string
-  slot: number
-  steam_price: StickerSteamPrice
-}
-
-export interface InspectItem {
-  origin?: number
-  floatvalue: number
-  imageurl?: string
-  weapon_type?: string
-  front?: string
-  back?: string
-  full_screenshot?: string
-  stickers: Sticker[]
-}
-
-export interface IGem {
-  name: string
-  type: string
-  img: string
-  color?: string
 }
 
 export interface ISkin {
-  item_id: SkinItemId
+  id: SkinItemId
   game: gameTypes
-  name: string
-  market_name: string
-  image: string
-  brand?: string
-  category?: string
-  exterior?: ExteriorTypes
-  full_ex?: string
-  tag?: string
-  price: number
-  auto: boolean
-  stat_trak: boolean
-  steam_price: ISteamPrice
-  offer_count: number
 
-  // present only on some items
-  blue_percent?: number
-  fade_percent?: number
+  name: string // Полное название скина
+  localized_name: string // Полное переведённое название скина
+
+  type?: string
   float?: number
+  rarityColor: string
   phase?: string
-  inspect_item?: InspectItem
-  thumb_image?: string
-  twit_image?: string
-  gems?: IGem[]
+  exterior?: ExteriorTypes
+
+  // Не обработанные изображения
+  image: string
+  imageFront?: string
+  imageBack?: string
+  imageScreenshot?: string
+
+  // Не обработанные цены
+  price: number
+  steamPrice: number
+  lowestPrice?: number
+  averagePrice?: number
+  suggestedPrice?: number
+
+  auto?: boolean // Хуй знает почему так называется
+  offersCount: number
+
+  // stickers, gems
 }
 
 export interface SkinItemProps {
@@ -94,25 +50,4 @@ export interface SkinItemProps {
 
   background?: TColors
   hoverBackground?: TColors
-}
-
-export interface CatalogSkinItem {
-  item_id: SkinItemId
-
-  image: string
-  inspect_images: {
-    back: string
-    front: string
-  }
-  game?: gameTypes
-  localized_name: string
-  market_name: string
-  max_price: number
-  min_price: number
-  offer_count: number
-  phase: string
-  rarity: string
-  rarity_color: string
-  skin_name: string
-  stickers: Sticker[]
 }

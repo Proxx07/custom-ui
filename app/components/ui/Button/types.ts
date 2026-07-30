@@ -17,6 +17,7 @@ export interface ButtonProps {
   hoverBgColor?: TColors
   textColor?: TColors
   hoverTextColor?: TColors
+  borderColor?: TColors
 
   padding?: string
   noHoverBg?: boolean

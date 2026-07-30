@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import type { RouteLocationNormalizedGeneric } from 'vue-router';
-import { addToCart } from '@/assets/icons/actions';
+import { addToCart, filter, itemType, search } from '@/assets/icons/actions';
+import { sorting1 } from '@/assets/icons/arrows';
+import { loader } from '@/assets/icons/general';
 import { steam } from '@/assets/icons/logos';
 import { ListGridSize } from '@/components/globalSelects';
 import { CatalogList } from '@/components/navigations';
-import { ListGrid, MarketplaceSkeleton, SkinCard, SkinImage, SkinType } from '@/components/skin';
-import { Button, DotLoader, VIcon } from '@/components/ui';
+import { ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType } from '@/components/skin';
+import { Button, DotLoader, DropDown, Input, VIcon } from '@/components/ui';
 import { useCardSize } from '@/composables/UI';
 import { SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
-import { MARKETPLACE_SKIN_IMAGES_QUERY, useSkinsList } from '@/composables/useSkinsList';
+import { MARKETPLACE_SKIN_IMAGES_QUERY, SKINS_LIST_ORDER_DATA, useSkinsList } from '@/composables/useSkinsList';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 import { useCurrenciesStore } from '@/store/currencyStore';
+import { useDrawersStore } from '@/store/drawersState';
 
 definePageMeta({
+  pageTransition: false,
   middleware: [
     function (to, from) {
       const nuxtApp = useNuxtApp();
@@ -66,7 +70,9 @@ const { stop: stopIntersection } = useIntersectionObserver(intersectionTarget, (
 const getRouteBaseName = useRouteBaseName();
 const routeRestFilter = (to: RouteLocationNormalizedGeneric, from: RouteLocationNormalizedGeneric) => {
   const isRoutesSimilar = getRouteBaseName(from) === getRouteBaseName(to);
-  const isParamsDifferent = from.params.brand !== to.params.brand || from.params.category !== to.params.category || from.params.game !== to.params.game;
+  const isParamsDifferent = from.params.brand !== to.params.brand
+    || from.params.category !== to.params.category
+    || from.params.game !== to.params.game;
   if (!isRoutesSimilar || isParamsDifferent) {
     filterStore.resetStoreFilter(false);
     stopQueryWatcher();
@@ -85,17 +91,76 @@ onBeforeRouteUpdate((to, from, next) => {
 
 onBeforeUnmount(stopIntersection);
 
+const drawerStore = useDrawersStore();
 const { cardSize, nameFontsBySize } = useCardSize();
+const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
 </script>
 
 <template>
   <div class="page-wrapper">
-    <CatalogList />
-    <div class="text-right">
-      <ListGridSize v-model="cardSize" />
+    <CatalogList :mobile-folders-collapsed="folderCollapsed" class="catalog-list" />
+    <div class="page-top">
+      <div class="breadcrumbs">
+        {BREADCRUMBS}
+      </div>
+      <div class="filter-wrapper">
+        <Input v-model="filterStore.search" placeholder="Search" fluid>
+          <template #prefix>
+            <VIcon :icon="loading ? loader : search" style="margin-left: 1.4rem" />
+          </template>
+        </Input>
+
+        <div class="sort-wrapper">
+          <Button
+            bg-color="surface-high-container"
+            hover-bg-color="surface-highest-container"
+            :icon-right="sorting1"
+            :rotate-right-icon="filterStore.sort === 'ASC'"
+            right-icon-no-fill
+            :disabled="filterStore.order === 'recommended'"
+            class="sort-button"
+            @click="filterStore.toggleSort"
+          />
+          <DropDown
+            v-model="filterStore.order"
+            :items="SKINS_LIST_ORDER_DATA"
+            class="order-dropdown"
+            @update:model-value="$event === 'recommended' && filterStore.sort !== 'DESC' ? filterStore.toggleSort() : {}"
+          >
+            <template #targetInner="{ selected }">
+              <span class="capitalize-first-letter">{{ selected }}</span>
+            </template>
+            <template #itemInner="{ item }">
+              <span class="capitalize-first-letter">{{ item }}</span>
+            </template>
+          </DropDown>
+        </div>
+
+        <ListGridSize v-model="cardSize" class="hide-down-tablet" />
+
+        <Button
+          severity="tertiary"
+          border-color="outline"
+          bg-color="surface-high-container"
+          no-hover-bg
+          class="hide-up-tablet"
+          :icon-right="itemType"
+          @click="toggleFoldersCollapsed(!folderCollapsed)"
+        />
+
+        <Button
+          severity="tertiary"
+          border-color="outline"
+          bg-color="surface-high-container"
+          no-hover-bg
+          class="hide-up-laptop-s"
+          :icon-right="filter"
+          @click="drawerStore.showAsideDrawer"
+        />
+      </div>
     </div>
 
-    <div v-if="!loading && !list.length">
+    <div v-if="!loading && !list.length" class="empty-text">
       <div class="font-32-sb text-center">
         ¯\_(ツ)_/¯
       </div>
@@ -105,16 +170,17 @@ const { cardSize, nameFontsBySize } = useCardSize();
       :size="cardSize"
       :loading="loading"
       :style="{ '--skin-padding': cardSize === 'small' ? '12px' : '16px' }"
+      class="list-wrapper"
     >
       <SkinCard
         v-for="(item, index) in list"
-        :key="item.item_id"
+        :key="item.id"
         :item="item"
         :card-size="cardSize"
         background="surface-container"
         hover-background="surface-high-container"
       >
-        <template #default="{ image, skinName, rarityColor, steamPrice, price, offersCount, skinType, souvenir, statTrack }">
+        <template #default="{ image, skinName, rarityColor, steamPrice, price, offersCount, skinType, souvenir, statTrack, float, floatPercent, exterior }">
           <div class="skin-inner">
             <div class="flex items-center gap color-on-surface-secondary">
               {{ offersCount }}
@@ -143,6 +209,19 @@ const { cardSize, nameFontsBySize } = useCardSize();
               rarity-image="hex"
               :alt="skinName"
               :loading="index < 10 ? 'eager' : 'lazy'"
+            />
+
+            <div class="flex font-12-n">
+              <div class="color-on-surface-tertiary">
+                {{ exterior }}
+              </div>
+              <div class="ml-auto" />
+              {{ float ? float : '' }}
+            </div>
+
+            <SkinFloat
+              :float="float"
+              :percent="floatPercent"
             />
 
             <SkinType
@@ -202,7 +281,8 @@ const { cardSize, nameFontsBySize } = useCardSize();
       <div
         v-if="hasMore"
         ref="intersectionTarget"
-        style="height: 1px; opacity: 0; pointer-events: none; margin-top: -200px"
+        class="intersection"
+        style=""
       />
     </client-only>
   </div>
@@ -216,6 +296,13 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: .8rem;
+}
+
+.intersection {
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  margin-top: -200px;
 }
 
 .gap-1 { gap: 4px }
@@ -234,11 +321,60 @@ h1 {
     padding-top: .6rem;
   }
 
+  .float {
+    margin-bottom: .6rem;
+  }
+
   .buttons {
     padding-top: 1.2rem;
     gap: 4px;
     display: grid;
     grid-template-columns: auto 1fr;
+  }
+}
+
+.page-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem;
+  align-items: center;
+  @include media-max($tablet) {
+    order: -1;
+  }
+  @include media-max($tablet-s) {
+    grid-template-columns: 1fr;
+  }
+  @include media-max($mobile) {
+    padding: 0 var(--container-padding-x);
+  }
+}
+
+.filter-wrapper {
+  display: flex;
+  gap: .6rem;
+  justify-content: flex-end;
+  text-align: right;
+  .sort-wrapper {
+    display: flex;
+    gap: .1rem;
+    flex-shrink: 0;
+    .sort-button {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      :deep(.icon) {
+        transition: none;
+      }
+    }
+  }
+  .order-dropdown {
+    min-width: 165px;
+    :deep(.w-button) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+  :deep(button) {
+    flex-shrink: 0;
   }
 }
 </style>

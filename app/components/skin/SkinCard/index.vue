@@ -15,10 +15,9 @@ const {
   price,
   steamPrice,
   image,
-  exterior,
-  rarityColor,
-  float,
   offersCount,
+  float,
+  floatPercent,
 } = useSkinItem(props);
 
 const bg = computed(() => props.background ? `var(--${props.background})` : 'transparent');
@@ -36,10 +35,11 @@ const hoverBg = computed(() => props.hoverBackground ? `var(--${props.hoverBackg
       :phase="phase"
       :souvenir="isSouvenir"
       :stat-track="isStatTrack"
-      :exterior="exterior"
-      :rarity-color="rarityColor"
+      :exterior="item.exterior"
+      :rarity-color="item.rarityColor"
       :float="float"
       :offers-count="offersCount"
+      :float-percent="floatPercent"
       name="default"
     />
   </div>

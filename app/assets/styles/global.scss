@@ -15,7 +15,7 @@ html {
     body {
       overflow: hidden;
     }
-    @media all and (min-width: 1301px) {
+    @media all and (min-width: 1200px) {
       padding-right: 3px;
     }
   }
@@ -64,4 +64,24 @@ button {
   box-shadow: none;
   background: none;
   cursor: pointer;
+}
+
+
+
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  @include transition(grid-template-rows);
+  > * {
+    min-height: 0;
+    opacity: 0;
+    @include transition(opacity);
+  }
+  &--opened {
+    grid-template-rows: 1fr;
+    > * {
+      opacity: 1;
+    }
+  }
 }

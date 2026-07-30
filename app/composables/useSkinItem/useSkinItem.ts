@@ -2,7 +2,7 @@ import type { SkinItemProps } from './types';
 import { useCurrenciesStore } from '@/store/currencyStore';
 import { SKINS_LOCALIZED } from '@/utils';
 import { formatCompact } from '@/utils/textFormatters';
-import { parsePhaseToPhaseKey, parseSkinName, removeSizeFromImage } from './model';
+import { getFloatPercent, parsePhaseToPhaseKey, parseSkinName, removeSizeFromImage } from './model';
 
 export const useSkinItem = (props: SkinItemProps) => {
   const currencyStore = useCurrenciesStore();
@@ -14,26 +14,25 @@ export const useSkinItem = (props: SkinItemProps) => {
   const isSouvenir = type.toLowerCase().includes('souvenir');
 
   const skinType = computed(() => {
-    if (!props.item?.steam_price?.localized_name || !isSkinLocalized?.value) return type || props.item?.steam_price?.type || '';
-    return parseSkinName(props.item.steam_price.localized_name, props.item.phase).type || props.item?.steam_price?.type || '';
+    if (!props.item.localized_name || !isSkinLocalized?.value) return type || props.item.type || '';
+    return parseSkinName(props.item.localized_name, props.item.phase).type || props.item.type || '';
   });
 
   const skinName = computed(() => {
-    if (!props.item?.steam_price?.localized_name || !isSkinLocalized?.value) return name;
-    return parseSkinName(props.item.steam_price.localized_name, props.item.phase).name || '';
+    if (!props.item.localized_name || !isSkinLocalized?.value) return name;
+    return parseSkinName(props.item.localized_name, props.item.phase).name || '';
   });
 
   const phase = parsePhaseToPhaseKey(props.item.phase);
 
   const price = computed(() => currencyStore.calculatePrice(props.item.price));
-  const steamPrice = computed(() => currencyStore.calculatePrice(props.item.steam_price.average));
+  const steamPrice = computed(() => currencyStore.calculatePrice(props.item.steamPrice));
 
   const image = removeSizeFromImage(props.item.image);
+  const offersCount = !props.item.offersCount ? '' : formatCompact(props.item.offersCount);
 
-  const exterior = props.item.exterior;
-  const rarityColor = props.item?.steam_price?.rarity_color;
-  const float = props.item.float || 0;
-  const offersCount = formatCompact(props.item.offer_count);
+  const float = Number.parseFloat(props.item.float?.toFixed(7) || '0');
+  const floatPercent = getFloatPercent(props.item.float);
 
   return {
     isStatTrack,
@@ -44,10 +43,8 @@ export const useSkinItem = (props: SkinItemProps) => {
     price,
     steamPrice,
     image,
-
-    exterior,
-    rarityColor,
     float,
     offersCount,
+    floatPercent,
   };
 };

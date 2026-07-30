@@ -65,7 +65,7 @@ watch(filterReseted, (value) => {
   if (value) {
     setTimeout(() => {
       filterReseted.value = false;
-    }, 1000);
+    }, 700);
   }
 });
 </script>

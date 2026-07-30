@@ -2,6 +2,7 @@
 
 
 [class*="enter-from"],
+[class*="enter-active"],
 [class*="leave-to"] {
   pointer-events: none !important;
 }
@@ -61,10 +62,10 @@
 }
 
 .rotate-animation {
-  animation: rotate 1s infinite linear;
+  animation: rotate .7s infinite linear;
 }
 .rotate-left-animation {
-  animation: rotate-left 1s infinite linear;
+  animation: rotate-left .7s infinite linear;
 }
 
 /*=== fade ===*/

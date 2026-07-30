@@ -225,6 +225,12 @@ defineExpose<DropDownExposes>({
 </template>
 
 <style scoped lang="scss">
+.dropdown-wrapper {
+  :deep(.w-button) {
+    padding-left: 1.8rem;
+    padding-right: 1.2rem;
+  }
+}
 .dropdown-list {
   position: fixed;
   top: var(--y);

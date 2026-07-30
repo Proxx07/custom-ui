@@ -11,7 +11,9 @@ interface slotProps {
 
   phase: PhaseQueryTypes | ''
   exterior?: ExteriorTypes
-  float?: number
+
+  float: number
+  floatPercent: number
 
   statTrack: boolean
   souvenir: boolean

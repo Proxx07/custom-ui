@@ -27,23 +27,18 @@ export const useGameCatalog = () => {
   /*
   const catalogListNameBySlug = computed(() => {
     const result: Record<string, string> = {};
-
     for (const catalog of catalogList.value) {
       result[catalog.slug] = catalog.name;
-
       if (!catalog.children?.length) continue;
-
       for (const child of catalog.children) {
         result[child.slug] = child.name;
       }
     }
-
     return result;
   });
   */
 
   const fetchFolders = async () => {
-    catalogList.value = [];
     const { data } = await $request<{ groups: ICatalog[] }>(`/api/v2/${selectedGame.value}/catalog?lang=${locale.value}`, { silent: true });
     catalogList.value = data?.groups.length ? data.groups : [];
   };

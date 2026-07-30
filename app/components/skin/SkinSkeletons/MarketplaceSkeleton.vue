@@ -36,6 +36,7 @@ const nameHeight = cardSize === 'large' ? '19px' : cardSize === 'small' ? '16px'
 <style scoped lang="scss">
 .skin-skeleton {
   border-radius: var(--radius-m);
+  width: 100%;
 }
 .picture-wrapper {
   width: 100%;

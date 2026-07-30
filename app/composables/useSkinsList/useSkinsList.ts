@@ -1,7 +1,7 @@
-import type { CatalogSkinListResponse, SkinsListResponse } from './types';
+import type { CatalogSkinItem, CatalogSkinListResponse, SkinListItem, SkinsListResponse } from './types';
 import type { gameTypes } from '@/composables/useGames';
-import type { CatalogSkinItem, ISkin } from '@/composables/useSkinItem';
-import { addGameForSkin, mapCatalogItemToSkinItem } from './model';
+import type { ISkin } from '@/composables/useSkinItem';
+import { mapCatalogItemForCard, mapSkinsListItemForCard } from './model';
 
 export const useSkinsList = () => {
   const { $request } = useNuxtApp();
@@ -13,6 +13,7 @@ export const useSkinsList = () => {
   const hasMore = computed(() => nextCursor.value);
 
   const { locale } = useI18n();
+
   const skinsFetchRequest = async (game: gameTypes, query?: Record<string, unknown>) => {
     const isCatalog = game === 'csgo' && (query?.brand || query?.category);
     const catalogPath = `${query?.brand || ''}/${query?.category || ''}`;
@@ -22,11 +23,11 @@ export const useSkinsList = () => {
       : await $request<SkinsListResponse>(`/api/${game}/browse?limit=50&lang=${locale.value}`, { query });
 
     const list = (!data?.items || error) ? [] : data.items;
-
     const skins = list.map((item) => {
-      if (isCatalog) return mapCatalogItemToSkinItem((item as CatalogSkinItem), game);
-      return !(item as ISkin).game ? addGameForSkin((item as ISkin), game) : item;
-    }) as ISkin[];
+      return isCatalog
+        ? mapCatalogItemForCard((item as CatalogSkinItem), game)
+        : mapSkinsListItemForCard((item as SkinListItem), game);
+    });
 
     nextCursor.value = data?.nextCursor || '';
     return { skins, error };

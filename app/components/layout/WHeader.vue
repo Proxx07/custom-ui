@@ -45,14 +45,17 @@ const { selectedGame } = useGames();
 
 <style scoped lang="scss">
 .header {
-  padding: var(--container-padding-y) var(--container-padding-x);
+  padding: var(--container-padding-y) 0;
   position: sticky;
   top: 0;
-  background: var(--surface-container);
+  z-index: 10;
   display: grid;
-  grid-template-columns: 330px 1fr;
   gap: var(--gap);
   align-items: center;
+  grid-template-columns: 330px 1fr;
+
+  background: #{mix-color-transparent(var(--surface-container), .9)};
+  backdrop-filter: blur(5px);
   @include media-min($tablet) {
     grid-column: span 2;
   }
@@ -67,9 +70,15 @@ const { selectedGame } = useGames();
     color: var(--on-surface);
   }
 
+  &__logo {
+    padding-left: var(--container-padding-x);
+    font-size: 0;
+  }
+
   &__right {
     display: flex;
     align-items: center;
+    padding-right: var(--container-padding-x);
   }
 }
 

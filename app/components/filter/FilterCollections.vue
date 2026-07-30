@@ -82,17 +82,9 @@ onMounted(fetchCollections);
     </template>
 
     <template #contentPrepend>
-      <Input
-        v-model="searchQuery"
-        size="s"
-        placeholder="Search by name"
-      >
+      <Input v-model="searchQuery" size="s" placeholder="Search by name">
         <template #prefix>
-          <VIcon
-            :icon="search"
-            :size="18"
-            style="margin-left: 1.2rem"
-          />
+          <VIcon :icon="search" :size="18" style="margin-left: 1.2rem" />
         </template>
       </Input>
     </template>

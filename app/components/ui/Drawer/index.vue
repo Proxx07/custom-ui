@@ -90,7 +90,7 @@ const close = () => {
 .drawer-wrapper {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 10;
   top: var(--top);
 }
 

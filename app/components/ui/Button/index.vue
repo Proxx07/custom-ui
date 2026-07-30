@@ -14,6 +14,7 @@ const {
   hoverTextColor = '',
   bgColor = '',
   hoverBgColor = '',
+  borderColor = '',
 } = defineProps<ButtonProps>();
 
 defineSlots<ButtonSlots>();
@@ -37,6 +38,8 @@ const colorStyles = computed(() => {
   }
   return undefined;
 });
+
+const bdColor = computed(() => borderColor ? `var(--${borderColor})` : 'transparent');
 
 const pd = computed(() => {
   if (padding) return padding;
@@ -99,7 +102,7 @@ const iconSize = computed(() => {
   --gap: .6rem;
   --padding: v-bind(pd);
   --font: var(--font-16-n);
-  --border-color: transparent;
+  --border-color: v-bind(bdColor);
 
   &.primary     { --severity-color: var(--primary) };
   &.secondary   { --severity-color: var(--secondary) };

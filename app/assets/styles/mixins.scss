@@ -36,3 +36,45 @@ $desktop:   1920px;
     @content
   }
 }
+
+.hide-down-mobile {
+  @include media-max($mobile) {
+    display: none !important;
+  }
+}
+
+.hide-down-tablet {
+  @include media-max($tablet) {
+    display: none !important;
+  }
+}
+
+.hide-down-laptop {
+  @include media-max($laptop) {
+    display: none !important;
+  }
+}
+
+.hide-up-mobile {
+  @include media-min($mobile) {
+    display: none !important;
+  }
+}
+
+.hide-up-tablet {
+  @include media-min($tablet) {
+    display: none !important;
+  }
+}
+
+.hide-up-laptop {
+  @include media-min($laptop) {
+    display: none !important;
+  }
+}
+
+.hide-up-laptop-s {
+  @include media-min($laptop-s) {
+    display: none !important;
+  }
+}

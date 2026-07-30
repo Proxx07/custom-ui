@@ -4,10 +4,10 @@ export const useCatalogMenu = () => {
   const navWrapper = ref<HTMLDivElement>();
 
   const setDimensions = (target?: HTMLElement): DimensionsType => {
-    const scrollLeft = navWrapper.value?.scrollLeft ?? 0;
-    const navWrapperRight = (navWrapper.value?.offsetLeft || 0) + (navWrapper.value?.offsetWidth || 0);
-    let xLeft = (target?.offsetLeft || 0) - scrollLeft;
-    const subItemsRight = (xLeft + 220);
+    const scrollLeft = !target ? 0 : navWrapper.value?.scrollLeft ?? 0;
+    const navWrapperRight = !target ? 0 : (navWrapper.value?.offsetLeft || 0) + (navWrapper.value?.offsetWidth || 0);
+    let xLeft = !target ? 0 : (target?.offsetLeft || 0) - scrollLeft;
+    const subItemsRight = !target ? 0 : (xLeft + 220);
     if (subItemsRight >= navWrapperRight) xLeft = xLeft - (subItemsRight - navWrapperRight);
     return {
       x: xLeft,

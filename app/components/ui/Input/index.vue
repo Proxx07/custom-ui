@@ -20,6 +20,7 @@ const {
   type = 'text',
   min,
   max,
+  fluid,
 } = defineProps<InputProps<T>>();
 
 const emit = defineEmits<InputEmits<T>>();
@@ -131,6 +132,7 @@ watch(() => loading, (val) => {
     :class="[
       invalid && 'invalid',
       loading && 'loading',
+      fluid && 'w-full',
       `size-${size}`,
     ]"
   >

@@ -52,7 +52,7 @@ provide(SKINS_LOCALIZED, skinsLocalized);
   flex-grow: 1;
   position: relative;
 
-  @include media-max($tablet) {
+  @include media-max($laptop-s) {
     grid-template-columns: 1fr;
   }
 }

@@ -28,7 +28,12 @@ const CARD_SIZE_LIST = [
 </script>
 
 <template>
-  <ButtonGroup v-model="cardSize" :items="CARD_SIZE_LIST" value="value" class="button-group">
+  <ButtonGroup
+    v-model="cardSize"
+    :items="CARD_SIZE_LIST"
+    value="value"
+    class="card-size-group"
+  >
     <template #itemInner="{ item }">
       <VIcon :icon="item.label" :size="20" class="icon" />
     </template>
@@ -36,7 +41,8 @@ const CARD_SIZE_LIST = [
 </template>
 
 <style scoped lang="scss">
-.button-group {
+.card-size-group {
+  flex-shrink: 0;
   :deep(button:not(.active)) {
     &:hover {
       .icon {
