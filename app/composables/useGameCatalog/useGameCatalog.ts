@@ -6,6 +6,7 @@ export const useGameCatalog = () => {
   const { selectedGame, gamePrefixForLink } = useGames();
   const { locale } = useI18n();
 
+  const loading = useState<boolean>('catalog-list-loading', () => true);
   const catalogList = useState<ICatalog[]>('catalog-list', () => shallowRef([]));
 
   const catalogListLinkBySlug = computed(() => {
@@ -39,8 +40,10 @@ export const useGameCatalog = () => {
   */
 
   const fetchFolders = async () => {
+    loading.value = true;
     const { data } = await $request<{ groups: ICatalog[] }>(`/api/v2/${selectedGame.value}/catalog?lang=${locale.value}`, { silent: true });
     catalogList.value = data?.groups.length ? data.groups : [];
+    loading.value = false;
   };
 
   const getCatalogChildBySlug = (slug: string): ICatalog[] => {
@@ -48,6 +51,7 @@ export const useGameCatalog = () => {
   };
 
   return {
+    loading,
     selectedGame,
     catalogList,
     catalogListLinkBySlug,

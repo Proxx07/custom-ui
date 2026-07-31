@@ -10,10 +10,15 @@ import { ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType
 import { Button, DotLoader, DropDown, Input, VIcon } from '@/components/ui';
 import { useCardSize } from '@/composables/UI';
 import { SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
-import { MARKETPLACE_SKIN_IMAGES_QUERY, SKINS_LIST_ORDER_DATA, useSkinsList } from '@/composables/useSkinsList';
+import {
+  filteredListOrderData,
+  MARKETPLACE_SKIN_IMAGES_QUERY,
+  useSkinsList,
+} from '@/composables/useSkinsList';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 import { useCurrenciesStore } from '@/store/currencyStore';
 import { useDrawersStore } from '@/store/drawersState';
+import { formatCompact } from '@/utils/textFormatters';
 
 definePageMeta({
   pageTransition: false,
@@ -46,6 +51,8 @@ const { locale } = useI18n();
 
 const $route = useRoute();
 const filterStore = useCatalogFilterStore();
+
+const isCatalog = computed(() => Boolean($route.params.brand || $route.params.category));
 
 await useLazyAsyncData(
   `items-${filterStore.selectedGame}-${$route.params.brand}-${$route.params.category}-${locale.value}`,
@@ -98,7 +105,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
 
 <template>
   <div class="page-wrapper">
-    <CatalogList :mobile-folders-collapsed="folderCollapsed" class="catalog-list" />
+    <CatalogList class="catalog-list" :mobile-folders-collapsed="folderCollapsed" />
     <div class="page-top">
       <div class="breadcrumbs">
         {BREADCRUMBS}
@@ -123,7 +130,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
           />
           <DropDown
             v-model="filterStore.order"
-            :items="SKINS_LIST_ORDER_DATA"
+            :items="filteredListOrderData(filterStore.selectedGame, isCatalog)"
             class="order-dropdown"
             @update:model-value="$event === 'recommended' && filterStore.sort !== 'DESC' ? filterStore.toggleSort() : {}"
           >
@@ -180,10 +187,12 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
         background="surface-container"
         hover-background="surface-high-container"
       >
-        <template #default="{ image, skinName, rarityColor, steamPrice, price, offersCount, skinType, souvenir, statTrack, float, floatPercent, exterior }">
+        <template #default="{ image, skinName, rarityColor, steamPrice, price, lowestPrice, offersCount, skinType, souvenir, statTrack, float, floatPercent, exterior }">
           <div class="skin-inner">
-            <div class="flex items-center gap color-on-surface-secondary">
-              {{ offersCount }}
+            <div class="flex items-center gap color-on-surface-secondary" style="min-height: 2rem">
+              <span v-if="offersCount" class="offer-count">
+                x{{ offersCount }}
+              </span>
               <div
                 v-if="steamPrice"
                 class="flex items-center gap-1 ml-auto"
@@ -212,7 +221,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
               :fetchpriority="index < 10 ? 'high' : undefined"
             />
 
-            <div class="flex font-12-n">
+            <div v-if="!isCatalog" class="flex font-12-n">
               <div class="color-on-surface-tertiary">
                 {{ exterior }}
               </div>
@@ -221,6 +230,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
             </div>
 
             <SkinFloat
+              v-if="!isCatalog"
               :float="float"
               :percent="floatPercent"
             />
@@ -238,7 +248,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
               {{ skinName }}
             </div>
 
-            <div class="font-16-m price">
+            <div v-if="!isCatalog" class="font-16-m price">
               {{ currencyStore.selectedCurrency.symbol }}
               <DotLoader
                 v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
@@ -249,7 +259,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
               </template>
             </div>
 
-            <div class="buttons">
+            <div v-if="!isCatalog" class="buttons">
               <Button
                 :icon-right="addToCart"
                 severity="tertiary"
@@ -262,6 +272,12 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
                 class="justify-center"
                 :size="cardSize === 'large' ? 'm' : 's'"
               />
+            </div>
+            <div v-else class="price-range">
+              <DotLoader v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'" :count="5" />
+              <template v-else>
+                {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(lowestPrice) }} - {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(price) }}
+              </template>
             </div>
           </div>
         </template>
@@ -283,7 +299,6 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
         v-if="hasMore"
         ref="intersectionTarget"
         class="intersection"
-        style=""
       />
     </client-only>
   </div>
@@ -306,7 +321,7 @@ h1 {
   margin-top: -200px;
 }
 
-.gap-1 { gap: 4px }
+.gap-1 { gap: 4px };
 
 .skin-inner {
   display: flex;
@@ -317,6 +332,15 @@ h1 {
   @include media-max($mobile) {
     padding: 12px;
   }
+
+  .offer-count {
+    font: var(--font-12-n);
+    background: var(--surface-highest-container);
+    color: var(--on-surface-tertiary);
+    padding: .1rem .4rem;
+    border-radius: var(--radius-xs);
+  }
+
   .price {
     margin-top: auto;
     padding-top: .6rem;
@@ -331,6 +355,11 @@ h1 {
     gap: 4px;
     display: grid;
     grid-template-columns: auto 1fr;
+  }
+
+  .price-range {
+    margin-top: auto;
+    padding-top: 1.2rem;
   }
 }
 

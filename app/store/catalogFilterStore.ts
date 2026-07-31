@@ -54,7 +54,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     search: { key: 'search', parse: 'string', default: '' },
     collection: { key: 'collection', parse: 'string', default: '' },
 
-    order: { key: 'order', parse: 'string', default: 'recommended' },
+    order: { key: 'order', parse: 'string', default: 'advised' },
     sort: { key: 'sort', parse: 'string', default: 'DESC' },
   }, { writeToRouteDebounce: 1200 });
 

@@ -57,4 +57,11 @@ export const MARKETPLACE_SKIN_IMAGES_QUERY = {
   large: { 1920: 200, 1440: 185, 1230: 230, 600: 250, 320: 190 },
 };
 
-export const SKINS_LIST_ORDER_DATA = ['recommended', 'price', 'name'];
+export const SKINS_LIST_ORDER_DATA = ['advised', 'float', 'date', 'deals', 'profit', 'price', 'name'];
+
+export const filteredListOrderData = (game: gameTypes, isCatalog: boolean) => {
+  return SKINS_LIST_ORDER_DATA.filter((item) => {
+    if (isCatalog) return item === 'advised' || item === 'price' || item === 'name';
+    return game !== 'csgo' ? item !== 'float' && item !== 'name' : item !== 'name';
+  });
+};

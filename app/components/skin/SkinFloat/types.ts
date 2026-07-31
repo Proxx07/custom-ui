@@ -1,4 +1,4 @@
 export interface FloatProps {
-  float: number
+  float: string
   percent: number
 };

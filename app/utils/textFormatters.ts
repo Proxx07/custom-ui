@@ -8,7 +8,7 @@ export function formatCompact(num: number): string {
   return new Intl.NumberFormat('en-US', {
     notation: 'compact',
     compactDisplay: 'short',
-    maximumFractionDigits: 1,
+    maximumFractionDigits: 2,
   }).format(num);
 }
 /*

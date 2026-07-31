@@ -7,9 +7,14 @@ const { t } = useI18n();
 
 const currenciesStore = useCurrenciesStore();
 
-onMounted(() => {
-  currenciesStore.fetchCurrencies();
+useHead({
+  link: [
+    { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/commissioner-latin.woff2', crossorigin: '' },
+    { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/commissioner-cyrillic.woff2', crossorigin: '' },
+  ],
 });
+
+onMounted(currenciesStore.fetchCurrencies);
 </script>
 
 <template>

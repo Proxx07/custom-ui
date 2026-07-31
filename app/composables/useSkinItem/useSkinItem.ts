@@ -26,12 +26,18 @@ export const useSkinItem = (props: SkinItemProps) => {
   const phase = parsePhaseToPhaseKey(props.item.phase);
 
   const price = computed(() => currencyStore.calculatePrice(props.item.price));
+  const lowestPrice = computed(() => !props.item.lowestPrice ? 0 : currencyStore.calculatePrice(props.item.lowestPrice));
   const steamPrice = computed(() => currencyStore.calculatePrice(props.item.steamPrice));
 
   const image = removeSizeFromImage(props.item.image);
   const offersCount = !props.item.offersCount ? '' : formatCompact(props.item.offersCount);
 
-  const float = Number.parseFloat(props.item.float?.toFixed(7) || '0');
+  const float = !props.item.float
+    ? ''
+    : props.item.float?.toLocaleString('fullwide', {
+      useGrouping: false,
+      maximumFractionDigits: 8,
+    });
   const floatPercent = getFloatPercent(props.item.float);
 
   return {
@@ -46,5 +52,6 @@ export const useSkinItem = (props: SkinItemProps) => {
     float,
     offersCount,
     floatPercent,
+    lowestPrice,
   };
 };

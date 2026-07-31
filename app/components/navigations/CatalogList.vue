@@ -12,6 +12,7 @@ defineProps<{
 }>();
 
 const {
+  loading: isFetching,
   catalogList, catalogListLinkBySlug, selectedGame,
   fetchFolders, getCatalogChildBySlug,
 } = useGameCatalog();
@@ -47,7 +48,7 @@ const resetParentCatalog = () => {
 
 const selectParentCatalog = (slug: string, e?: MouseEvent) => {
   resetParentCatalog();
-  if (!navWrapper.value) return;
+  if (!navWrapper.value || isFetching.value) return;
   if (timer) clearTimeout(timer);
   nextTick(() => {
     selectedElementSlug.value = slug;
@@ -66,6 +67,9 @@ const resetDebouncedParentCatalog = () => {
 onBeforeUnmount(() => {
   if (timer) clearTimeout(timer);
 });
+
+const $router = useRouter();
+const loading = computed(() => isFetching.value && !$router.currentRoute.value.params.brand);
 </script>
 
 <template>
@@ -77,17 +81,18 @@ onBeforeUnmount(() => {
           @mouseenter="selectParentCatalog(catalog.slug, $event)"
           @mouseleave="resetDebouncedParentCatalog"
         >
-          {{ t(`catalog_${selectedGame}.${catalog.slug}`) }}
+
+          {{ !loading ? t(`catalog_${selectedGame}.${catalog.slug}`) : '&nbsp;' }}
           <VIcon
-            v-if="catalog.children?.length"
+            v-if="!loading && catalog.children?.length"
             :icon="chevronDown"
             :size="20"
             class="arrow"
           />
         </span>
 
-        <ul v-if="catalog.children?.length" class="sub-items">
-          <li v-if="selectedGame === 'csgo'">
+        <ul v-if="!loading && catalog.children?.length" class="sub-items">
+          <li v-if="selectedGame === 'csgo' && catalog.slug">
             <NuxtLinkLocale :to="catalogListLinkBySlug[catalog.slug]" class="nav-item">
               {{ t(`catalog_${selectedGame}.${catalog.slug}`) }}
             </NuxtLinkLocale>

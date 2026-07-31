@@ -20,6 +20,10 @@ export default defineNuxtConfig({
 
   css: ['~/assets/styles/global.scss'],
 
+  routeRules: {
+    '/fonts/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+  },
+
   modules: [
     '@vueuse/nuxt',
     '@nuxtjs/color-mode',
