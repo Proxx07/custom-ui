@@ -33,6 +33,7 @@ const CARD_SIZE_LIST = [
     :items="CARD_SIZE_LIST"
     value="value"
     class="card-size-group"
+    group-bg="surface-high-container"
   >
     <template #itemInner="{ item }">
       <VIcon :icon="item.label" :size="20" class="icon" />

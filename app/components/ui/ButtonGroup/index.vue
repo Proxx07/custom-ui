@@ -11,7 +11,7 @@ const {
   hoverColor = 'on-surface',
   activeColor = 'tertiary',
 
-  bg = 'transparent',
+  bg = '',
   hoverBg = 'surface-high-container',
   activeBg = 'surface-container',
 
@@ -42,7 +42,7 @@ const selectItem = (item: T) => {
       '--hover-color': `var(--${hoverColor})`,
       '--active-color': `var(--${activeColor})`,
 
-      '--bg': `var(--${bg})`,
+      '--bg': bg ? `var(--${bg})` : 'transparent',
       '--hover-bg': `var(--${hoverBg})`,
       '--active-bg': `var(--${activeBg})`,
     }"

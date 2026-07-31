@@ -44,7 +44,7 @@ onMounted(currenciesStore.fetchCurrencies);
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 #app-wrapper {
   min-height: 100dvh;
   display: flex;
