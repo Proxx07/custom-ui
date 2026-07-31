@@ -124,7 +124,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
             :icon-right="sorting1"
             :rotate-right-icon="filterStore.sort === 'ASC'"
             right-icon-no-fill
-            :disabled="filterStore.order === 'recommended'"
+            :disabled="filterStore.order === 'advised'"
             class="sort-button"
             @click="filterStore.toggleSort"
           />
@@ -132,7 +132,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
             v-model="filterStore.order"
             :items="filteredListOrderData(filterStore.selectedGame, isCatalog)"
             class="order-dropdown"
-            @update:model-value="$event === 'recommended' && filterStore.sort !== 'DESC' ? filterStore.toggleSort() : {}"
+            @update:model-value="$event === 'advised' && filterStore.sort !== 'DESC' ? filterStore.toggleSort() : {}"
           >
             <template #targetInner="{ selected }">
               <span class="capitalize-first-letter">{{ selected }}</span>
