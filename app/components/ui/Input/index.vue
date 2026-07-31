@@ -97,6 +97,7 @@ const isLabelFloated = computed(() => {
 });
 
 const labelPosition = computed(() => {
+  if (!label) return 'none';
   const pt = (+padding.value.slice(0, 3) * 10) as number;
   if (isLabelFloated.value) return `translate(-10%, -100%) scale(0.8)`;
   return `translate(${inputLeftPos.value - wrapperLeftPos.value}px, ${inputTopPos.value - wrapperTopPos.value + pt}px) scale(1)`;

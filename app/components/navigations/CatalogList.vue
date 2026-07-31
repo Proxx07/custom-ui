@@ -112,7 +112,7 @@ const loading = computed(() => isFetching.value && !$router.currentRoute.value.p
         <transition-group name="grid" tag="ul" class="categories-mobile">
           <template v-if="!selectedElementChild.length">
             <li v-for="catalog in catalogList" :key="catalog.slug">
-              <span class="nav-item" @click="selectParentCatalog(catalog.slug)">
+              <span v-if="catalog.slug" class="nav-item" @click="selectParentCatalog(catalog.slug)">
                 <img
                   :src="CATALOG_PLACEHOLDERS_BY_SLUG[catalog.slug] || CATALOG_PLACEHOLDERS_BY_SLUG.others"
                   :alt="t(`catalog_${selectedGame}.${selectedElementSlug}`)"
@@ -131,7 +131,8 @@ const loading = computed(() => isFetching.value && !$router.currentRoute.value.p
                 </span>
 
                 <img
-                  :src="CATALOG_PLACEHOLDERS_BY_SLUG[selectedElementSlug] || CATALOG_PLACEHOLDERS_BY_SLUG.others" width="80"
+                  :src="CATALOG_PLACEHOLDERS_BY_SLUG[selectedElementSlug] || CATALOG_PLACEHOLDERS_BY_SLUG.others"
+                  width="80"
                   style="opacity: .2; position: absolute; z-index: 1;"
                 >
 
