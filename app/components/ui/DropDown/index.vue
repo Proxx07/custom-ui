@@ -15,6 +15,8 @@ const {
   hideDownIcon = false,
   toggleOnHover = false,
   loading = false,
+  dropDownBg = 'surface-high-container',
+  noToggleEmptyList = false,
 } = defineProps<DropDownProps<T, V>>();
 
 const emit = defineEmits<DropDownEmits<T, V>>();
@@ -61,6 +63,7 @@ const updatePosition = () => {
 const { isOutside } = useMouseInElement(dropdownList);
 
 const openDropDown = async () => {
+  if (noToggleEmptyList && !items.length) return;
   if (loading || isOpen.value) return;
   update();
   toggle(true);
@@ -151,8 +154,8 @@ defineExpose<DropDownExposes>({
           <div
             v-if="isOpen"
             ref="dropdownList"
-            class="dropdown-list bg-surface-high-container"
-            :class="{ 'open-to-top': dropUp }"
+            class="dropdown-list"
+            :class="[`bg-${dropDownBg}`, dropUp && 'open-to-top']"
             :style="{
               '--x': positions.x,
               '--y': positions.y,

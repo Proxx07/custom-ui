@@ -9,14 +9,13 @@ export const SKIN_PLACEHOLDERS_LIST: SkinPlaceholderTypes[] = Object.keys(SKIN_P
 
 export const EXTERIORS_LIST: ExteriorTypes[] = ['FN', 'MW', 'FT', 'WW', 'BS'];
 
-export const getExteriorFromName = (name: string): ExteriorTypes | '' => {
-  if (!name) return '';
+export const getExteriorFromName = (name: string): ExteriorTypes | undefined => {
+  if (!name) return;
   if (/Factory New/i.test(name)) return 'FN';
   if (/Minimal Wear/i.test(name)) return 'MW';
   if (/Field-Tested/i.test(name)) return 'FT';
   if (/Well-Worn/i.test(name)) return 'WW';
   if (/Battle-Scarred/i.test(name)) return 'BS';
-  return '';
 };
 
 export const EXTERIOR_FLOATS: Record<Exclude<ExteriorTypes, 'BS'>, number> = {

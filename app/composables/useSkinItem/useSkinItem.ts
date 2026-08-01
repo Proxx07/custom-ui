@@ -30,6 +30,9 @@ export const useSkinItem = (props: SkinItemProps) => {
   const steamPrice = computed(() => currencyStore.calculatePrice(props.item.steamPrice));
 
   const image = removeSizeFromImage(props.item.image);
+  const imageFront = props.item.imageFront ? removeSizeFromImage(props.item.imageFront) : undefined;
+  const imageBack = props.item.imageBack ? removeSizeFromImage(props.item.imageBack) : undefined;
+
   const offersCount = !props.item.offersCount ? '' : formatCompact(props.item.offersCount);
 
   const float = !props.item.float
@@ -48,7 +51,11 @@ export const useSkinItem = (props: SkinItemProps) => {
     phase,
     price,
     steamPrice,
+
     image,
+    imageFront,
+    imageBack,
+
     float,
     offersCount,
     floatPercent,

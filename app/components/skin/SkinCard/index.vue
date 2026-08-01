@@ -14,7 +14,11 @@ const {
   phase,
   price,
   steamPrice,
+
   image,
+  imageFront,
+  imageBack,
+
   offersCount,
   float,
   lowestPrice,
@@ -30,6 +34,8 @@ const hoverBg = computed(() => props.hoverBackground ? `var(--${props.hoverBackg
     <slot
       :skin-name="skinName"
       :image="image"
+      :image-front="imageFront"
+      :image-back="imageBack"
       :price="price"
       :skin-type="skinType"
       :steam-price="steamPrice"

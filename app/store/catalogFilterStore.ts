@@ -10,6 +10,7 @@ import { EXTERIORS_LIST, type ExteriorTypes, getExteriorListFromFloatRange } fro
 export const useCatalogFilterStore = defineStore('catalog-filter', () => {
   const { selectedGame } = useGames();
   const $router = useRouter();
+  const filterLoading = useState('filter-loading', () => false);
   const {
     minPrice,
     maxPrice,
@@ -111,6 +112,8 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
   };
 
   return {
+    filterLoading,
+
     minPrice,
     maxPrice,
     minFloat,

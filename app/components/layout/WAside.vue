@@ -68,6 +68,7 @@ const { isMax } = useResponsive();
     />
 
     <FilterWidget
+      :loading="filterStore.filterLoading"
       :selected-price-preview="selectedPricePreview"
       :selected-float-preview="selectedFloatPreview"
       :selected-exteriors-preview="selectedExteriorsPreview"
@@ -85,6 +86,7 @@ const { isMax } = useResponsive();
         v-model="drawersStore.asideDrawer"
       >
         <FilterWidget
+          :loading="filterStore.filterLoading"
           :selected-price-preview="selectedPricePreview"
           :selected-float-preview="selectedFloatPreview"
           :selected-exteriors-preview="selectedExteriorsPreview"

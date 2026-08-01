@@ -245,6 +245,11 @@ nav {
   > ul {
     display: flex;
     align-items: center;
+    > li {
+      &:has(.router-link-exact-active) > .nav-item {
+        color: var(--secondary);
+      }
+    }
   }
   @include media-max($tablet) {
     margin: 0;
@@ -354,6 +359,9 @@ span.nav-item {
   max-height: 60vh;
   .nav-item {
     padding: 0.8rem 1.2rem 0.9rem;
+    &.nav-item.router-link-exact-active {
+      color: var(--secondary);
+    }
   }
 }
 

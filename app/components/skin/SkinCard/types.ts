@@ -6,6 +6,9 @@ interface slotProps {
   skinType?: string
 
   image: string
+  imageFront?: string
+  imageBack?: string
+
   price: number
   steamPrice: number
 
@@ -21,7 +24,6 @@ interface slotProps {
   rarityColor?: string
 
   offersCount?: string
-  imageSlider?: [string, string, string]
 }
 
 export interface SkinSlots {

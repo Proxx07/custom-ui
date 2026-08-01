@@ -5,6 +5,8 @@ type SkinImageBreakpointMap = Record<number, number>;
 
 export interface SkinImageProps {
   image: string
+  imageFront?: string
+  imageBack?: string
   game: gameTypes
   cardSize?: CardSizeType
   imageQuery?: Record<CardSizeType, SkinImageBreakpointMap>

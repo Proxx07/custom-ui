@@ -8,17 +8,18 @@ defineOptions({ inheritAttrs: false });
 
 const props = defineProps<SkinImageProps>();
 
+const skinAspectRatio = 1 / SKIN_IMAGE_ASPECT_RATIO[props.game];
+
 const sourceQueries = computed(() => {
   if (!props.imageQuery) return undefined;
   if (!props.cardSize) return props.imageQuery.default;
   return props.imageQuery[props.cardSize];
 });
 
+const activeImg = ref<string>(props.imageFront || props.image);
+
 const sourceQueriesList = computed(() => !sourceQueries.value ? [] : Object.keys(sourceQueries.value).reverse());
-
-const fallbackImage = imageProxy(props.image, { width: props.imageWidth || 200, game: props.game });
-
-const skinAspectRatio = 1 / SKIN_IMAGE_ASPECT_RATIO[props.game];
+const fallbackImage = imageProxy(activeImg.value, { width: props.imageWidth || 200, game: props.game });
 </script>
 
 <template>
@@ -39,11 +40,20 @@ const skinAspectRatio = 1 / SKIN_IMAGE_ASPECT_RATIO[props.game];
       <source
         v-for="queryKey in sourceQueriesList"
         :key="queryKey + cardSize"
-        :srcset="imageProxy(props.image, { width: sourceQueries![+queryKey], game: props.game })"
+        :srcset="imageProxy(activeImg, { width: sourceQueries![+queryKey], game: props.game })"
         :media="`(width >= ${queryKey}px)`"
       >
       <img :src="fallbackImage" v-bind="$attrs">
     </picture>
+    <div
+      v-if="imageFront && imageBack"
+      class="images-slider"
+      @mouseleave="activeImg = imageFront"
+    >
+      <span class="flex-grow" @mouseenter="activeImg = imageFront" />
+      <span class="flex-grow" @mouseenter="activeImg = imageBack" />
+      <span class="flex-grow" @mouseenter="activeImg = image" />
+    </div>
   </div>
 </template>
 
@@ -67,6 +77,18 @@ const skinAspectRatio = 1 / SKIN_IMAGE_ASPECT_RATIO[props.game];
   }
 }
 
+.images-slider {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  > span {
+    border-bottom: 2px solid transparent;
+    &:hover {
+      border-color: var(--outline);
+    }
+  }
+}
+
 .rarity {
   position: absolute;
   inset: 0;
@@ -80,7 +102,7 @@ const skinAspectRatio = 1 / SKIN_IMAGE_ASPECT_RATIO[props.game];
     justify-content: center;
     border-radius: 50%;
     background: currentColor;
-    filter: blur(30px);
+    filter: blur(10px);
     opacity: 0.5;
     height: 75%;
     &:has(svg) {

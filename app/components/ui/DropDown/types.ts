@@ -1,4 +1,4 @@
-import type { TSizes } from '@/utils';
+import type { TColors, TSizes } from '@/utils';
 
 export type DropDownValue<T, V extends keyof T> = [V] extends [never] ? T : T[V];
 
@@ -13,6 +13,8 @@ export interface DropDownProps<T, V extends keyof T = never> {
   hideDownIcon?: boolean
   toggleOnHover?: boolean
   loading?: boolean
+  dropDownBg?: TColors
+  noToggleEmptyList?: boolean
 }
 
 export interface DropDownSlots<T> {

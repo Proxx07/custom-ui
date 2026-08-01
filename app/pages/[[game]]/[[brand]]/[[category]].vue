@@ -7,7 +7,7 @@ import { steam } from '@/assets/icons/logos';
 import { ListGridSize } from '@/components/globalSelects';
 import { CatalogList } from '@/components/navigations';
 import { ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType } from '@/components/skin';
-import { Button, DotLoader, DropDown, Input, VIcon } from '@/components/ui';
+import { Button, DotLoader, DropDown, type DropDownExposes, Input, VIcon } from '@/components/ui';
 import { useCardSize } from '@/composables/UI';
 import { SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
 import {
@@ -15,6 +15,7 @@ import {
   MARKETPLACE_SKIN_IMAGES_QUERY,
   useSkinsList,
 } from '@/composables/useSkinsList';
+import { useSkinsSearch } from '@/composables/useSkinsSearch';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 import { useCurrenciesStore } from '@/store/currencyStore';
 import { useDrawersStore } from '@/store/drawersState';
@@ -57,7 +58,9 @@ const isCatalog = computed(() => Boolean($route.params.brand || $route.params.ca
 await useLazyAsyncData(
   `items-${filterStore.selectedGame}-${$route.params.brand}-${$route.params.category}-${locale.value}`,
   async () => {
+    filterStore.filterLoading = true;
     await fetchSkins(filterStore.selectedGame, filterStore.filterQueries);
+    filterStore.filterLoading = false;
     return true;
   },
 );
@@ -101,6 +104,22 @@ onBeforeUnmount(stopIntersection);
 const drawerStore = useDrawersStore();
 const { cardSize, nameFontsBySize } = useCardSize();
 const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
+
+const searchRef = ref<DropDownExposes>();
+const { searchQuery, fetchSearchList, list: searchResultItems, loading: searchLoading } = useSkinsSearch();
+
+const showSearchItemDropDown = () => {
+  if (!searchRef.value || !searchResultItems.value) return;
+  searchRef.value?.openDropDown();
+};
+
+const searchItemsHandler = useDebounceFn(async () => {
+  searchQuery.value = filterStore.search;
+  if (!searchQuery.value) return searchResultItems.value = [];
+
+  await fetchSearchList(filterStore.selectedGame);
+  showSearchItemDropDown();
+}, 500);
 </script>
 
 <template>
@@ -111,12 +130,77 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
         {BREADCRUMBS}
       </div>
       <div class="filter-wrapper">
-        <Input v-model="filterStore.search" placeholder="Search" fluid>
-          <template #prefix>
-            <VIcon :icon="loading ? loader : search" style="margin-left: 1.4rem" />
+        <DropDown
+          ref="searchRef"
+          :items="searchResultItems"
+          drop-down-bg="surface-low-container"
+          no-toggle-empty-list
+          class="w-full"
+        >
+          <template #target>
+            <Input
+              v-model="filterStore.search"
+              placeholder="Search"
+              fluid
+              @focus="showSearchItemDropDown"
+              @update:model-value="searchItemsHandler"
+            >
+              <template #prefix>
+                <VIcon
+                  :icon="searchLoading || loading ? loader : search"
+                  style="margin-left: 1.4rem"
+                />
+              </template>
+            </Input>
           </template>
-        </Input>
+          <template #item="{ item }">
+            <SkinCard
+              :item="item"
+              background="surface-low-container"
+              hover-background="surface-high-container"
+            >
+              <template #default="{ image, souvenir, statTrack, skinName, skinType, price, exterior, offersCount, rarityColor }">
+                <div class="search-skin-item" :class="[!offersCount && 'disabled']">
+                  <SkinImage
+                    :image="image"
+                    :card-size="cardSize"
+                    :game="item.game"
+                    :image-width="50"
+                    :rarity-color="rarityColor"
+                    :alt="skinName"
+                    rarity-image="shadow"
+                    class="no-shrink"
+                  />
+                  <div class="flex-col gap-1">
+                    <div class="flex gap-1">
+                      <SkinType
+                        v-if="skinType"
+                        :label="skinType"
+                        :is-souvenir="souvenir"
+                        :is-stat-trak="statTrack"
+                        card-size="small"
+                        :color="item.game === 'dota2' ? rarityColor : undefined"
+                      />
 
+                      <div class="ml-auto font-12-n color-on-surface-tertiary">
+                        {{ offersCount }}
+                      </div>
+                    </div>
+
+                    <div class="flex gap-1">
+                      <div class="name">
+                        {{ skinName }} <span class="color-on-surface-tertiary">{{ exterior }}</span>
+                      </div>
+                      <div class="ml-auto color-on-surface-tertiary no-shrink">
+                        {{ currencyStore.priceToCurrency(price) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </SkinCard>
+          </template>
+        </DropDown>
         <div class="sort-wrapper">
           <Button
             bg-color="surface-high-container"
@@ -124,6 +208,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
             :icon-right="sorting1"
             :rotate-right-icon="filterStore.sort === 'ASC'"
             right-icon-no-fill
+            :loading="loading"
             :disabled="filterStore.order === 'advised'"
             class="sort-button"
             @click="filterStore.toggleSort"
@@ -132,6 +217,7 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
             v-model="filterStore.order"
             :items="filteredListOrderData(filterStore.selectedGame, isCatalog)"
             class="order-dropdown"
+            :loading="loading"
             @update:model-value="$event === 'advised' && filterStore.sort !== 'DESC' ? filterStore.toggleSort() : {}"
           >
             <template #targetInner="{ selected }">
@@ -187,7 +273,14 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
         background="surface-container"
         hover-background="surface-high-container"
       >
-        <template #default="{ image, skinName, rarityColor, steamPrice, price, lowestPrice, offersCount, skinType, souvenir, statTrack, float, floatPercent, exterior }">
+        <template
+          #default="{
+            image, imageFront, imageBack,
+            skinType, skinName, souvenir, statTrack,
+            rarityColor, float, floatPercent, exterior,
+            steamPrice, price, lowestPrice, offersCount,
+          }"
+        >
           <div class="skin-inner">
             <div class="flex items-center gap color-on-surface-secondary" style="min-height: 2rem">
               <span v-if="offersCount" class="offer-count">
@@ -211,6 +304,8 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
 
             <SkinImage
               :image="image"
+              :image-front="imageFront"
+              :image-back="imageBack"
               :card-size="cardSize"
               :game="item.game"
               :image-query="MARKETPLACE_SKIN_IMAGES_QUERY"
@@ -276,7 +371,8 @@ const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
             <div v-else class="price-range">
               <DotLoader v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'" :count="5" />
               <template v-else>
-                {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(lowestPrice) }} - {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(price) }}
+                {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(lowestPrice) }}
+                - {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(price) }}
               </template>
             </div>
           </div>
@@ -405,6 +501,19 @@ h1 {
   }
   :deep(button) {
     flex-shrink: 0;
+  }
+}
+.search-skin-item {
+  display: grid;
+  grid-template-columns: 5rem auto;
+  gap: .4rem;
+  cursor: pointer;
+  align-items: center;
+  padding: .3rem .6rem;
+  &.disabled {
+    opacity: 0.6;
+    filter: grayscale(1);
+    cursor: not-allowed;
   }
 }
 </style>

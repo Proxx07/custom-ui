@@ -155,6 +155,7 @@ watch(() => loading, (val) => {
         :max="max"
         class="w-input"
         :readonly="loading"
+        @click="() => focused && emit('focus')"
       >
       <slot name="suffix" :loading="loading">
         <VIcon

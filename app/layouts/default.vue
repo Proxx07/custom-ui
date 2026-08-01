@@ -6,9 +6,10 @@ const props = defineProps<{
   showSidebar?: boolean
 }>();
 
+const { locale } = useI18n();
 const footer = ref<InstanceType<typeof WFooter>>();
 const skinsLocalized = useCookie('skins-localized', { default: () => true });
-provide(SKINS_LOCALIZED, skinsLocalized);
+provide(SKINS_LOCALIZED, computed(() => skinsLocalized.value && locale.value !== 'en'));
 </script>
 
 <template>

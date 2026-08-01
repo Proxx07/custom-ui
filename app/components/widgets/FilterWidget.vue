@@ -35,6 +35,8 @@ defineProps<{
   qualitiesPreview: string
 
   selectedCurrency: ICurrency
+
+  loading: boolean
 }>();
 
 const filterStore = useCatalogFilterStore();
@@ -49,7 +51,7 @@ const bestPriceOnlyText = computed<string>(() => {
 <template>
   <div class="filter-widget">
     <FilterAccordion :title="t('games')" opened>
-      <FilterGames :current-game="filterStore.selectedGame" />
+      <FilterGames :loading="loading" />
     </FilterAccordion>
     <FilterAccordion :title="t('price')" opened>
       <template v-if="selectedPricePreview" #slotForClosed>

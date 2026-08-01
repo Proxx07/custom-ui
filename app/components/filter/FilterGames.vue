@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { GAMES_IMAGES, GAMES_LABELS, GAMES_LIST } from '@/composables/useGames';
 
+defineProps<{
+  loading: boolean
+}>();
+
 const localePath = useLocalePath();
 const $route = useRoute();
 const selectedGameInRoute = computed(() => !$route.params.game ? 'csgo' : $route.params.game);
@@ -14,7 +18,10 @@ const selectedGameInRoute = computed(() => !$route.params.game ? 'csgo' : $route
       :to="localePath(`/${game === 'csgo' ? '' : game}`)"
       replace
       class="game-button"
-      :class="[game === selectedGameInRoute && 'active']"
+      :class="[
+        game === selectedGameInRoute && 'active',
+        loading && 'loading',
+      ]"
     >
       <img
         :src="GAMES_IMAGES[game]"
@@ -58,6 +65,10 @@ const selectedGameInRoute = computed(() => !$route.params.game ? 'csgo' : $route
   &.router-link-active.active {
     --img-opacity: 1;
     color: var(--on-surface);
+  }
+
+  &.loading {
+    pointer-events: none;
   }
 
   img {
