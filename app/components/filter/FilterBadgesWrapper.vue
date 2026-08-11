@@ -8,6 +8,7 @@ import { type ExteriorTypes, setFilterBadgeItemFromTypes } from '@/composables/u
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 
 defineProps<{
+  title: string
   pricePreview: string
   floatPreview: string
   statTrackPreview: string
@@ -78,7 +79,7 @@ watch(filterReseted, (value) => {
       class="badges-list"
     >
       <div class="filter-top">
-        Filter items
+        {{ title }}
         <Button
           variant="text"
           severity="tertiary"

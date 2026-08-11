@@ -94,7 +94,7 @@ export const SKIN_IMAGE_ASPECT_RATIO: Record<gameTypes, number> = {
 
 export const removeSizeFromImage = (url: string): string => {
   const sizeRegex = /\/\d+[a-z]*x\d+[a-z]*\/?$/i;
-  return url.replace(sizeRegex, '');
+  return url?.replace(sizeRegex, '');
 };
 
 const IMAGE_PROXY_BASE_URL = 'https://imageproxy.waxpeer.com/insecure';

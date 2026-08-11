@@ -17,6 +17,7 @@ const {
   loading = false,
   dropDownBg = 'surface-high-container',
   noToggleEmptyList = false,
+  disabled = false,
 } = defineProps<DropDownProps<T, V>>();
 
 const emit = defineEmits<DropDownEmits<T, V>>();
@@ -139,6 +140,7 @@ defineExpose<DropDownExposes>({
         :size="size"
         :icon-right="hideDownIcon ? undefined : downIcon"
         fluid
+        :disabled="disabled"
         :loading="loading"
         :rotate-right-icon="isOpen"
         @click="toggleDropDown"
@@ -192,6 +194,7 @@ defineExpose<DropDownExposes>({
                   :selected="selectedItem"
                   :is-selected="selectedItem === item"
                   :select-item="() => selectItem(item)"
+                  :close-drop-down="closeDropDown"
                 >
                   <Button
                     bg-color="surface-high-container"
@@ -228,12 +231,6 @@ defineExpose<DropDownExposes>({
 </template>
 
 <style scoped lang="scss">
-.dropdown-wrapper {
-  :deep(.w-button) {
-    padding-left: 1.8rem;
-    padding-right: 1.2rem;
-  }
-}
 .dropdown-list {
   position: fixed;
   top: var(--y);

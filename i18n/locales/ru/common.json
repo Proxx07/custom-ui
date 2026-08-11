@@ -8,6 +8,25 @@
   "all": "Все",
   "wear": "Износ",
   "quality": "Качество",
+  "reset": "Сбросить",
+  "apply": "Применить",
+  "filter": "Фильтр",
+
+  "filter_labels": {
+    "advised": "Рекомендованные",
+    "date":"Дата",
+    "price": "Цена",
+    "float":"Float",
+    "deals": "Сделки",
+    "profit":"Скидка",
+
+    "date-asc": "Новые",
+    "date-desc":"Старые",
+    "price-asc": "Цена по возрастанию",
+    "price-desc":"Цена по убыванию",
+    "float-asc": "Худший float",
+    "float-desc": "Лучший float"
+  },
 
   "exterior": {
     "FN": "Прямо с завода",

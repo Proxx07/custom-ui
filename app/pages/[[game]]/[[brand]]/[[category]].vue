@@ -5,17 +5,18 @@ import { sorting1 } from '@/assets/icons/arrows';
 import { loader } from '@/assets/icons/general';
 import { steam } from '@/assets/icons/logos';
 import { ListGridSize } from '@/components/globalSelects';
-import { CatalogList } from '@/components/navigations';
+import { BreadCrumbs, CatalogList } from '@/components/navigations';
 import { ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType } from '@/components/skin';
-import { Button, DotLoader, DropDown, type DropDownExposes, Input, VIcon } from '@/components/ui';
-import { useCardSize } from '@/composables/UI';
+import { Button, DotLoader, DropDown, Input, VIcon } from '@/components/ui';
+import { type BreadCrumbsItem, useCardSize } from '@/composables/UI';
+import { useModuleI18n } from '@/composables/useModuleI18n';
 import { SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
 import {
   filteredListOrderData,
   MARKETPLACE_SKIN_IMAGES_QUERY,
   useSkinsList,
 } from '@/composables/useSkinsList';
-import { useSkinsSearch } from '@/composables/useSkinsSearch';
+import { useSkinSearchInput } from '@/composables/useSkinsSearch';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 import { useCurrenciesStore } from '@/store/currencyStore';
 import { useDrawersStore } from '@/store/drawersState';
@@ -41,19 +42,22 @@ definePageMeta({
   },
 });
 
+const $route = useRoute();
+const $router = useRouter();
+const { locale, t } = useI18n();
+const localePath = useLocalePath();
+
 const currencyStore = useCurrenciesStore();
+const filterStore = useCatalogFilterStore();
 
 const {
   list, loading, hasMore,
   fetchSkins, loadMoreSkins,
 } = useSkinsList();
 
-const { locale } = useI18n();
-
-const $route = useRoute();
-const filterStore = useCatalogFilterStore();
-
 const isCatalog = computed(() => Boolean($route.params.brand || $route.params.category));
+
+await useModuleI18n(`${filterStore.selectedGame}.catalog`);
 
 await useLazyAsyncData(
   `items-${filterStore.selectedGame}-${$route.params.brand}-${$route.params.category}-${locale.value}`,
@@ -84,10 +88,39 @@ const routeRestFilter = (to: RouteLocationNormalizedGeneric, from: RouteLocation
     || from.params.category !== to.params.category
     || from.params.game !== to.params.game;
   if (!isRoutesSimilar || isParamsDifferent) {
-    filterStore.resetStoreFilter(false);
+    if (!to.query.search) filterStore.resetStoreFilter(false); // filter been cleared in searchItemSelectHandler
     stopQueryWatcher();
   }
 };
+
+const drawerStore = useDrawersStore();
+const { cardSize, nameFontsBySize } = useCardSize();
+const [foldersExpanded, toggleFoldersExpanded] = useToggle();
+
+const {
+  searchRef, searchQuery, loading: searchLoading, list: searchResultItems,
+  fetchSearchList, searchItemsHandler, showSearchItemDropDown, closeSearchItemDropDown,
+} = useSkinSearchInput();
+
+const searchItemSelectHandler = (name: string) => {
+  filterStore.resetStoreFilter(false);
+  filterStore.search = searchQuery.value = name;
+  closeSearchItemDropDown();
+  $router.replace({ path: localePath(filterStore.gamePrefixForLink), query: { search: name } });
+};
+
+const breadCrumbsList = computed<BreadCrumbsItem[]>(() => {
+  const result: BreadCrumbsItem[] = [];
+  if (filterStore.filterQueries.brand) {
+    result.push({
+      label: t(`catalog_${filterStore.selectedGame}.${filterStore.filterQueries.brand as string}`),
+      link: filterStore.filterQueries.category ? filterStore.gamePrefixForLink + filterStore.filterQueries.brand : '',
+    });
+  }
+  if (filterStore.filterQueries.category) result.push({ label: t(`catalog_${filterStore.selectedGame}.${filterStore.filterQueries.category as string}`) });
+  if (filterStore.search) result.push({ label: filterStore.search });
+  return result;
+});
 
 onBeforeRouteLeave((to, from, next) => {
   routeRestFilter(to, from);
@@ -101,34 +134,22 @@ onBeforeRouteUpdate((to, from, next) => {
 
 onBeforeUnmount(stopIntersection);
 
-const drawerStore = useDrawersStore();
-const { cardSize, nameFontsBySize } = useCardSize();
-const [folderCollapsed, toggleFoldersCollapsed] = useToggle();
-
-const searchRef = ref<DropDownExposes>();
-const { searchQuery, fetchSearchList, list: searchResultItems, loading: searchLoading } = useSkinsSearch();
-
-const showSearchItemDropDown = () => {
-  if (!searchRef.value || !searchResultItems.value) return;
-  searchRef.value?.openDropDown();
-};
-
-const searchItemsHandler = useDebounceFn(async () => {
+onMounted(() => {
+  if (!filterStore.search) return;
   searchQuery.value = filterStore.search;
-  if (!searchQuery.value) return searchResultItems.value = [];
-
-  await fetchSearchList(filterStore.selectedGame);
-  showSearchItemDropDown();
-}, 500);
+  fetchSearchList(filterStore.selectedGame);
+});
 </script>
 
 <template>
   <div class="page-wrapper">
-    <CatalogList class="catalog-list" :mobile-folders-collapsed="folderCollapsed" />
+    <CatalogList
+      class="catalog-list"
+      :mobile-folders-expanded="foldersExpanded"
+    />
     <div class="page-top">
-      <div class="breadcrumbs">
-        {BREADCRUMBS}
-      </div>
+      <BreadCrumbs :list="breadCrumbsList" />
+
       <div class="filter-wrapper">
         <DropDown
           ref="searchRef"
@@ -139,28 +160,32 @@ const searchItemsHandler = useDebounceFn(async () => {
         >
           <template #target>
             <Input
-              v-model="filterStore.search"
+              v-model="searchQuery"
               placeholder="Search"
               fluid
+              :disabled="loading"
               @focus="showSearchItemDropDown"
-              @update:model-value="searchItemsHandler"
+              @update:model-value="searchItemsHandler(filterStore.selectedGame)"
+              @after-clear="filterStore.search = ''"
             >
               <template #prefix>
                 <VIcon
-                  :icon="searchLoading || loading ? loader : search"
+                  :icon="searchLoading ? loader : search"
                   style="margin-left: 1.4rem"
                 />
               </template>
             </Input>
           </template>
+
           <template #item="{ item }">
             <SkinCard
               :item="item"
               background="surface-low-container"
               hover-background="surface-high-container"
+              @click="searchItemSelectHandler(item.name)"
             >
               <template #default="{ image, souvenir, statTrack, skinName, skinType, price, exterior, offersCount, rarityColor }">
-                <div class="search-skin-item" :class="[!offersCount && 'disabled']">
+                <div :class="[!offersCount && 'disabled']" class="search-skin-item">
                   <SkinImage
                     :image="image"
                     :card-size="cardSize"
@@ -208,23 +233,24 @@ const searchItemsHandler = useDebounceFn(async () => {
             :icon-right="sorting1"
             :rotate-right-icon="filterStore.sort === 'ASC'"
             right-icon-no-fill
-            :loading="loading"
-            :disabled="filterStore.order === 'advised'"
-            class="sort-button"
+            :disabled="loading || filterStore.order === 'advised'"
+            class="sort-button hide-down-laptop-s"
             @click="filterStore.toggleSort"
           />
           <DropDown
             v-model="filterStore.order"
             :items="filteredListOrderData(filterStore.selectedGame, isCatalog)"
-            class="order-dropdown"
-            :loading="loading"
+            class="order-dropdown hide-down-laptop-s"
+            :disabled="loading"
             @update:model-value="$event === 'advised' && filterStore.sort !== 'DESC' ? filterStore.toggleSort() : {}"
           >
             <template #targetInner="{ selected }">
-              <span class="capitalize-first-letter">{{ selected }}</span>
+              <span class="capitalize-first-letter">
+                {{ t(`filter_labels.${selected}`) }}
+              </span>
             </template>
             <template #itemInner="{ item }">
-              <span class="capitalize-first-letter">{{ item }}</span>
+              <span class="capitalize-first-letter">{{ t(`filter_labels.${item}`) }}</span>
             </template>
           </DropDown>
         </div>
@@ -238,7 +264,7 @@ const searchItemsHandler = useDebounceFn(async () => {
           no-hover-bg
           class="hide-up-tablet"
           :icon-right="itemType"
-          @click="toggleFoldersCollapsed(!folderCollapsed)"
+          @click="toggleFoldersExpanded(!foldersExpanded)"
         />
 
         <Button
@@ -422,9 +448,9 @@ h1 {
 .skin-inner {
   display: flex;
   flex-direction: column;
-  padding: var(--skin-padding);
   gap: 4px;
   height: 100%;
+  padding: var(--skin-padding);
   @include media-max($mobile) {
     padding: 12px;
   }
@@ -464,6 +490,12 @@ h1 {
   grid-template-columns: 1fr 1fr;
   gap: 1.6rem;
   align-items: center;
+  @include media-max($laptop) {
+    grid-template-columns: 1fr 3fr;
+  }
+  @include media-max($laptop-s) {
+    grid-template-columns: 1fr 1fr;
+  }
   @include media-max($tablet) {
     order: -1;
   }
@@ -510,6 +542,8 @@ h1 {
   cursor: pointer;
   align-items: center;
   padding: .3rem .6rem;
+  text-decoration: none;
+  color: inherit;
   &.disabled {
     opacity: 0.6;
     filter: grayscale(1);

@@ -9,6 +9,13 @@ export const GAMES_IMAGES: Record<gameTypes, string> = {
   dota2: '/images/games/m_dota2.webp',
 };
 
+export const GAME_ICONS: Record<gameTypes, string> = {
+  csgo: '/images/game_icons/csgo.png',
+  rust: '/images/game_icons/rust.png',
+  tf2: '/images/game_icons/tf2.png',
+  dota2: '/images/game_icons/dota2.svg',
+};
+
 export const GAMES_LABELS: Record<gameTypes, string> = {
   csgo: 'CS2',
   rust: 'Rust',

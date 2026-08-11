@@ -10,6 +10,7 @@ import {
   FilterPhase,
   FilterPrice,
   FilterRarities,
+  FilterSortSelect,
   FilterWear,
 } from '@/components/filter';
 import { RadioButton, Tooltip, VIcon } from '@/components/ui';
@@ -37,6 +38,9 @@ defineProps<{
   selectedCurrency: ICurrency
 
   loading: boolean
+
+  sortSelectEnabled?: boolean
+  isCatalog?: boolean
 }>();
 
 const filterStore = useCatalogFilterStore();
@@ -50,6 +54,14 @@ const bestPriceOnlyText = computed<string>(() => {
 
 <template>
   <div class="filter-widget">
+    <FilterSortSelect
+      v-if="sortSelectEnabled"
+      v-model:order="filterStore.order"
+      v-model:sort="filterStore.sort"
+      :game="filterStore.selectedGame"
+      :is-catalog="Boolean(isCatalog)"
+    />
+
     <FilterAccordion :title="t('games')" opened>
       <FilterGames :loading="loading" />
     </FilterAccordion>

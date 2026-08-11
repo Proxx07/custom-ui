@@ -8,6 +8,25 @@
   "all": "All",
   "wear": "Wear",
   "quality": "Quality",
+  "reset": "Reset",
+  "apply": "Apply",
+  "filter": "Filter",
+
+  "filter_labels": {
+    "advised": "Recommended",
+    "date":"Date",
+    "price": "Price",
+    "float":"Float",
+    "deals": "Deals",
+    "profit":"Discount",
+
+    "date-asc": "Newest",
+    "date-desc":"Oldest",
+    "price-asc": "Price low to high",
+    "price-desc":"Price high to low",
+    "float-asc": "Float asc",
+    "float-desc": "Float desc"
+  },
 
   "exterior": {
     "FN": "Factory new",

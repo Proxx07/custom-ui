@@ -15,6 +15,7 @@ export interface DropDownProps<T, V extends keyof T = never> {
   loading?: boolean
   dropDownBg?: TColors
   noToggleEmptyList?: boolean
+  disabled?: boolean
 }
 
 export interface DropDownSlots<T> {
@@ -31,7 +32,7 @@ export interface DropDownSlots<T> {
   contentPrepend: (props: { selected: T | undefined, loading: boolean, closeDropDown: () => void }) => unknown
   listPrepend: (props: { selected: T | undefined, loading: boolean, closeDropDown: () => void }) => unknown
   listAppend: (props: { selected: T | undefined, loading: boolean, closeDropDown: () => void }) => unknown
-  item: (props: { item: T, selected: T | undefined, isSelected: boolean, selectItem: () => void }) => unknown
+  item: (props: { item: T, selected: T | undefined, isSelected: boolean, selectItem: () => void, closeDropDown: () => void }) => unknown
   itemInner: (props: { item: T, selected: T | undefined, isSelected: boolean }) => unknown
   emptyContent: () => unknown
 }

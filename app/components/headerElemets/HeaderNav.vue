@@ -49,6 +49,9 @@ nav {
     &.router-link-active {
       color: var(--on-surface);
     }
+    &.router-link-active {
+      pointer-events: none;
+    }
   }
 }
 </style>

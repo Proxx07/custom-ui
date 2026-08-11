@@ -24,6 +24,7 @@ export interface InputSlots {
 
 export interface InputEmits<T extends InputModelValue = string> {
   (e: 'update:modelValue', val: T): void
+  (e: 'after-clear'): void
   (e: 'focus'): void
   (e: 'blur'): void
 }

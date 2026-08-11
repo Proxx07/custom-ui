@@ -86,6 +86,11 @@ onMounted(currenciesStore.fetchCurrencies);
     display: none !important;
   }
 }
+.hide-down-laptop-s {
+  @include media-max($laptop-s) {
+    display: none !important;
+  }
+}
 
 .hide-up-mobile {
   @include media-min($mobile) {

@@ -110,6 +110,7 @@ const placeHolderText = computed<string>(() => {
 
 const clearInput = () => {
   model.value = '' as T;
+  emit('after-clear');
 };
 
 watch(focused, (val) => {

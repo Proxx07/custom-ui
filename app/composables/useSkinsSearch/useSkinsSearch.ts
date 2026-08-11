@@ -23,7 +23,12 @@ export const useSkinsSearch = () => {
         },
       });
 
-    list.value = data?.data.map(item => setSkinSearchItemToSkinItem(item, game)) || [];
+    list.value = !data?.data
+      ? []
+      : data.data
+        .map(item => setSkinSearchItemToSkinItem(item, game))
+        .filter(item => item.image);
+    // .sort((a, b) => b.offersCount - a.offersCount);
     loading.value = false;
   };
 

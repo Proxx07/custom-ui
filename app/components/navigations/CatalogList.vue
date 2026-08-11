@@ -5,10 +5,9 @@ import { ListItem, VIcon } from '@/components/ui';
 
 import { useCatalogMenu, useResponsive } from '@/composables/UI';
 import { CATALOG_PLACEHOLDERS_BY_SLUG, type ICatalog, useGameCatalog } from '@/composables/useGameCatalog';
-import { useModuleI18n } from '@/composables/useModuleI18n';
 
 defineProps<{
-  mobileFoldersCollapsed: boolean
+  mobileFoldersExpanded: boolean
 }>();
 
 const {
@@ -16,8 +15,6 @@ const {
   catalogList, catalogListLinkBySlug, selectedGame,
   fetchFolders, getCatalogChildBySlug,
 } = useGameCatalog();
-
-await useModuleI18n(`${selectedGame.value}.catalog`);
 
 await useLazyAsyncData(`catalog-list-${selectedGame.value}`,
   async () => {
@@ -108,7 +105,7 @@ const loading = computed(() => isFetching.value && !$router.currentRoute.value.p
     </ul>
 
     <client-only v-if="isMax('tablet')">
-      <div class="collapse" :class="[mobileFoldersCollapsed && 'collapse--opened']">
+      <div class="collapse" :class="[mobileFoldersExpanded && 'collapse--opened']">
         <transition-group name="grid" tag="ul" class="categories-mobile">
           <template v-if="!selectedElementChild.length">
             <li v-for="catalog in catalogList" :key="catalog.slug">
@@ -143,8 +140,8 @@ const loading = computed(() => isFetching.value && !$router.currentRoute.value.p
               </span>
             </li>
 
-            <li v-for="catalog in selectedElementChild" :key="catalog.slug">
-              <NuxtLinkLocale :to="catalogListLinkBySlug[catalog.slug]" class="nav-item">
+            <li v-for="catalog in selectedElementChild" :key="catalog.slug" class="flex">
+              <NuxtLinkLocale :to="catalogListLinkBySlug[catalog.slug]" class="nav-item flex-grow">
                 <div style="width: 8rem">
                   <SkinImage
                     v-if="catalog.img"
@@ -268,6 +265,15 @@ nav {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
       gap: .4rem;
+
+      li {
+        .nav-item {
+          flex-grow: 1;
+          &.router-link-exact-active {
+            color: var(--secondary);
+          }
+        }
+      }
     }
   }
 }
@@ -281,6 +287,9 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  li {
+    text-align: center;
+  }
 }
 
 .nav-item {
@@ -292,6 +301,7 @@ ul {
   cursor: pointer;
   align-items: center;
   width: 100%;
+  gap: .6rem;
   @include transition(color background);
   .arrow {
     min-width: 2rem;
@@ -331,6 +341,9 @@ ul {
     &:before {
       filter: grayscale(0);
     }
+  }
+  &.router-link-exact-active {
+    pointer-events: none !important;
   }
 }
 

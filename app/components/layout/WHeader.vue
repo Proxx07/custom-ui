@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import WLogo from '~~/public/logo/logo.svg?raw';
-import { burgerMenu } from '@/assets/icons/general';
 import { steam } from '@/assets/icons/logos';
 import { HeaderNav } from '@/components/headerElemets';
 import { Button, VIcon } from '@/components/ui';
 import { useGames } from '@/composables/useGames';
-import { useDrawersStore } from '@/store/drawersState';
 
-const drawersState = useDrawersStore();
 const { selectedGame } = useGames();
 </script>
 
@@ -30,14 +27,6 @@ const { selectedGame } = useGames();
         :icon-left="steam"
         class="ml-auto"
         padding="1.2rem 1.6rem 1.1rem"
-      />
-
-      <Button
-        severity="tertiary"
-        variant="text"
-        class="ml-auto burger-button"
-        :icon-left="burgerMenu"
-        @click="drawersState.showAsideDrawer"
       />
     </div>
   </header>
@@ -73,6 +62,10 @@ const { selectedGame } = useGames();
   &__logo {
     padding-left: var(--container-padding-x);
     font-size: 0;
+
+    .logo.router-link-exact-active {
+      pointer-events: none;
+    }
   }
 
   &__right {

@@ -8,4 +8,5 @@ export { default as FilterGames } from './FilterGames.vue';
 export { default as FilterPhase } from './FilterPhase.vue';
 export { default as FilterPrice } from './FilterPrice.vue';
 export { default as FilterRarities } from './FilterRarities.vue';
+export { default as FilterSortSelect } from './FilterSortSelect.vue';
 export { default as FilterWear } from './FilterWear.vue';

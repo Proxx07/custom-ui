@@ -115,3 +115,9 @@ export interface CatalogSkinListResponse {
   available_filters: string[]
   success: boolean
 }
+
+export interface CatalogListingResponse {
+  data: SkinListItem[]
+  nextCursor: string
+  success: boolean
+}

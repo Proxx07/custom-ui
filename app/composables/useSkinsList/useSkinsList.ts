@@ -1,4 +1,10 @@
-import type { CatalogSkinItem, CatalogSkinListResponse, SkinListItem, SkinsListResponse } from './types';
+import type {
+  CatalogListingResponse,
+  CatalogSkinItem,
+  CatalogSkinListResponse,
+  SkinListItem,
+  SkinsListResponse,
+} from './types';
 import type { gameTypes } from '@/composables/useGames';
 import type { ISkin } from '@/composables/useSkinItem';
 import { mapCatalogItemForCard, mapSkinsListItemForCard } from './model';
@@ -17,17 +23,25 @@ export const useSkinsList = () => {
   const skinsFetchRequest = async (game: gameTypes, query?: Record<string, unknown>) => {
     const isCatalog = game === 'csgo' && (query?.brand || query?.category);
     const catalogPath = `${query?.brand || ''}/${query?.category || ''}`;
-
     const { data, error } = isCatalog
       ? await $request<CatalogSkinListResponse>(`/api/v2/${game}/catalog/${catalogPath}?limit=50&lang=${locale.value}`, { query })
-      : await $request<SkinsListResponse>(`/api/${game}/browse?limit=50&lang=${locale.value}`, { query });
+      : query?.search
+        ? await $request<CatalogListingResponse>(`/api/${game}/listings?limit=30&lang=${locale.value}`, { query: { ...query, name: query.search } })
+        : await $request<SkinsListResponse>(`/api/${game}/browse?limit=50&lang=${locale.value}`, { query });
 
-    const list = (!data?.items || error) ? [] : data.items;
-    const skins = list.map((item) => {
-      return isCatalog
-        ? mapCatalogItemForCard((item as CatalogSkinItem), game)
-        : mapSkinsListItemForCard((item as SkinListItem), game);
-    });
+    const list = (error || !data)
+      ? []
+      : isCatalog
+        ? (data as CatalogSkinListResponse).items
+        : query?.search
+          ? (data as CatalogListingResponse).data
+          : (data as SkinsListResponse).items;
+
+    const skins = list.map(item =>
+      isCatalog
+        ? mapCatalogItemForCard(item as CatalogSkinItem, game)
+        : mapSkinsListItemForCard(item as SkinListItem, game),
+    );
 
     nextCursor.value = data?.nextCursor || '';
     return { skins, error };

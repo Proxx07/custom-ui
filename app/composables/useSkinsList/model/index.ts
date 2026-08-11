@@ -1,6 +1,7 @@
 import type { CatalogSkinItem, SkinListItem } from '../types';
 import type { gameTypes } from '@/composables/useGames';
 import type { ISkin } from '@/composables/useSkinItem';
+import type { SortTypes } from '@/utils';
 
 export const mapSkinsListItemForCard = (skin: SkinListItem, game: gameTypes): ISkin => {
   return {
@@ -57,11 +58,31 @@ export const MARKETPLACE_SKIN_IMAGES_QUERY = {
   large: { 1920: 200, 1440: 185, 1230: 230, 600: 250, 320: 190 },
 };
 
-export const SKINS_LIST_ORDER_DATA = ['advised', 'float', 'date', 'deals', 'profit', 'price', 'name'];
+export const SKINS_LIST_ORDER_DATA = ['advised', 'date', 'deals', 'profit', 'name', 'price', 'float'];
 
 export const filteredListOrderData = (game: gameTypes, isCatalog: boolean) => {
   return SKINS_LIST_ORDER_DATA.filter((item) => {
     if (isCatalog) return item === 'advised' || item === 'price' || item === 'name';
     return game !== 'csgo' ? item !== 'float' && item !== 'name' : item !== 'name';
+  });
+};
+
+export const getMobileFilterData = (game: gameTypes, isCatalog: boolean): Array<{ order: string, sort: SortTypes, label: string }> => {
+  return filteredListOrderData(game, isCatalog).flatMap((value) => {
+    if (value === 'advised' || value === 'deals' || value === 'profit') {
+      return {
+        sort: 'DESC',
+        order: value,
+        label: value,
+      };
+    }
+
+    const sorts: SortTypes[] = ['ASC', 'DESC'];
+
+    return sorts.map(sortValue => ({
+      sort: sortValue,
+      order: value,
+      label: `${value}-${sortValue.toLowerCase()}`,
+    }));
   });
 };

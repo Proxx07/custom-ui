@@ -22,9 +22,7 @@ provide(SKINS_LOCALIZED, computed(() => skinsLocalized.value && locale.value !==
     <WHeader />
 
     <transition name="aside-animation">
-      <WAside
-        v-if="props.showSidebar"
-      />
+      <WAside v-if="props.showSidebar" />
     </transition>
 
     <main

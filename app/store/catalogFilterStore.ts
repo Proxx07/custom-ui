@@ -2,15 +2,18 @@ import type { DeliveryTimeTypes } from '@/composables/useDeliveryTime';
 import type { PhaseQueryTypes } from '@/composables/useItemFades';
 import type { IRarity } from '@/composables/useItemRarities';
 
-import type { FilterColorType } from '@/utils';
+import type { FilterColorType, SortTypes } from '@/utils';
 import { useGames } from '@/composables/useGames';
 import { useRouteFilters } from '@/composables/useRouteFilters';
 import { EXTERIORS_LIST, type ExteriorTypes, getExteriorListFromFloatRange } from '@/composables/useSkinItem';
 
 export const useCatalogFilterStore = defineStore('catalog-filter', () => {
-  const { selectedGame } = useGames();
+  const { selectedGame, gamePrefixForLink } = useGames();
   const $router = useRouter();
   const filterLoading = useState('filter-loading', () => false);
+
+  const isFilterRouteSyncDisabled = ref(false);
+
   const {
     minPrice,
     maxPrice,
@@ -25,10 +28,10 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     fadeMin,
     fadeMax,
     phase,
-    search,
     collection,
     quality,
     sort,
+    search,
     order,
     query,
     reset: resetStoreFilter,
@@ -52,12 +55,18 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     fadeMin: { key: 'fade_min', parse: 'number', default: 80 },
     fadeMax: { key: 'fade_max', parse: 'number', default: 100 },
     phase: { key: 'phase', parse: 'array', default: [] as PhaseQueryTypes[] },
-    search: { key: 'search', parse: 'string', default: '' },
+
     collection: { key: 'collection', parse: 'string', default: '' },
 
     order: { key: 'order', parse: 'string', default: 'advised' },
-    sort: { key: 'sort', parse: 'string', default: 'DESC' },
-  }, { writeToRouteDebounce: 1200 });
+    sort: { key: 'sort', parse: 'string', default: 'DESC' as SortTypes },
+
+    search: { key: 'search', parse: 'string', default: '' },
+
+  }, {
+    writeToRouteDebounce: 1200,
+    disableRouteQuerySync: isFilterRouteSyncDisabled,
+  });
 
   const filterQueries = computed(() => {
     return {
@@ -113,6 +122,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
 
   return {
     filterLoading,
+    isFilterRouteSyncDisabled,
 
     minPrice,
     maxPrice,
@@ -129,13 +139,13 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     fadeMin,
     fadeMax,
     phase,
-    search,
     collection,
     quality,
 
+    search,
     sort,
     order,
-
+    gamePrefixForLink,
     resetField,
     toggleSort,
     removeSingleExterior,

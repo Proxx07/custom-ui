@@ -38,3 +38,5 @@ export type TSizes = 'xl' | 'l' | 'm' | 's';
 export type FilterColorType = 'BLUE' | 'BROWN' | 'GREEN' | 'ORANGE' | 'GRAY' | 'PURPLE' | 'RED' | 'YELLOW' | 'VIOLET' | 'BLACK' | 'BEIGE' | 'WHITE' | '';
 
 export const SKINS_LOCALIZED: InjectionKey<CookieRef<boolean>> = Symbol('skins-localized');
+
+export type SortTypes = 'ASC' | 'DESC';
