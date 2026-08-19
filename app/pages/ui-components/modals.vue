@@ -89,8 +89,7 @@ const { $toast } = useNuxtApp();
             <span
               v-for="i in 5"
               :key="i"
-              class="linear-loader bg-sapphire"
-              style="flex-grow: 1; height: 2px"
+              class="linear-loader bg-sapphire flex-grow"
             />
           </div>
         </template>

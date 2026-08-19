@@ -1,41 +1,43 @@
 export { default as Alert } from './Alert/index.vue';
 export type * from './Alert/types';
 
+export { default as Avatar } from './Avatar/index.vue';
+export type * from './Avatar/types';
 export { default as Button } from './Button/index.vue';
+
 export type * from './Button/types';
-
 export { default as ButtonGroup } from './ButtonGroup/index.vue';
+
 export { default as Checkbox } from './CheckBox/index.vue';
-
 export type * from './CheckBox/types';
+
 export { default as Drawer } from './Drawer/index.vue';
-
 export type * from './Drawer/types';
-export { default as DropDown } from './DropDown/index.vue';
 
+export { default as DropDown } from './DropDown/index.vue';
 export * from './DropDown/types';
+
 export { default as Input } from './Input/index.vue';
 
 export * from './Input/types';
-
 export { default as InputRange } from './InputRange/index.vue';
+
 export type * from './InputRange/types';
-
 export { default as ListItem } from './ListItem/index.vue';
-export type * from './ListItem/types';
 
+export type * from './ListItem/types';
 export { default as DotLoader } from './Loaders/dotLoader.vue';
+
 export { default as Modal } from './Modal/index.vue';
 
 export type * from './Modal/types';
 
 export { default as PhaseLabel } from './PhaseLabel/index.vue';
-
 export type * from './PhaseLabel/types';
+
 export { default as Popover } from './Popover/index.vue';
 
 export type * from './Popover/types';
-
 export { default as RadioButton } from './RadioButton/index.vue';
 export type * from './RadioButton/types';
 

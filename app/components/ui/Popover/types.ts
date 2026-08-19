@@ -1,3 +1,4 @@
+import type { MaybeComputedElementRef } from '@vueuse/core';
 import type { TColors } from '@/utils';
 
 export interface PopoverProps {
@@ -6,6 +7,8 @@ export interface PopoverProps {
   disabled?: boolean
 
   bg?: TColors
+  stayOnScroll?: boolean
+  target?: MaybeComputedElementRef
 }
 
 export interface PopoverSlots {

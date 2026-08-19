@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import type { PopoverProps, PopoverSlots } from './types';
 
-const { width, gap = 8, bg = 'surface-high-container', disabled = false } = defineProps<PopoverProps>();
+const {
+  width, gap = 8,
+  bg = 'surface-high-container',
+  disabled = false,
+  stayOnScroll = false,
+  target,
+} = defineProps<PopoverProps>();
 
 defineSlots<PopoverSlots>();
 
@@ -11,10 +17,11 @@ const MARGIN = 8;
 
 const popover = ref<HTMLElement>();
 const content = ref<HTMLElement>();
-
 const dropUp = ref(false);
+
 const positions = reactive({ x: '', y: '' });
-const { left, top, bottom, update } = useElementBounding(popover);
+
+const { left, top, bottom, update } = useElementBounding(target || popover);
 
 const widthVar = computed(() => {
   if (width == null) return 'max-content';
@@ -59,12 +66,12 @@ watch(isOpened, (opened) => {
   nextTick(updatePosition);
 });
 
-onClickOutside(popover, () => {
+onClickOutside(target || popover, () => {
   close();
 }, { ignore: [content] });
 
 useEventListener('scroll', (e) => {
-  if (content.value?.contains(e.target as Node)) return;
+  if (stayOnScroll || content.value?.contains(e.target as Node)) return;
   close();
 }, { capture: true, passive: true });
 
@@ -114,6 +121,7 @@ useEventListener('keydown', (e) => {
   top: var(--y);
   left: var(--x);
   width: var(--w);
+  min-height: 15rem;
   max-width: calc(100vw - 16px);
   max-height: calc(70vh - 16px);
   overflow-y: auto;

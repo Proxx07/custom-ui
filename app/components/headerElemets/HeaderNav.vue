@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { gameTypes } from '@/composables/useGames';
+import type { TGamePrefixForLink } from '@/composables/useGames';
 
 const props = defineProps<{
-  selectedGame: gameTypes
+  gamePrefixForLink: TGamePrefixForLink
 }>();
 
 const pagesList = computed(() => [
-  { name: 'Main page', link: `/${props.selectedGame !== 'csgo' ? props.selectedGame : ''}` },
-  { name: 'Sell items', link: `${props.selectedGame !== 'csgo' ? `/${props.selectedGame}` : ''}/manage/inventory` },
-  { name: 'My shop', link: `${props.selectedGame !== 'csgo' ? `/${props.selectedGame}` : ''}/manage/sell-offers` },
+  { name: 'Main page', link: props.gamePrefixForLink },
+  { name: 'Sell items', link: `${props.gamePrefixForLink}manage/inventory` },
+  { name: 'My shop', link: `${props.gamePrefixForLink}manage/sell-offers` },
   { name: 'Blog', link: '/blog' },
 ]);
 </script>

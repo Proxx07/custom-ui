@@ -19,7 +19,10 @@
     "float":"Float",
     "deals": "Сделки",
     "profit":"Скидка",
+    "name": "Название",
 
+    "name-asc": "Название A-Z",
+    "name-desc": "Название Z-A",
     "date-asc": "Новые",
     "date-desc":"Старые",
     "price-asc": "Цена по возрастанию",

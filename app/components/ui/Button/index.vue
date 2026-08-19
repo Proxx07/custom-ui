@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ButtonProps, ButtonSlots } from './types';
+import type { ButtonExpose, ButtonProps, ButtonSlots } from './types';
 import { NuxtLinkLocale } from '#components';
 import { loader } from '@/assets/icons/general';
 import VIcon from '../VIcon.vue';
@@ -22,9 +22,14 @@ defineSlots<ButtonSlots>();
 const slots = useSlots();
 
 const buttonRef = ref<HTMLElement>();
+
+defineExpose<ButtonExpose>({
+  buttonRef,
+});
+
 const isHovered = useElementHover(buttonRef);
 
-const tag = computed(() => buttonType === 'nuxt-link' ? NuxtLinkLocale : buttonType);
+const tag = computed(() => buttonType === 'nuxt-link' ? NuxtLinkLocale : buttonType === 'a' ? 'a' : buttonType);
 const isOnlyIcon = computed(() => !label && !slots.default);
 
 const colorStyles = computed(() => {
@@ -131,6 +136,9 @@ const iconSize = computed(() => {
     --hover-bg: var(--outline-variant);
     --color: var(--on-surface);
     --hover-color: currentColor;
+    &.outlined {
+      --hover-bg: var(--outline);
+    }
   }
 
   &.outlined {

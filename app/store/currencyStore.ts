@@ -12,6 +12,12 @@ export const useCurrenciesStore = defineStore('currencies', () => {
     return Number.parseFloat(result.toFixed(2));
   };
 
+  const calculateWallet = (price: number): number => {
+    const selectedCurrencyRate = currenciesEnum.value[selectedCurrency.value.code]?.price || CURRENCY_DENOMINATOR;
+    const result = (price / CURRENCY_DENOMINATOR) * (selectedCurrencyRate / CURRENCY_DENOMINATOR);
+    return Math.trunc((result + Number.EPSILON) * 100) / 100; ;
+  };
+
   const priceToCurrency = (calculatedPriceValue: number, withSymbol: boolean = true): string => {
     return (withSymbol ? `${selectedCurrency.value.symbol} ` : '') + calculatedPriceValue.toLocaleString('ru-RU');
   };
@@ -23,6 +29,7 @@ export const useCurrenciesStore = defineStore('currencies', () => {
     currencies,
     fetchCurrencies,
     calculatePrice,
+    calculateWallet,
     priceToCurrency,
   };
 });

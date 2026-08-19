@@ -16,6 +16,8 @@ const filterStore = useCatalogFilterStore();
 
 const selectedPricePreview = computed<string>(() => {
   if (!filterStore.minPrice && !filterStore.maxPrice) return '';
+  if (!filterStore.minPrice && filterStore.maxPrice) return `To ${selectedCurrency.value.symbol} ${filterStore.maxPrice}`;
+  if (filterStore.minPrice && !filterStore.maxPrice) return `From ${selectedCurrency.value.symbol} ${filterStore.minPrice}`;
   return `${selectedCurrency.value.symbol} ${filterStore.minPrice} - ${selectedCurrency.value.symbol} ${filterStore.maxPrice}`;
 });
 

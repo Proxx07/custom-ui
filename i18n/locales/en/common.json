@@ -19,7 +19,10 @@
     "float":"Float",
     "deals": "Deals",
     "profit":"Discount",
+    "name": "Name",
 
+    "name-asc": "Name A-Z",
+    "name-desc": "Name Z-A",
     "date-asc": "Newest",
     "date-desc":"Oldest",
     "price-asc": "Price low to high",

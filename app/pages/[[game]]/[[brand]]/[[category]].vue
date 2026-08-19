@@ -8,7 +8,7 @@ import { ListGridSize } from '@/components/globalSelects';
 import { BreadCrumbs, CatalogList } from '@/components/navigations';
 import { ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType } from '@/components/skin';
 import { Button, DotLoader, DropDown, Input, VIcon } from '@/components/ui';
-import { type BreadCrumbsItem, useCardSize } from '@/composables/UI';
+import { type BreadCrumbsItem, useCardSize, useResponsive } from '@/composables/UI';
 import { useModuleI18n } from '@/composables/useModuleI18n';
 import { SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
 import {
@@ -93,6 +93,7 @@ const routeRestFilter = (to: RouteLocationNormalizedGeneric, from: RouteLocation
   }
 };
 
+const { isMax } = useResponsive();
 const drawerStore = useDrawersStore();
 const { cardSize, nameFontsBySize } = useCardSize();
 const [foldersExpanded, toggleFoldersExpanded] = useToggle();
@@ -107,6 +108,13 @@ const searchItemSelectHandler = (name: string) => {
   filterStore.search = searchQuery.value = name;
   closeSearchItemDropDown();
   $router.replace({ path: localePath(filterStore.gamePrefixForLink), query: { search: name } });
+};
+
+const searchClearHandler = () => {
+  filterStore.search = '';
+  if (isMax('laptop-s')) {
+    fetchSkins(filterStore.selectedGame, filterStore.filterQueries);
+  }
 };
 
 const breadCrumbsList = computed<BreadCrumbsItem[]>(() => {
@@ -166,7 +174,7 @@ onMounted(() => {
               :disabled="loading"
               @focus="showSearchItemDropDown"
               @update:model-value="searchItemsHandler(filterStore.selectedGame)"
-              @after-clear="filterStore.search = ''"
+              @after-clear="searchClearHandler"
             >
               <template #prefix>
                 <VIcon
@@ -525,7 +533,7 @@ h1 {
     }
   }
   .order-dropdown {
-    min-width: 165px;
+    min-width: 205px;
     :deep(.w-button) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;

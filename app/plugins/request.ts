@@ -4,14 +4,15 @@ export default defineNuxtPlugin({
   dependsOn: ['toast'],
   setup() {
     const { $toast } = useNuxtApp();
-
+    const requestHeaders = useRequestHeaders(['cookie']);
     const instance = $fetch.create({
       baseURL: '/',
-
-      onRequest() {
-        // options.headers = new Headers(options.headers);
-        // const lang = useCookie('lang', { default: () => 'en' });
-        // options.headers.set('Lang', lang.value);
+      credentials: 'include',
+      onRequest({ options }) {
+        if (import.meta.server && requestHeaders.cookie) {
+          options.headers = new Headers(options.headers);
+          options.headers.set('cookie', requestHeaders.cookie);
+        }
       },
 
       onResponse({ response, options }) {

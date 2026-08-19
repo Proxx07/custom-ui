@@ -15,6 +15,7 @@ import storeSalesMarket from './store-sales-market.svg?raw';
 import support from './support.svg?raw';
 import trophey from './trophey.svg?raw';
 import verification from './verification.svg?raw';
+import verified from './verified.svg?raw';
 import wallet from './wallet.svg?raw';
 
 export {
@@ -35,5 +36,6 @@ export {
   support,
   trophey,
   verification,
+  verified,
   wallet,
 };

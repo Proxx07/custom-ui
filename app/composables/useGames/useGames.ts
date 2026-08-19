@@ -1,4 +1,4 @@
-import type { gameTypes } from './types';
+import type { gameTypes, TGamePrefixForLink } from './types';
 import { GAMES_LABELS } from './model';
 
 export const useGames = () => {
@@ -11,7 +11,7 @@ export const useGames = () => {
     return game;
   });
 
-  const gamePrefixForLink = computed(() => {
+  const gamePrefixForLink = computed<TGamePrefixForLink>(() => {
     return selectedGame.value === 'csgo' ? '/' : `/${selectedGame.value}/`;
   });
 

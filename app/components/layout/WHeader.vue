@@ -3,31 +3,44 @@ import WLogo from '~~/public/logo/logo.svg?raw';
 import { steam } from '@/assets/icons/logos';
 import { HeaderNav } from '@/components/headerElemets';
 import { Button, VIcon } from '@/components/ui';
+import { UserWidget } from '@/components/widgets';
+import { useAuth } from '@/composables/useAuth';
 import { useGames } from '@/composables/useGames';
+import { useUserStore } from '@/store/userStore';
 
-const { selectedGame } = useGames();
+const { gamePrefixForLink } = useGames();
+const { getSteamAuthLink } = useAuth();
+
+const userStore = useUserStore();
 </script>
 
 <template>
   <header class="header">
     <div class="header__logo">
-      <NuxtLinkLocale
-        :to="`/${selectedGame !== 'csgo' ? selectedGame : ''}`"
-        class="logo"
-      >
+      <NuxtLinkLocale class="logo" :to="gamePrefixForLink">
         <VIcon :icon="WLogo" /> Waxpeer
       </NuxtLinkLocale>
     </div>
 
     <div class="header__right">
-      <HeaderNav :selected-game="selectedGame" />
+      <HeaderNav :game-prefix-for-link="gamePrefixForLink" />
 
-      <Button
-        label="Sign in with Steam"
-        :icon-left="steam"
-        class="ml-auto"
-        padding="1.2rem 1.6rem 1.1rem"
-      />
+      <div class="ml-auto">
+        <Button
+          v-if="!userStore.user"
+          :href="getSteamAuthLink()"
+          :icon-left="steam"
+          rel="nofollow"
+          button-type="a"
+          label="Sign in with Steam"
+          padding="1.2rem 1.6rem 1.1rem"
+        />
+
+        <UserWidget
+          v-else
+          :user="userStore.user"
+        />
+      </div>
     </div>
   </header>
 </template>

@@ -1,6 +1,11 @@
 <script setup lang="ts">
+
 </script>
 
 <template>
-  <h1>Inventory | TEST</h1>
+  <h1>CART</h1>
 </template>
+
+<style scoped lang="scss">
+
+</style>
