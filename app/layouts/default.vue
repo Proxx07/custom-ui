@@ -8,8 +8,16 @@ const props = defineProps<{
 
 const { locale } = useI18n();
 const footer = ref<InstanceType<typeof WFooter>>();
+
 const skinsLocalized = useCookie('skins-localized', { default: () => true });
-provide(SKINS_LOCALIZED, computed(() => skinsLocalized.value && locale.value !== 'en'));
+provide(SKINS_LOCALIZED, computed({
+  get() {
+    return skinsLocalized.value && locale.value !== 'en';
+  },
+  set(value: boolean) {
+    skinsLocalized.value = value;
+  },
+}));
 </script>
 
 <template>

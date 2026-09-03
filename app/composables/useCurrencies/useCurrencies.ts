@@ -18,7 +18,7 @@ export const useCurrencies = () => {
     return CURRENCIES.find(c => c.code === currency.value) || CURRENCIES[0]!;
   });
 
-  const currencies = useState<CurrencyWithPrice[]>('currencies', () => shallowRef([]));
+  const currencies = shallowRef<CurrencyWithPrice[]>([]);
 
   const currenciesListLoading = ref(true);
   const fetchCurrencies = async () => {

@@ -25,6 +25,13 @@ export const EXTERIOR_FLOATS: Record<Exclude<ExteriorTypes, 'BS'>, number> = {
   WW: 0.44,
 };
 
+export const checkIsSouvenir = (name: string): boolean => {
+  return name.toLowerCase().includes('souvenir');
+};
+export const checkIsStatTrack = (name: string): boolean => {
+  return name.toLowerCase().includes('stattrak');
+};
+
 export const getExteriorFromFloat = (float?: number): ExteriorTypes | '' => {
   if (float === undefined || float === null || float < 0 || float > 1 || Number.isNaN(float)) return '';
   if (float < EXTERIOR_FLOATS.FN) return 'FN';

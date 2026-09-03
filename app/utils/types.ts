@@ -1,5 +1,4 @@
-import type { CookieRef } from '#app';
-import type { InjectionKey } from 'vue';
+import type { InjectionKey, WritableComputedRef } from 'vue';
 
 export type TColors = 'surface'
   | 'surface-container'
@@ -37,6 +36,5 @@ export type TSizes = 'xl' | 'l' | 'm' | 's';
 
 export type FilterColorType = 'BLUE' | 'BROWN' | 'GREEN' | 'ORANGE' | 'GRAY' | 'PURPLE' | 'RED' | 'YELLOW' | 'VIOLET' | 'BLACK' | 'BEIGE' | 'WHITE' | '';
 
-export const SKINS_LOCALIZED: InjectionKey<CookieRef<boolean>> = Symbol('skins-localized');
-
+export const SKINS_LOCALIZED: InjectionKey<WritableComputedRef<boolean>> = Symbol('skins-localized');
 export type SortTypes = 'ASC' | 'DESC';

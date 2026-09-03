@@ -13,13 +13,17 @@ export const useCurrenciesStore = defineStore('currencies', () => {
   };
 
   const calculateWallet = (price: number): number => {
+    // toFixed without rounding
     const selectedCurrencyRate = currenciesEnum.value[selectedCurrency.value.code]?.price || CURRENCY_DENOMINATOR;
     const result = (price / CURRENCY_DENOMINATOR) * (selectedCurrencyRate / CURRENCY_DENOMINATOR);
-    return Math.trunc((result + Number.EPSILON) * 100) / 100; ;
+    return Math.trunc((result + Number.EPSILON) * 100) / 100;
   };
 
   const priceToCurrency = (calculatedPriceValue: number, withSymbol: boolean = true): string => {
-    return (withSymbol ? `${selectedCurrency.value.symbol} ` : '') + calculatedPriceValue.toLocaleString('ru-RU');
+    return (withSymbol ? `${selectedCurrency.value.symbol} ` : '') + calculatedPriceValue.toLocaleString('ru-RU', /* {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    } */);
   };
 
   return {

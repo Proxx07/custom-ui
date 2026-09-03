@@ -2,7 +2,8 @@
 import type { PopoverProps, PopoverSlots } from './types';
 
 const {
-  width, gap = 8,
+  width,
+  gap = 8,
   bg = 'surface-high-container',
   disabled = false,
   stayOnScroll = false,
@@ -128,7 +129,7 @@ useEventListener('keydown', (e) => {
   z-index: 10;
   padding: 0.8rem;
   border: 1px solid var(--outline);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xl);
   &.open-to-top {
     top: auto;
     bottom: var(--y);

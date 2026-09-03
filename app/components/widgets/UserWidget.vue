@@ -12,8 +12,8 @@ const props = defineProps<{
 
 const currencyStore = useCurrenciesStore();
 
-const walletSum = computed(() => currencyStore.priceToCurrency(currencyStore.calculatePrice(props.user.wallet)));
-const holdSum = computed(() => currencyStore.priceToCurrency(currencyStore.calculatePrice(props.user.total_hold_amount)));
+const walletSum = computed(() => currencyStore.priceToCurrency(currencyStore.calculateWallet(props.user.wallet)));
+const holdSum = computed(() => currencyStore.priceToCurrency(currencyStore.calculateWallet(props.user.total_hold_amount)));
 
 const userWallet = computed(() => {
   const totalPrice = props.user.wallet + props.user.total_hold_amount;

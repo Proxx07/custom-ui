@@ -151,10 +151,7 @@ onMounted(() => {
 
 <template>
   <div class="page-wrapper">
-    <CatalogList
-      class="catalog-list"
-      :mobile-folders-expanded="foldersExpanded"
-    />
+    <CatalogList :mobile-folders-expanded="foldersExpanded" />
     <div class="page-top">
       <BreadCrumbs :list="breadCrumbsList" />
 

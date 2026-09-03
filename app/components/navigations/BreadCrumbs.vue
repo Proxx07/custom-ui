@@ -53,8 +53,6 @@ ul {
   flex-wrap: nowrap;
   gap: .8rem;
   a {
-    text-decoration: none;
-    color: inherit;
     display: inline-block;
     padding: 1rem 0;
     &.router-link-exact-active {

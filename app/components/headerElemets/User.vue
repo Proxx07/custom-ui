@@ -29,9 +29,9 @@ const [opened, toggle] = useToggle();
         </div>
       </Drawer>
       <Popover v-else v-model="opened" :target="target" stay-on-scroll :width="350" hidden>
-        <div class="flex-col justify-center items-center gap">
+        <pre>
           {{ user }}
-        </div>
+        </pre>
       </Popover>
     </client-only>
   </div>

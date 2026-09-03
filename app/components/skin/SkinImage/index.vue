@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { SkinImageProps } from './types';
 import { hexagon } from '@/assets/icons/general';
+import { w as imgPlaceholder } from '@/assets/icons/logos';
 import { VIcon } from '@/components/ui';
 import { imageProxy, SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
 
@@ -20,6 +21,7 @@ const activeImg = ref<string>(props.imageFront || props.image);
 
 const sourceQueriesList = computed(() => !sourceQueries.value ? [] : Object.keys(sourceQueries.value).reverse());
 const fallbackImage = imageProxy(activeImg.value, { width: props.imageWidth || 200, game: props.game });
+const isInvalidImage = computed(() => !activeImg.value.includes('http'));
 </script>
 
 <template>
@@ -36,7 +38,8 @@ const fallbackImage = imageProxy(activeImg.value, { width: props.imageWidth || 2
       />
       <div v-if="rarityImage === 'shadow'" class="rarity-inner" />
     </div>
-    <picture>
+    <VIcon v-if="isInvalidImage" :icon="imgPlaceholder" class="h-full" />
+    <picture v-else>
       <source
         v-for="queryKey in sourceQueriesList"
         :key="queryKey + cardSize"

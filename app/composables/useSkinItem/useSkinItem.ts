@@ -2,7 +2,14 @@ import type { SkinItemProps } from './types';
 import { useCurrenciesStore } from '@/store/currencyStore';
 import { SKINS_LOCALIZED } from '@/utils';
 import { formatCompact } from '@/utils/textFormatters';
-import { getFloatPercent, parsePhaseToPhaseKey, parseSkinName, removeSizeFromImage } from './model';
+import {
+  checkIsSouvenir,
+  checkIsStatTrack,
+  getFloatPercent,
+  parsePhaseToPhaseKey,
+  parseSkinName,
+  removeSizeFromImage,
+} from './model';
 
 export const useSkinItem = (props: SkinItemProps) => {
   const currencyStore = useCurrenciesStore();
@@ -10,8 +17,8 @@ export const useSkinItem = (props: SkinItemProps) => {
 
   const { type = '', name = '' } = parseSkinName(props.item.name, props.item.phase);
 
-  const isStatTrack = type.toLowerCase().includes('stattrak');
-  const isSouvenir = type.toLowerCase().includes('souvenir');
+  const isStatTrack = checkIsStatTrack(type);
+  const isSouvenir = checkIsSouvenir(type);
 
   const skinType = computed(() => {
     if (!props.item.localized_name || !isSkinLocalized?.value) return type || props.item.type || '';
@@ -37,7 +44,7 @@ export const useSkinItem = (props: SkinItemProps) => {
 
   const float = !props.item.float
     ? ''
-    : props.item.float?.toLocaleString('fullwide', {
+    : props.item.float.toLocaleString('fullwide', {
       useGrouping: false,
       maximumFractionDigits: 8,
     });

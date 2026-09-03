@@ -20,7 +20,7 @@ export interface INotification {
 }
 
 export type NotificationActionIcons = Record<NotificationActions, string>;
-export type NotificationParamStatus = Record<NotificationParameter, 'success' | 'error' | 'awaiting'>;
+export type NotificationParamStatus = Record<NotificationParameter, 'secondary' | 'error' | 'attention'>;
 
 export interface NotificationsResponse {
   items: INotification[]

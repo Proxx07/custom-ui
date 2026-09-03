@@ -4,6 +4,7 @@ import { russia, unitedStates } from '@/assets/icons/flags';
 import { Button, Checkbox, DropDown, VIcon } from '@/components/ui';
 import { SKINS_LOCALIZED } from '@/utils';
 
+const switchLocalePath = useSwitchLocalePath();
 const { locales, locale, setLocale } = useI18n();
 
 const flagsMap: Record<LocaleItemType['code'], string> = {
@@ -22,45 +23,49 @@ const skinsLocalized = inject(SKINS_LOCALIZED);
 </script>
 
 <template>
-  <DropDown
-    :model-value="locale"
-    :items="localesList"
-    value="code"
-    size="s"
-    @update:model-value="setLocaleHandler"
-  >
-    <template v-if="locale !== 'en' && skinsLocalized !== undefined" #listPrepend>
-      <div class="checkbox-wrapper">
-        <Checkbox
-          v-model="skinsLocalized"
-          label="Перевод скинов"
-          size="s"
-        />
-      </div>
-    </template>
-    <template #target="{ toggleDropDown, isOpened, selected, downIcon }">
-      <Button
-        severity="tertiary"
-        variant="text"
-        no-hover-bg
-        padding="1rem"
-        :icon-right="downIcon"
-        :icon-left="selected?.icon"
-        :rotate-right-icon="isOpened"
-        left-icon-no-fill
-        label="dropdownValue"
-        @click="toggleDropDown"
-      >
-        {{ selected?.code.toLocaleUpperCase() ?? 'Language' }}
-      </Button>
-    </template>
-    <template #itemInner="{ item }">
-      <VIcon :icon="item.icon" no-fill :size="16" style="margin-right: .4rem" />
-      <span class="font-16-n">
-        {{ item.code.toUpperCase() }}
-      </span>
-    </template>
-  </DropDown>
+  <div>
+    <DropDown :model-value="locale" :items="localesList" value="code" size="s" @update:model-value="setLocaleHandler">
+      <template v-if="locale !== 'en' && skinsLocalized !== undefined" #listPrepend>
+        <div class="checkbox-wrapper">
+          <Checkbox
+            v-model="skinsLocalized"
+            label="Перевод скинов"
+            size="s"
+          />
+        </div>
+      </template>
+      <template #target="{ toggleDropDown, isOpened, selected, downIcon }">
+        <Button
+          severity="tertiary"
+          variant="text"
+          no-hover-bg
+          padding="1rem"
+          :icon-right="downIcon"
+          :icon-left="selected?.icon"
+          :rotate-right-icon="isOpened"
+          left-icon-no-fill
+          label="dropdownValue"
+          @click="toggleDropDown"
+        >
+          {{ selected?.code.toLocaleUpperCase() ?? 'Language' }}
+        </Button>
+      </template>
+      <template #itemInner="{ item }">
+        <VIcon :icon="item.icon" no-fill :size="16" style="margin-right: .4rem" />
+        <span class="font-16-n">
+          {{ item.code.toUpperCase() }}
+        </span>
+      </template>
+    </DropDown>
+
+    <nav hidden>
+      <ul>
+        <li v-for="ln in localesList" :key="ln.code">
+          <a :href="switchLocalePath(ln.code)"> {{ ln.name }} </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <style lang="scss" scoped>
