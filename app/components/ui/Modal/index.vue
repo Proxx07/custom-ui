@@ -35,9 +35,9 @@ const footerRef = ref<HTMLDivElement>();
 const headerRef = ref<HTMLDivElement>();
 
 const modalScrollOffset = ref(0);
+const footerHeight = ref(0);
 
 const { height: windowHeight } = useWindowSize();
-const { height: footerHeight } = useElementBounding(footerRef);
 const { top, update, height: headerHeight } = useElementBounding(headerRef);
 
 const [animationOffset, toggleAnimationOffset] = useToggle(false);
@@ -68,8 +68,7 @@ const pointerMoveHandler = (e: TouchEvent | WheelEvent) => {
 const contentMaxHeight = computed(() => {
   if (!modelValue || !contentRef.value) return 0;
   if (modalMaxHeight === 'full') return Math.round(windowHeight.value * 0.7);
-
-  const contentOriginHeight = Math.round(getElementHeight(contentRef.value) + footerHeight.value + 30);
+  const contentOriginHeight = Math.round(getElementHeight(contentRef.value) + footerHeight.value);
   return Math.min(contentOriginHeight, Math.round(windowHeight.value * 0.6));
 });
 
@@ -87,8 +86,10 @@ useEventListener(document, 'keydown', (e: KeyboardEvent) => {
 
 watch(() => modelValue, () => {
   update();
-  modalScrollOffset.value = OFFSET_DEFAULT = Math.floor(windowHeight.value - contentMaxHeight.value - headerHeight.value - 30);
-  MAX_OFFSET_LIMIT = modalScrollOffset.value * 1.6;
+  if (footerRef.value) footerHeight.value = getElementHeight(footerRef.value);
+
+  modalScrollOffset.value = OFFSET_DEFAULT = Math.floor(windowHeight.value - contentMaxHeight.value - headerHeight.value - 20);
+  MAX_OFFSET_LIMIT = modalScrollOffset.value + (contentMaxHeight.value / 2);
 }, { flush: 'post' });
 </script>
 
@@ -265,6 +266,9 @@ watch(() => modelValue, () => {
   overflow: auto;
   pointer-events: all;
   will-change: padding;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   &.animated-offset {
     @include transition(padding, var(--slow-timing));
   }
