@@ -34,7 +34,7 @@ const { $toast } = useNuxtApp();
       >
         <template #content>
           <div
-            v-for="i in 10"
+            v-for="i in 200"
             :key="i"
             style="min-height: 10px;"
             v-text="i"
@@ -46,6 +46,7 @@ const { $toast } = useNuxtApp();
         v-model="modalOpened"
         title="TEST MODAL"
         back-button
+        modal-max-height="full"
         @back="$toast.attention('Back button clicked')"
       >
         <template #content>
@@ -71,7 +72,7 @@ const { $toast } = useNuxtApp();
       >
         <template #content>
           <div
-            v-for="i in 10"
+            v-for="i in 5"
             :key="i"
             style="min-height: 10px;"
             v-text="i"

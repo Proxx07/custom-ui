@@ -74,4 +74,5 @@ export interface IUser {
   next_tg_collect?: string // DateTime
   no_p2p_until?: string // DateTime
   created: string // DateTime
+
 }

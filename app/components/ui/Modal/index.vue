@@ -2,16 +2,16 @@
 import type { ModalEmits, ModalProps, ModalSlots } from './types';
 import { cross } from '@/assets/icons/actions';
 import { chevronLeft } from '@/assets/icons/arrows';
-import { scrollDirectionTracker } from '@/utils';
+import { getElementHeight, scrollDirectionTracker } from '@/utils';
 import Button from '../Button/index.vue';
 
 const {
   modelValue = false,
   modalBg = 'surface-container',
   maxWidth = 640,
-  contentMinHeight = 0,
   noHeaderBorder = false,
   title = '',
+  modalMaxHeight,
 } = defineProps<ModalProps>();
 
 const emit = defineEmits<ModalEmits>();
@@ -29,12 +29,13 @@ const emitBack = () => {
 let MAX_OFFSET_LIMIT = 0;
 let OFFSET_DEFAULT = 0;
 
-const modalWrapper = ref<HTMLDivElement>();
 const modalInnerRef = ref<HTMLDivElement>();
+const contentRef = ref<HTMLDivElement>();
 const footerRef = ref<HTMLDivElement>();
 const headerRef = ref<HTMLDivElement>();
 
 const modalScrollOffset = ref(0);
+
 const { height: windowHeight } = useWindowSize();
 const { height: footerHeight } = useElementBounding(footerRef);
 const { top, update, height: headerHeight } = useElementBounding(headerRef);
@@ -55,6 +56,7 @@ const recalculateOffset = (val: 'up' | 'down') => {
 };
 
 const scrollDirection = scrollDirectionTracker();
+
 const pointerMoveHandler = (e: TouchEvent | WheelEvent) => {
   if (animationOffset.value || (e instanceof WheelEvent && !e.cancelable)) return;
   if (Math.abs(top.value - modalScrollOffset.value) > 1.5) return;
@@ -63,6 +65,14 @@ const pointerMoveHandler = (e: TouchEvent | WheelEvent) => {
   recalculateOffset(direction);
 };
 
+const contentMaxHeight = computed(() => {
+  if (!modelValue || !contentRef.value) return 0;
+  if (modalMaxHeight === 'full') return Math.round(windowHeight.value * 0.7);
+
+  const contentOriginHeight = Math.round(getElementHeight(contentRef.value) + footerHeight.value + 30);
+  return Math.min(contentOriginHeight, Math.round(windowHeight.value * 0.6));
+});
+
 const innerTransitionEndHandler = () => {
   update();
   toggleAnimationOffset(false);
@@ -70,19 +80,15 @@ const innerTransitionEndHandler = () => {
 
 useEventListener(modalInnerRef, 'wheel', pointerMoveHandler);
 useEventListener(modalInnerRef, 'touchmove', pointerMoveHandler);
-useEventListener(modalInnerRef, 'transitionend', innerTransitionEndHandler);
-
-useEventListener(modalWrapper, 'transitionend', (e: TransitionEvent) => {
-  if (e.propertyName === 'transform') update();
-});
 
 useEventListener(document, 'keydown', (e: KeyboardEvent) => {
   if (e.key === 'Escape' && modelValue) closeModal();
 });
 
 watch(() => modelValue, () => {
-  modalScrollOffset.value = OFFSET_DEFAULT = Math.floor(windowHeight.value * 0.4);
-  MAX_OFFSET_LIMIT = Math.floor(OFFSET_DEFAULT * 1.6);
+  update();
+  modalScrollOffset.value = OFFSET_DEFAULT = Math.floor(windowHeight.value - contentMaxHeight.value - headerHeight.value - 30);
+  MAX_OFFSET_LIMIT = modalScrollOffset.value * 1.6;
 }, { flush: 'post' });
 </script>
 
@@ -100,14 +106,13 @@ watch(() => modelValue, () => {
       <transition name="modal">
         <div
           v-if="modelValue"
-          ref="modalWrapper"
           class="modal-wrapper"
           :style="{
             '--width': `${maxWidth + 46}px`,
-            '--content-min-height': `${contentMinHeight ? contentMinHeight : '320'}px`,
             '--footer-height': `${footerHeight}px`,
             '--header-height': `${headerHeight}px`,
           }"
+          @transitionend.self="update"
         >
           <div
             ref="modalInnerRef"
@@ -117,8 +122,9 @@ watch(() => modelValue, () => {
               '--top-offset': `${modalScrollOffset}px`,
             }"
             @click="closeModal"
+            @transitionend.self="innerTransitionEndHandler"
           >
-            <div class="modal-dialog-outer" @click.prevent.stop>
+            <div class="modal-dialog-outer" @click.stop>
               <div
                 class="modal-dialog"
                 :class="[`bg-${modalBg}`]"
@@ -172,8 +178,11 @@ watch(() => modelValue, () => {
                   </div>
                 </div>
 
-                <div class="modal-dialog__content">
-                  <div class="modal-dialog__content-inner">
+                <div
+                  class="modal-dialog__content"
+                  :style="{ '--content-max-height': `${contentMaxHeight}px` }"
+                >
+                  <div ref="contentRef" class="modal-dialog__content-inner">
                     <slot name="content">
                       {DIALOG_CONTENT}
                     </slot>
@@ -214,25 +223,25 @@ watch(() => modelValue, () => {
 .modal-enter-active,
 .modal-leave-active {
   @include transition(opacity transform);
-  @include media-max($mobile) {
+  @include media-max($tablet) {
     @include transition(opacity transform, var(--slow-timing));
   }
 }
 .modal-enter-from {
   opacity: 0;
-  @include media-min($mobile) {
+  @include media-min($tablet) {
     transform: scale(.9);
   }
-  @include media-max($mobile) {
+  @include media-max($tablet) {
     transform: translateY(100%);
   }
 }
 .modal-leave-to {
   opacity: 0;
-  @include media-min($mobile) {
+  @include media-min($tablet) {
     transform: scale(1.1);
   }
-  @include media-max($mobile) {
+  @include media-max($tablet) {
     transform: translateY(100%);
   }
 }
@@ -259,7 +268,7 @@ watch(() => modelValue, () => {
   &.animated-offset {
     @include transition(padding, var(--slow-timing));
   }
-  @include media-max($mobile) {
+  @include media-max($tablet) {
     padding-top: var(--top-offset);
   }
 }
@@ -270,24 +279,22 @@ watch(() => modelValue, () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  @include media-max($mobile) {
+  @include media-max($tablet) {
     align-items: flex-start;
   }
 }
 
 .modal-dialog-outer {
-  --min-h: 40rem;
   max-width: var(--width);
   width: 100%;
   pointer-events: all;
   gap: .6rem;
 
-  @include media-min($mobile) {
+  @include media-min($tablet) {
     display: flex;
   }
 
-  @include media-max($mobile) {
-    --min-h: 60dvh;
+  @include media-max($tablet) {
     max-width: 100%;
     .close-button {
       display: none;
@@ -311,7 +318,7 @@ watch(() => modelValue, () => {
     &-outer {
       border-radius: var(--radius-m) var(--radius-m) 0 0;
       overflow: hidden;
-      @include media-max($mobile) {
+      @include media-max($tablet) {
         position: sticky;
         left: 0;
         right: 0;
@@ -329,7 +336,7 @@ watch(() => modelValue, () => {
     }
     .header-append {
       &:empty {display: none}
-      @include media-min($mobile) {
+      @include media-min($tablet) {
         display: none;
       }
     }
@@ -340,14 +347,11 @@ watch(() => modelValue, () => {
     overflow-x: hidden;
     overflow-y: auto;
     padding-bottom: var(--padding-y);
-    @include media-max($mobile) {
-      overflow-y: hidden;
-      min-height: calc(var(--min-h) - var(--header-height));
+    @include media-max($tablet) {
       padding-bottom: calc(var(--padding-y) + var(--footer-height));
     }
-    @include media-min($mobile) {
-      min-height: var(--content-min-height);
-      max-height: var(--content-min-height);
+    @include media-min($tablet) {
+      max-height: var(--content-max-height);
     }
   }
 
@@ -357,7 +361,7 @@ watch(() => modelValue, () => {
     &:has(.modal-dialog__footer-inner:empty) {display: none}
     &-outer {
       border-radius: 0 0 var(--radius-m) var(--radius-m);
-      @include media-max($mobile) {
+      @include media-max($tablet) {
         position: fixed;
         left: 0;
         right: 0;

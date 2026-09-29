@@ -4,10 +4,10 @@ export interface ModalProps {
   modelValue: boolean
   modalBg?: TColors
   maxWidth?: number
-  contentMinHeight?: number
   noHeaderBorder?: boolean
   title?: string
   backButton?: boolean
+  modalMaxHeight?: 'full'
 }
 
 export interface ModalEmits {

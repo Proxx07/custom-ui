@@ -20,7 +20,7 @@ import { useSkinSearchInput } from '@/composables/useSkinsSearch';
 import { useCatalogFilterStore } from '@/store/catalogFilterStore';
 import { useCurrenciesStore } from '@/store/currencyStore';
 import { useDrawersStore } from '@/store/drawersState';
-import { formatCompact } from '@/utils/textFormatters';
+import { formatCompact } from '@/utils';
 
 definePageMeta({
   pageTransition: false,

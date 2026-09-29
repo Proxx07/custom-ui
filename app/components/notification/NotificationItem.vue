@@ -10,7 +10,7 @@ import {
 } from '@/composables/useNotifications';
 import { checkIsSouvenir, checkIsStatTrack, getExteriorFromName, parseSkinName } from '@/composables/useSkinItem';
 import { useCurrenciesStore } from '@/store/currencyStore';
-import { getMonthDayYearDateFromDateString, getTimeStringFromDateString } from '@/utils/timeFormatters';
+import { getMonthDayYearDateFromDateString, getTimeStringFromDateString } from '@/utils';
 import NotificationSkin from './NotificationSkin.vue';
 
 const props = defineProps<{

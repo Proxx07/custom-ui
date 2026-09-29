@@ -1,5 +1,5 @@
 import { CURRENCY_DENOMINATOR, useCurrencies } from '@/composables/useCurrencies';
-import { createEnumFromArray } from '@/utils/arrayFormatters';
+import { createEnumFromArray } from '@/utils';
 
 export const useCurrenciesStore = defineStore('currencies', () => {
   const { currency, selectedCurrency, currencies, currenciesListLoading, fetchCurrencies } = useCurrencies();

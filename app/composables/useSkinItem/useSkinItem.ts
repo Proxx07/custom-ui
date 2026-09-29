@@ -1,7 +1,7 @@
 import type { SkinItemProps } from './types';
 import { useCurrenciesStore } from '@/store/currencyStore';
-import { SKINS_LOCALIZED } from '@/utils';
-import { formatCompact } from '@/utils/textFormatters';
+import { formatCompact, SKINS_LOCALIZED } from '@/utils';
+
 import {
   checkIsSouvenir,
   checkIsStatTrack,

@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { h } from 'vue';
+import { minus, plus } from '@/assets/icons/actions';
 import { wallet } from '@/assets/icons/features';
 import { clock } from '@/assets/icons/general';
 import { Button, type ButtonExpose, Modal, Popover, VIcon } from '@/components/ui';
 import { useResponsive } from '@/composables/UI';
 
-defineProps<{
+const props = defineProps<{
   walletPrice: string
   holdPrice: string
 
@@ -15,6 +17,34 @@ defineProps<{
 const { isMax } = useResponsive();
 const target = ref<ButtonExpose>();
 const [opened, toggle] = useToggle();
+
+const WalletHeader = () => h('div', { class: 'flex items-center gap w-full' },
+  [
+    h('div', { class: 'font-16-m' }, 'Balance'),
+    h(Button, { severity: 'tertiary', variant: 'text', size: 's', class: 'ml-auto', iconLeft: clock }),
+  ],
+);
+
+const BalanceCard = () => h('div', {},
+  [
+    h('div', { class: 'font-16-m' }, props.walletPrice),
+    h(VIcon, { icon: wallet, size: 20, class: 'rowspan-2' }),
+    h('div', { class: 'font-14-n' }, 'Available balance'),
+  ],
+);
+
+const HoldInfo = () => h('div', { class: 'color-attention' }, `${props.holdPrice} on hold`);
+
+const ButtonsWrapper = () => h('div', {}, [
+  h(Button, {
+    label: 'Deposit', severity: 'secondary', variant: 'ghost',
+    size: 's', fluid: true, iconLeft: plus,
+  }),
+  h(Button, {
+    label: 'Withdraw', severity: 'tertiary', variant: 'outlined',
+    size: 's', fluid: true, iconLeft: minus,
+  }),
+]);
 </script>
 
 <template>
@@ -33,9 +63,18 @@ const [opened, toggle] = useToggle();
 
     <client-only>
       <Modal v-if="isMax('mobile')" v-model="opened">
-        <div class="wallet-wrapper">
-          {{ walletInteger }} | {{ holdPrice }}
-        </div>
+        <template #header-inner>
+          <WalletHeader />
+        </template>
+        <template #content>
+          <div class="wallet-wrapper">
+            <BalanceCard class="available-balance" />
+            <HoldInfo />
+          </div>
+        </template>
+        <template #footer-inner>
+          <ButtonsWrapper class="buttons-wrapper" />
+        </template>
       </Modal>
       <Popover
         v-else
@@ -44,34 +83,10 @@ const [opened, toggle] = useToggle();
         :width="300"
       >
         <div class="wallet-wrapper">
-          <div class="flex items-center gap">
-            <div class="font-16-m">
-              Balance
-            </div>
-
-            <Button
-              severity="tertiary"
-              variant="text"
-              size="s"
-              class="ml-auto"
-              :icon-left="clock"
-            />
-          </div>
-
-          <div class="available-balance">
-            <div class="font-20-m">
-              {{ walletPrice }}
-            </div>
-            <VIcon :icon="wallet" :size="20" class="rowspan-2" />
-
-            <div class="font-14-n">
-              Available balance
-            </div>
-          </div>
-
-          <div class="color-attention">
-            {{ holdPrice }} on hold
-          </div>
+          <WalletHeader />
+          <BalanceCard class="available-balance" />
+          <HoldInfo />
+          <ButtonsWrapper class="buttons-wrapper" />
         </div>
       </Popover>
     </client-only>
@@ -84,6 +99,7 @@ sup {
   line-height: 1.2;
   opacity: 0.6;
 }
+
 .wallet-icon {
   margin-right: .4rem;
 }
@@ -103,5 +119,11 @@ sup {
   align-items: center;
   border-radius: var(--radius-l);
   background: var(--outline);
+}
+
+.buttons-wrapper {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
 }
 </style>
