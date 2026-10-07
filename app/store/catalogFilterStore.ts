@@ -63,6 +63,8 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
 
     search: { key: 'search', parse: 'string', default: '' },
 
+    stickerCount: { key: 'sticker_count', parse: 'number', default: 0 },
+
   }, {
     writeToRouteDebounce: 1200,
     disableRouteQuerySync: isFilterRouteSyncDisabled,

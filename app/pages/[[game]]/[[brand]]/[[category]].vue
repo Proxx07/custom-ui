@@ -7,7 +7,7 @@ import { steam } from '@/assets/icons/logos';
 import { ListGridSize } from '@/components/globalSelects';
 import { BreadCrumbs, CatalogList } from '@/components/navigations';
 import { ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType } from '@/components/skin';
-import { Button, DotLoader, DropDown, Input, VIcon } from '@/components/ui';
+import { Button, DropDown, Input, PriceWithLoading, VIcon } from '@/components/ui';
 import { type BreadCrumbsItem, useCardSize, useResponsive } from '@/composables/UI';
 import { useModuleI18n } from '@/composables/useModuleI18n';
 import { SKIN_IMAGE_ASPECT_RATIO } from '@/composables/useSkinItem';
@@ -317,42 +317,45 @@ onMounted(() => {
               <span v-if="offersCount" class="offer-count">
                 x{{ offersCount }}
               </span>
-              <div
+              <PriceWithLoading
                 v-if="steamPrice"
-                class="flex items-center gap-1 ml-auto"
+                class="ml-auto"
                 :class="cardSize === 'small' ? 'font-12-n' : 'font-14-n'"
+                :loading="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
+                :price="formatCompact(steamPrice)"
               >
-                <VIcon :icon="steam" :size="20" />
-                <DotLoader
-                  v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
-                  :count="5"
-                />
-                <template v-else>
-                  {{ currencyStore.priceToCurrency(steamPrice, false) }}
+                <template #prepend>
+                  <VIcon :icon="steam" :size="20" /> {{ currencyStore.selectedCurrency.symbol }}
                 </template>
-              </div>
+              </PriceWithLoading>
             </div>
 
-            <SkinImage
-              :image="image"
-              :image-front="imageFront"
-              :image-back="imageBack"
-              :card-size="cardSize"
-              :game="item.game"
-              :image-query="MARKETPLACE_SKIN_IMAGES_QUERY"
-              :rarity-color="rarityColor"
-              rarity-image="hex"
-              :alt="skinName"
-              :loading="index < 10 ? 'eager' : 'lazy'"
-              :fetchpriority="index < 10 ? 'high' : undefined"
-            />
+            <div class="relative">
+              <SkinImage
+                :image="image"
+                :image-front="imageFront"
+                :image-back="imageBack"
+                :card-size="cardSize"
+                :game="item.game"
+                :image-query="MARKETPLACE_SKIN_IMAGES_QUERY"
+                :rarity-color="rarityColor"
+                rarity-image="hex"
+                :alt="skinName"
+                :loading="index < 10 ? 'eager' : 'lazy'"
+                :fetchpriority="index < 10 ? 'high' : undefined"
+              />
+
+              <div class="stickers-wrapper">
+                {STICKERS}
+              </div>
+            </div>
 
             <div v-if="!isCatalog" class="flex font-12-n">
               <div class="color-on-surface-tertiary">
                 {{ exterior }}
               </div>
               <div class="ml-auto" />
-              {{ float ? float : '' }}
+              {{ float ? float : '&nbsp;' }}
             </div>
 
             <SkinFloat
@@ -374,16 +377,16 @@ onMounted(() => {
               {{ skinName }}
             </div>
 
-            <div v-if="!isCatalog" class="font-16-m price">
-              {{ currencyStore.selectedCurrency.symbol }}
-              <DotLoader
-                v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
-                :count="5"
-              />
-              <template v-else>
-                {{ currencyStore.priceToCurrency(price, false) }}
+            <PriceWithLoading
+              v-if="!isCatalog"
+              :price="currencyStore.priceToCurrency(price, false)"
+              :loading="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
+              class="font-16-m mt-auto price-padding"
+            >
+              <template #prepend>
+                {{ currencyStore.selectedCurrency.symbol }}
               </template>
-            </div>
+            </PriceWithLoading>
 
             <div v-if="!isCatalog" class="buttons">
               <Button
@@ -399,13 +402,14 @@ onMounted(() => {
                 :size="cardSize === 'large' ? 'm' : 's'"
               />
             </div>
-            <div v-else class="price-range">
-              <DotLoader v-if="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'" :count="5" />
-              <template v-else>
-                {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(lowestPrice) }}
-                - {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(price) }}
-              </template>
-            </div>
+            <PriceWithLoading
+              v-else
+              :loading="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
+              class="font-16-m price-range-padding"
+            >
+              {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(lowestPrice) }}
+              - {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(price) }}
+            </PriceWithLoading>
           </div>
         </template>
       </SkinCard>
@@ -449,6 +453,8 @@ h1 {
 }
 
 .gap-1 { gap: 4px };
+.price-range-padding { padding-top: 1.2rem }
+.price-padding {padding-top: .6rem }
 
 .skin-inner {
   display: flex;
@@ -468,11 +474,6 @@ h1 {
     border-radius: var(--radius-xs);
   }
 
-  .price {
-    margin-top: auto;
-    padding-top: .6rem;
-  }
-
   .float {
     margin-bottom: .6rem;
   }
@@ -483,16 +484,11 @@ h1 {
     display: grid;
     grid-template-columns: auto 1fr;
   }
-
-  .price-range {
-    margin-top: auto;
-    padding-top: 1.2rem;
-  }
 }
 
 .page-top {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 3fr;
   gap: 1.6rem;
   align-items: center;
   @include media-max($laptop) {

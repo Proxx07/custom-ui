@@ -35,14 +35,14 @@ const BalanceCard = () => h('div', {},
 
 const HoldInfo = () => h('div', { class: 'color-attention' }, `${props.holdPrice} on hold`);
 
-const ButtonsWrapper = () => h('div', {}, [
+const ButtonsWrapper = () => h('div', { }, [
   h(Button, {
     label: 'Deposit', severity: 'secondary', variant: 'ghost',
-    size: 's', fluid: true, iconLeft: plus,
+    size: 's', fluid: true, iconLeft: plus, class: 'justify-center',
   }),
   h(Button, {
     label: 'Withdraw', severity: 'tertiary', variant: 'outlined',
-    size: 's', fluid: true, iconLeft: minus,
+    size: 's', fluid: true, iconLeft: minus, class: 'justify-center',
   }),
 ]);
 </script>

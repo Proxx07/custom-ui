@@ -29,11 +29,11 @@ export interface StickerSteamPrice {
 export interface Sticker {
   id: SkinItemId
   sticker_id: number
-  wear?: number
   name: string
   image: string
   slot: number
   steam_price: StickerSteamPrice
+  wear?: number // fractional number [0 - 1] should be converted into %
 }
 
 export interface InspectItem {

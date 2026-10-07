@@ -195,7 +195,11 @@ const loading = computed(() => isFetching.value && !$router.currentRoute.value.p
             </li>
 
             <li v-for="child in selectedElementChild" :key="child.slug">
-              <NuxtLinkLocale :to="catalogListLinkBySlug[child.slug]" class="nav-item">
+              <NuxtLinkLocale
+                :to="catalogListLinkBySlug[child.slug]"
+                class="nav-item"
+                @click="resetParentCatalog"
+              >
                 <ListItem :label="t(`catalog_${selectedGame}.${child.slug}`)" :left-slot-size="50" :gap="8" text-spoiler>
                   <template #prepend>
                     <SkinImage

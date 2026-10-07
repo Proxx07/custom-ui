@@ -1,5 +1,6 @@
 import type { CardSizeType } from '@/composables/UI';
 import type { gameTypes } from '@/composables/useGames';
+import type { PhaseQueryTypes } from '@/composables/useItemFades';
 import type { SkinItemId } from '@/composables/useSkinsList';
 import type { TColors } from '@/utils';
 
@@ -9,7 +10,14 @@ export type SkinPlaceholderTypes = 'ak47' | 'bayonet' | 'butterfly' | 'flipKnive
 export type ExteriorTypes = 'FN' | 'MW' | 'FT' | 'WW' | 'BS';
 
 export interface ISkinCardSticker {
+  id: SkinItemId
+  name: string
+  sluggedName: string
 
+  image: string
+  price: number
+
+  wear?: number // percents
 }
 
 export interface ISkin {
@@ -41,6 +49,8 @@ export interface ISkin {
   auto?: boolean // Хуй знает почему так называется
   offersCount: number
 
+  stickers?: ISkinCardSticker[]
+
   // stickers, gems
 }
 
@@ -50,4 +60,29 @@ export interface SkinItemProps {
 
   background?: TColors
   hoverBackground?: TColors
+}
+
+export interface SkinSlotProps {
+  skinName: string
+  skinType?: string
+
+  image: string
+  imageFront?: string
+  imageBack?: string
+
+  price: number
+  steamPrice: number
+
+  phase: PhaseQueryTypes | ''
+  exterior?: ExteriorTypes
+
+  float: string
+  floatPercent: number
+  lowestPrice: number
+
+  statTrack: boolean
+  souvenir: boolean
+  rarityColor?: string
+
+  offersCount?: string
 }

@@ -67,6 +67,7 @@ const isInvalidImage = computed(() => !activeImg.value.includes('http'));
   width: 100%;
   font-size: 0;
   position: relative;
+  text-align: center;
   picture {
     width: 100%;
     display: block;

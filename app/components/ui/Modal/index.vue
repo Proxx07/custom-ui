@@ -322,6 +322,7 @@ watch(() => modelValue, () => {
     &-outer {
       border-radius: var(--radius-m) var(--radius-m) 0 0;
       overflow: hidden;
+      z-index: 10;
       @include media-max($tablet) {
         position: sticky;
         left: 0;
