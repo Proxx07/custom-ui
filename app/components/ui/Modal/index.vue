@@ -327,7 +327,7 @@ watch(() => modelValue, () => {
         position: sticky;
         left: 0;
         right: 0;
-        top: calc(var(--top-offset) * -1);
+        top: calc(var(--top-offset) * -1 - 1px);
       }
     }
     &-inner {
