@@ -4,10 +4,14 @@ import { useCurrenciesStore } from '@/store/currencyStore';
 
 const { $toast } = useNuxtApp();
 const { t } = useI18n();
+const { locales, locale } = useI18n();
 
 const currenciesStore = useCurrenciesStore();
 
 useHead({
+  htmlAttrs: {
+    lang: () => locales.value.find(ln => ln.code === locale.value)!.language,
+  },
   link: [
     { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/commissioner-latin.woff2', crossorigin: '' },
     { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/commissioner-cyrillic.woff2', crossorigin: '' },

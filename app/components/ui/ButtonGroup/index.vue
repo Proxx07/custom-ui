@@ -14,7 +14,7 @@ const {
   bg = '',
   hoverBg = 'surface-high-container',
   activeBg = 'surface-container',
-
+  ariaLabelValue = 'Button group',
 } = defineProps<ButtonGroupProps<T, V>>();
 
 const emit = defineEmits<ButtonGroupEmits<T, V>>();
@@ -51,6 +51,7 @@ const selectItem = (item: T) => {
       v-for="(item, i) in items"
       :key="i"
       :class="[selectedItem === item && 'active']"
+      :aria-label="ariaLabelValue"
       @click="selectItem(item)"
     >
       <slot

@@ -251,6 +251,7 @@ onMounted(() => {
             :icon-right="sorting1"
             :rotate-right-icon="filterStore.sort === 'ASC'"
             right-icon-no-fill
+            aria-label="Sorting"
             :disabled="loading || filterStore.order === 'advised'"
             class="sort-button hide-down-laptop-s"
             @click="filterStore.toggleSort"
@@ -281,6 +282,7 @@ onMounted(() => {
           bg-color="surface-high-container"
           no-hover-bg
           class="hide-up-tablet"
+          aria-label="Categories"
           :icon-right="itemType"
           @click="toggleFoldersExpanded(!foldersExpanded)"
         />
@@ -291,6 +293,7 @@ onMounted(() => {
           bg-color="surface-high-container"
           no-hover-bg
           class="hide-up-laptop-s"
+          aria-label="Filter"
           :icon-right="filter"
           @click="drawerStore.showAsideDrawer"
         />
@@ -414,11 +417,13 @@ onMounted(() => {
                 :icon-right="addToCart"
                 severity="tertiary"
                 variant="outlined"
+                aria-label="Add to cart"
                 :size="cardSize === 'large' ? 'm' : 's'"
               />
 
               <Button
                 label="Buy now"
+                aria-label="Buy now"
                 class="justify-center"
                 :size="cardSize === 'large' ? 'm' : 's'"
               />

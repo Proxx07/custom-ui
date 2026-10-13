@@ -34,6 +34,7 @@ const CARD_SIZE_LIST = [
     value="value"
     class="card-size-group"
     group-bg="surface-high-container"
+    aria-label-value="Items group"
   >
     <template #itemInner="{ item }">
       <VIcon :icon="item.label" :size="20" class="icon" />

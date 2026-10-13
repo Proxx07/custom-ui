@@ -18,6 +18,7 @@ export interface ButtonGroupProps<T, V extends keyof T = never> {
   bg?: TColors
   hoverBg?: TColors
   activeBg?: TColors
+  ariaLabelValue?: string
 }
 
 export interface ButtonGroupEmits<T, V extends keyof T = never> {
