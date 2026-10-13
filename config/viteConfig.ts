@@ -8,9 +8,11 @@ export const viteConfig = {
       },
     },
   },
+
   plugins: [
     cssInjectedByJsPlugin(),
   ],
+
   build: {
     assetsInlineLimit(filePath: string) {
       if (filePath.includes('assets/icons/skins')) return true;

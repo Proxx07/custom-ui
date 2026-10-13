@@ -11,6 +11,10 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
   },
 
+  features: {
+    inlineStyles: true,
+  },
+
   experimental: {
     viewTransition: false,
   },
