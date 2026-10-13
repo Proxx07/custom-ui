@@ -43,7 +43,7 @@ const isInvalidImage = computed(() => !activeImg.value.includes('http'));
       <source
         v-for="queryKey in sourceQueriesList"
         :key="queryKey + cardSize"
-        :srcset="imageProxy(activeImg, { width: sourceQueries![+queryKey], game: props.game })"
+        :srcset="`${imageProxy(activeImg, { width: sourceQueries![+queryKey], game: props.game })} 1x, ${imageProxy(activeImg, { width: sourceQueries![+queryKey]! * 2, game: props.game })} 2x`"
         :media="`(width >= ${queryKey}px)`"
       >
       <img :src="fallbackImage" v-bind="$attrs">

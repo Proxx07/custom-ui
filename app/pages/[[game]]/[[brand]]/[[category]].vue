@@ -356,7 +356,7 @@ onMounted(() => {
                 rarity-image="hex"
                 :alt="skinName"
                 :loading="index < 10 ? 'eager' : 'lazy'"
-                :fetchpriority="index < 10 ? 'high' : undefined"
+                :fetchpriority="index < 4 ? 'high' : undefined"
               />
 
               <CardStickers

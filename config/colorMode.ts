@@ -1,7 +1,7 @@
 import type { ModuleOptions } from '@nuxtjs/color-mode';
 
 export const colorModeConfig: ModuleOptions = {
-  preference: 'system',
+  preference: 'dark',
   fallback: 'dark',
   globalName: '__NUXT_COLOR_MODE__',
   componentName: 'ColorScheme',

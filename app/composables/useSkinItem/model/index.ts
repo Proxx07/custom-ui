@@ -111,7 +111,7 @@ export const imageProxy = (url: string | null, options?: { width?: number, heigh
   if (!url) return '';
   if (url.startsWith(IMAGE_PROXY_BASE_URL)) return url;
   const src = url.startsWith('http') ? url : `${IMAGE_SITE_BASE_URL}${url.startsWith('/') ? url : `/${url}`}`;
-  const isWebp = url.includes('webp');
+  // const isWebp = url.includes('webp');
 
   let width, height;
 
@@ -131,6 +131,7 @@ export const imageProxy = (url: string | null, options?: { width?: number, heigh
   }
 
   const fit = `rs:fit${width ? `:${width}` : ''}${height ? `:${height}` : ''}:0`;
-  const webp = !isWebp ? 'f:webp/' : '';
-  return `${IMAGE_PROXY_BASE_URL}/${fit}/g:nowe/${webp}plain/${src}`;
+  // const webp = !isWebp ? 'f:webp/' : '';
+  return `${IMAGE_PROXY_BASE_URL}/${fit}/g:nowe/f:webp/plain/${src}`;
+  // return `${IMAGE_PROXY_BASE_URL}/${fit}/g:nowe/${webp}plain/${src}`;
 };

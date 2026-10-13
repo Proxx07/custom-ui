@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { colorModeConfig, hooks, viteConfig } from './config';
+import { colorModeConfig, head, hooks, viteConfig } from './config';
 import { COOKIE_LOCALE_KEY, DEFAULT_LANGUAGE, localeItems } from './i18n/constants';
 
 export default defineNuxtConfig({
@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   app: {
+    head,
     pageTransition: { name: 'page', mode: 'out-in' },
   },
 

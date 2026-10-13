@@ -79,9 +79,9 @@ export const mapCatalogItemForCard = (skin: CatalogSkinItem, game: gameTypes): I
 };
 
 export const MARKETPLACE_SKIN_IMAGES_QUERY = {
-  small: { 1920: 135, 1440: 142, 1230: 150, 600: 142, 320: 190 },
-  default: { 1920: 157, 1440: 155, 1230: 177, 600: 178, 320: 190 },
-  large: { 1920: 200, 1440: 185, 1230: 230, 600: 250, 320: 190 },
+  small: { 1920: 149, 1300: 164, 1201: 156, 601: 185, 320: 190 },
+  default: { 1920: 172, 1300: 186, 1201: 195, 601: 211, 320: 190 },
+  large: { 1920: 209, 1300: 233, 1201: 251, 601: 287, 320: 190 },
 };
 
 export const SKINS_LIST_ORDER_DATA = ['advised', 'date', 'deals', 'profit', 'name', 'price', 'float'];

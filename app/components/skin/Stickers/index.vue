@@ -36,6 +36,7 @@ const width = `${Math.min(100 / props.stickers.length, 25)}%`;
       >
         <img
           :src="imageProxy(sticker.image, { width: 50 })"
+          :srcset="`${imageProxy(sticker.image, { width: 50 })} 1x, ${imageProxy(sticker.image, { width: 100 })} 2x`"
           :alt="sticker.name"
           loading="lazy"
           :class="[sticker.sluggedName.includes('charm') && 'charm-sticker']"
