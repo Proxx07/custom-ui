@@ -24,8 +24,6 @@ const tooltipInner = ref<HTMLDivElement>();
 
 const isHovered = useElementHover(tooltipWrapper);
 const { isOutside } = useMouseInElement(tooltipInner);
-const { left, top, width, height, update: wrapperUpdate } = useElementBounding(tooltipWrapper);
-const { width: tipWidth, height: tipHeight, update: innerUpdate } = useElementBounding(tooltipInner);
 
 const isTooltipVisible = ref(false);
 
@@ -35,8 +33,6 @@ let closeTimer: ReturnType<typeof setTimeout> | undefined;
 watch([isHovered, isOutside], ([hovered, outside]) => {
   clearTimeout(closeTimer);
   if (hovered || !outside) {
-    wrapperUpdate();
-    innerUpdate();
     isTooltipVisible.value = true;
   }
   else {
@@ -49,23 +45,27 @@ watch([isHovered, isOutside], ([hovered, outside]) => {
 onScopeDispose(() => clearTimeout(closeTimer));
 
 const tooltipPosition = computed(() => {
-  const centerX = left.value + width.value / 2;
-  const centerY = top.value + height.value / 2;
+  if (!tooltipWrapper.value || !tooltipInner.value || !isTooltipVisible.value) return;
+  const { left, top, width, height } = tooltipWrapper.value.getBoundingClientRect();
+  const { offsetWidth: tipWidth, offsetHeight: tipHeight } = tooltipInner.value;
 
-  let x = centerX - tipWidth.value / 2;
-  let y = centerY - tipHeight.value / 2;
+  const centerX = left + width / 2;
+  const centerY = top + height / 2;
+
+  let x = centerX - tipWidth / 2;
+  let y = centerY - tipHeight / 2;
 
   if (position === 'top') {
-    y = top.value - tipHeight.value;
+    y = top - tipHeight;
   }
   else if (position === 'bottom') {
-    y = top.value + height.value;
+    y = top + height;
   }
   else if (position === 'left') {
-    x = left.value - tipWidth.value;
+    x = left - tipWidth;
   }
   else if (position === 'right') {
-    x = left.value + width.value;
+    x = left + width;
   }
 
   return { '--x': `${x}px`, '--y': `${y}px` };

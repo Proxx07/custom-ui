@@ -8,10 +8,7 @@ defineProps<PriceWithLoadingProps>();
 <template>
   <div class="price-wrapper">
     <slot name="prepend" />
-    <DotLoader
-      v-if="loading"
-      :count="5"
-    />
+    <DotLoader v-if="loading" :count="5" />
     <slot v-else name="default">
       {{ price }}
     </slot>

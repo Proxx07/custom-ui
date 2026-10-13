@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --host",
+    "dev": "nuxt dev --port 8080 --host",
     "generate": "nuxt generate",
     "lint": "eslint . --fix",
     "typecheck": "nuxt typecheck",

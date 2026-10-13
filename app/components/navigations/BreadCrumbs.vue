@@ -70,6 +70,7 @@ ul {
   &:before {
     content: '';
     width: 1.8rem;
+    height: 1.8rem;
     border-radius: var(--radius-sm);
     background-image: v-bind(gameIcon);
     background-repeat: no-repeat;
@@ -78,9 +79,8 @@ ul {
     overflow: hidden;
     position: absolute;
     left: 0;
-    top: 0;
-    bottom: 0;
     pointer-events: none;
+    margin-top: 1px;
   }
 }
 

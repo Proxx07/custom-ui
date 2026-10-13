@@ -22,6 +22,12 @@ const nameHeight = cardSize === 'large' ? '19px' : cardSize === 'small' ? '16px'
       <Skeleton width="100%" height="100%" :skin="skinNumber" />
     </div>
 
+    <div class="flex">
+      <Skeleton width="20px" height="14px" />
+      <Skeleton width="50%" height="14px" class="ml-auto" />
+    </div>
+    <Skeleton width="100%" height="1px" style="margin-bottom: 6px" />
+
     <Skeleton width="50%" :height="typeHeight" />
     <Skeleton width="70%" :height="nameHeight" />
     <Skeleton width="100%" height="25px" style="margin-top: 6px" />
@@ -37,6 +43,7 @@ const nameHeight = cardSize === 'large' ? '19px' : cardSize === 'small' ? '16px'
 .skin-skeleton {
   border-radius: var(--radius-m);
   width: 100%;
+  cursor: wait;
 }
 .picture-wrapper {
   width: 100%;

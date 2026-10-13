@@ -33,7 +33,10 @@ export interface Sticker {
   image: string
   slot: number
   steam_price: StickerSteamPrice
-  wear?: number // fractional number [0 - 1] should be converted into %
+  /*
+    * wear: fractional number [0 - 1] should be converted into %
+  */
+  wear?: number
 }
 
 export interface InspectItem {

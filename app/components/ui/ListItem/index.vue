@@ -46,12 +46,6 @@ const slotRight = computed(() => rightSlotSize ? `${rightSlotSize}px` : 'auto');
   &:has(.left-slot):has(.right-slot) {
     grid-template-columns: v-bind(slotLeft) auto v-bind(slotRight);
   }
-  .default-slot.spoiler {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-  }
 
   .left-slot,
   .right-slot {

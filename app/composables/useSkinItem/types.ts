@@ -17,7 +17,7 @@ export interface ISkinCardSticker {
   image: string
   price: number
 
-  wear?: number // percents
+  wear?: number // in percents
 }
 
 export interface ISkin {
@@ -51,7 +51,7 @@ export interface ISkin {
 
   stickers?: ISkinCardSticker[]
 
-  // stickers, gems
+  // gems
 }
 
 export interface SkinItemProps {

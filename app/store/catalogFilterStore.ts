@@ -32,6 +32,8 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     quality,
     sort,
     search,
+    stickers,
+    // stickerCount,
     order,
     query,
     reset: resetStoreFilter,
@@ -64,6 +66,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     search: { key: 'search', parse: 'string', default: '' },
 
     stickerCount: { key: 'sticker_count', parse: 'number', default: 0 },
+    stickers: { key: 'stickers', parse: 'array', default: [] as string[] },
 
   }, {
     writeToRouteDebounce: 1200,
@@ -122,6 +125,10 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     deliveryTime.value = deliveryTime.value.filter(delivery => delivery !== value);
   };
 
+  const removeSingleSticker = (value: string) => {
+    stickers.value = stickers.value.filter(sticker => sticker !== value);
+  };
+
   return {
     filterLoading,
     isFilterRouteSyncDisabled,
@@ -143,7 +150,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     phase,
     collection,
     quality,
-
+    stickers,
     search,
     sort,
     order,
@@ -155,6 +162,7 @@ export const useCatalogFilterStore = defineStore('catalog-filter', () => {
     removeSingleQuality,
     removeSinglePhase,
     removeSingleDeliveryTime,
+    removeSingleSticker,
     resetFloats,
     updateExteriorsByFloat,
     resetPrice,

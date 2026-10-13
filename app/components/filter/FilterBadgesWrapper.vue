@@ -48,14 +48,15 @@ const FilterElementsBadge = (props: { label: string, onClick: () => void }) => {
     class: 'badge-button',
     severity: 'tertiary',
     padding: '0.3rem 0.3rem 0.3rem 0.5rem',
-    label: props.label,
     size: 's',
     iconRight: cross,
     onClick: () => {
       toggleBadgesRerender();
       props.onClick();
     },
-  });
+  },
+  [h('div', { class: 'spoiler' }, [props.label])],
+  );
 };
 
 const { height } = useElementBounding(badgesList);
@@ -158,6 +159,13 @@ watch(filterReseted, (value) => {
       />
 
       <FilterElementsBadge
+        v-for="sticker in filterStore.stickers"
+        :key="sticker"
+        :label="sticker"
+        @click="filterStore.removeSingleSticker(sticker)"
+      />
+
+      <FilterElementsBadge
         v-if="filterStore.collection"
         :label="filterStore.collection"
         @click="filterStore.resetField('collection')"
@@ -198,6 +206,8 @@ watch(filterReseted, (value) => {
   flex-wrap: wrap;
 
   :deep(.badge-button) {
+    max-width: 100%;
+    text-align: left;
     svg {
       width: 1.6rem;
       height: 1.6rem;

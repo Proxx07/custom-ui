@@ -110,12 +110,7 @@ const status = NOTIFICATION_PARAMS_STATUS[props.notification.parameter];
   }
 }
 .gap-1 { gap: 4px };
-.spoiler {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
-}
+
 .icon {
   width: 3.2rem;
   height: 3.2rem;

@@ -6,7 +6,7 @@ import { loader } from '@/assets/icons/general';
 import { steam } from '@/assets/icons/logos';
 import { ListGridSize } from '@/components/globalSelects';
 import { BreadCrumbs, CatalogList } from '@/components/navigations';
-import { ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType } from '@/components/skin';
+import { CardStickers, ListGrid, MarketplaceSkeleton, SkinCard, SkinFloat, SkinImage, SkinType } from '@/components/skin';
 import { Button, DropDown, Input, PriceWithLoading, VIcon } from '@/components/ui';
 import { type BreadCrumbsItem, useCardSize, useResponsive } from '@/composables/UI';
 import { useModuleI18n } from '@/composables/useModuleI18n';
@@ -82,6 +82,7 @@ const { stop: stopIntersection } = useIntersectionObserver(intersectionTarget, (
 });
 
 const getRouteBaseName = useRouteBaseName();
+
 const routeRestFilter = (to: RouteLocationNormalizedGeneric, from: RouteLocationNormalizedGeneric) => {
   const isRoutesSimilar = getRouteBaseName(from) === getRouteBaseName(to);
   const isParamsDifferent = from.params.brand !== to.params.brand
@@ -98,6 +99,14 @@ const drawerStore = useDrawersStore();
 const { cardSize, nameFontsBySize } = useCardSize();
 const [foldersExpanded, toggleFoldersExpanded] = useToggle();
 
+const stickerSelectHandler = (name: string) => {
+  filterStore.stickers = [name];
+  $router.replace({
+    path: localePath(filterStore.gamePrefixForLink),
+    query: { ...$router.currentRoute.value.query, stickers: name },
+  });
+};
+
 const {
   searchRef, searchQuery, loading: searchLoading, list: searchResultItems,
   fetchSearchList, searchItemsHandler, showSearchItemDropDown, closeSearchItemDropDown,
@@ -107,7 +116,11 @@ const searchItemSelectHandler = (name: string) => {
   filterStore.resetStoreFilter(false);
   filterStore.search = searchQuery.value = name;
   closeSearchItemDropDown();
-  $router.replace({ path: localePath(filterStore.gamePrefixForLink), query: { search: name } });
+
+  $router.replace({
+    path: localePath(filterStore.gamePrefixForLink),
+    query: { search: name },
+  });
 };
 
 const searchClearHandler = () => {
@@ -325,7 +338,8 @@ onMounted(() => {
                 :price="formatCompact(steamPrice)"
               >
                 <template #prepend>
-                  <VIcon :icon="steam" :size="20" /> {{ currencyStore.selectedCurrency.symbol }}
+                  <VIcon :icon="steam" :size="20" />
+                  {{ currencyStore.selectedCurrency.symbol }}
                 </template>
               </PriceWithLoading>
             </div>
@@ -345,9 +359,16 @@ onMounted(() => {
                 :fetchpriority="index < 10 ? 'high' : undefined"
               />
 
-              <div class="stickers-wrapper">
-                {STICKERS}
-              </div>
+              <CardStickers
+                v-if="item.stickers?.length"
+                class="stickers"
+                :stickers="item.stickers"
+                @sticker-selected="stickerSelectHandler"
+              >
+                <template #price="{ value }">
+                  {{ currencyStore.selectedCurrency.symbol }} {{ currencyStore.calculatePrice(value) }}
+                </template>
+              </CardStickers>
             </div>
 
             <div v-if="!isCatalog" class="flex font-12-n">
@@ -550,5 +571,13 @@ h1 {
     filter: grayscale(1);
     cursor: not-allowed;
   }
+}
+
+.stickers {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
 }
 </style>

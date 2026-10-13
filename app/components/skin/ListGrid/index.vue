@@ -7,6 +7,7 @@ const props = defineProps<{
 }>();
 
 defineSlots<{
+  prepend: () => unknown
   default: () => unknown
   skeletons: () => unknown
 }>();
@@ -15,6 +16,7 @@ defineSlots<{
 <template>
   <div class="list-wrapper" :class="[`size-${props.size}`]">
     <div class="list">
+      <slot name="prepend" />
       <slot />
       <template v-if="loading">
         <slot name="skeletons" />

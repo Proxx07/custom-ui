@@ -1,7 +1,31 @@
-import type { CatalogSkinItem, SkinListItem } from '../types';
+import type { CatalogSkinItem, SkinListItem, Sticker } from '../types';
 import type { gameTypes } from '@/composables/useGames';
-import type { ISkin } from '@/composables/useSkinItem';
-import type { SortTypes } from '@/utils';
+import type { ISkin, ISkinCardSticker } from '@/composables/useSkinItem';
+import { slugify, type SortTypes } from '@/utils';
+
+export const mapListStickerForCard = (sticker?: Partial<Sticker>): ISkinCardSticker => {
+  return {
+    id: sticker?.id ?? '',
+    name: sticker?.name ?? '',
+    sluggedName: sticker?.name ? slugify(sticker.name) : '',
+    image: sticker?.image || sticker?.steam_price?.img || '',
+    price: sticker?.steam_price?.average ?? 0,
+    wear: sticker?.wear ? Math.round(sticker.wear * 100) : 0,
+  };
+};
+
+export const sortStickersForCard = (list?: Partial<Sticker>[]): ISkinCardSticker[] => {
+  if (!list) return [];
+  const charmOrSlab: ISkinCardSticker[] = [];
+  const stickers: ISkinCardSticker[] = [];
+
+  for (const sticker of list) {
+    const cardSticker = mapListStickerForCard(sticker);
+    const isFirstElement = cardSticker.sluggedName.includes('charm') || cardSticker.sluggedName.includes('sticker-slab');
+    isFirstElement ? charmOrSlab.push(cardSticker) : stickers.push(cardSticker);
+  }
+  return [...charmOrSlab, ...stickers];
+};
 
 export const mapSkinsListItemForCard = (skin: SkinListItem, game: gameTypes): ISkin => {
   return {
@@ -28,6 +52,7 @@ export const mapSkinsListItemForCard = (skin: SkinListItem, game: gameTypes): IS
 
     auto: skin.auto,
     offersCount: skin.offer_count,
+    stickers: skin.inspect_item?.stickers ? sortStickersForCard(skin.inspect_item.stickers) : [],
   };
 };
 
@@ -49,6 +74,7 @@ export const mapCatalogItemForCard = (skin: CatalogSkinItem, game: gameTypes): I
 
     steamPrice: 0,
     offersCount: skin.offer_count,
+    stickers: skin.stickers ? sortStickersForCard(skin.stickers) : [],
   };
 };
 
