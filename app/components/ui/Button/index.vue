@@ -15,6 +15,8 @@ const {
   bgColor = '',
   hoverBgColor = '',
   borderColor = '',
+  variant,
+
 } = defineProps<ButtonProps>();
 
 defineSlots<ButtonSlots>();
@@ -41,6 +43,7 @@ const colorStyles = computed(() => {
       ...(hoverTextColor && { '--hover-color': `var(--${hoverTextColor})` }),
     };
   }
+  if (severity === 'primary' && !variant && !textColor) return { '--color': 'white', '--hover-color': 'white' };
   return undefined;
 });
 

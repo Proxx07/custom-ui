@@ -1,24 +1,17 @@
 <script setup lang="ts">
-import type { TGamePrefixForLink } from '@/composables/useGames';
+import type { NavListItem } from '@/composables/useNavigations';
 
-const props = defineProps<{
-  gamePrefixForLink: TGamePrefixForLink
+defineProps<{
+  navList: NavListItem[]
 }>();
-
-const pagesList = computed(() => [
-  { name: 'Main page', link: props.gamePrefixForLink },
-  { name: 'Sell items', link: `${props.gamePrefixForLink}manage/inventory` },
-  { name: 'My shop', link: `${props.gamePrefixForLink}manage/sell-offers` },
-  { name: 'Blog', link: '/blog' },
-]);
 </script>
 
 <template>
   <nav>
     <ul>
-      <li v-for="page in pagesList" :key="page.name">
+      <li v-for="page in navList" :key="page.name">
         <NuxtLinkLocale
-          :to="page.link"
+          :to="page.to"
           class="nav-item"
         >
           {{ page.name }}

@@ -27,13 +27,13 @@ const WalletHeader = () => h('div', { class: 'flex items-center gap w-full' },
 
 const BalanceCard = () => h('div', {},
   [
-    h('div', { class: 'font-16-m' }, props.walletPrice),
+    h('div', { class: 'font-20-m' }, props.walletPrice),
     h(VIcon, { icon: wallet, size: 20, class: 'rowspan-2' }),
     h('div', { class: 'font-14-n' }, 'Available balance'),
   ],
 );
 
-const HoldInfo = () => h('div', { class: 'color-attention' }, `${props.holdPrice} on hold`);
+const HoldInfo = () => h('div', { class: 'color-attention' }, `+ ${props.holdPrice} on hold`);
 
 const ButtonsWrapper = () => h('div', { }, [
   h(Button, {
@@ -114,7 +114,7 @@ sup {
 .available-balance {
   padding: 1.2rem;
   display: grid;
-  gap: 0.6rem;
+  gap: 1.2rem;
   grid-template-columns: 10fr 1fr;
   align-items: center;
   border-radius: var(--radius-l);

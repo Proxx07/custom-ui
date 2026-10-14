@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { WAside, WFooter, WHeader } from '@/components/layout';
+import { SOCIALS_LINK, useNavigations } from '@/composables/useNavigations';
 import { SKINS_LOCALIZED } from '@/utils';
 
 const props = defineProps<{
@@ -8,6 +9,7 @@ const props = defineProps<{
 
 const { locale } = useI18n();
 const footer = ref<InstanceType<typeof WFooter>>();
+const { headerNavigation, footerNavigation } = useNavigations();
 
 const skinsLocalized = useCookie('skins-localized', { default: () => true });
 provide(SKINS_LOCALIZED, computed({
@@ -27,7 +29,7 @@ provide(SKINS_LOCALIZED, computed({
       '--header-height': '62px',
     }"
   >
-    <WHeader />
+    <WHeader :nav-list="headerNavigation" />
 
     <transition name="aside-animation">
       <WAside v-if="props.showSidebar" />
@@ -40,7 +42,7 @@ provide(SKINS_LOCALIZED, computed({
       <slot />
     </main>
 
-    <WFooter ref="footer" />
+    <WFooter ref="footer" :nav-list="footerNavigation" :socials="SOCIALS_LINK" />
   </div>
 </template>
 

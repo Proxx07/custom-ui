@@ -11,6 +11,7 @@
   "reset": "Reset",
   "apply": "Apply",
   "filter": "Filter",
+  "support": "Support",
 
   "filter_labels": {
     "advised": "Recommended",
@@ -120,6 +121,19 @@
     "unique": "Unique",
     "unusual": "Unusual",
     "vintage": "Vintage"
+  },
+
+  "header": {
+    "main": "Main page",
+    "sell-items": "Sell items",
+    "my-shop": "My shop",
+    "blog": "Blog"
+  },
+
+  "footer": {
+    "extension": "Extension",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use"
   },
 
   "toast": {

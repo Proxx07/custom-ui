@@ -105,7 +105,10 @@ html.light {
   --outline:         hsla(var(--h) var(--s) calc(100% - var(--l-19)));
   --outline-variant: hsla(var(--h) var(--s) calc(100% - var(--l-30)));
 
-  --secondary: rgba(45, 186, 104, 1);
+  --secondary: rgb(26 138 78);
   --attention: rgba(230, 126, 28, 1);
   --error: rgba(234, 66, 66, 1);
+  --best-price: rgb(245 162 5);
+  --tertiary: rgb(27 131 217);
+  --souvenir: #bda409;
 }

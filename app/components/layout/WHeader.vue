@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { NavListItem } from '@/composables/useNavigations';
 import WLogo from '~~/public/logo/logo.svg?raw';
 import { steam } from '@/assets/icons/logos';
 import { HeaderNav } from '@/components/headerElemets';
@@ -8,9 +9,12 @@ import { useAuth } from '@/composables/useAuth';
 import { useGames } from '@/composables/useGames';
 import { useUserStore } from '@/store/userStore';
 
+defineProps<{
+  navList: NavListItem[]
+}>();
+
 const { gamePrefixForLink } = useGames();
 const { getSteamAuthLink } = useAuth();
-
 const userStore = useUserStore();
 </script>
 
@@ -23,7 +27,7 @@ const userStore = useUserStore();
     </div>
 
     <div class="header__right">
-      <HeaderNav :game-prefix-for-link="gamePrefixForLink" />
+      <HeaderNav :nav-list="navList" />
 
       <div class="ml-auto">
         <Button

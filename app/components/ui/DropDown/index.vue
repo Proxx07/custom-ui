@@ -135,6 +135,7 @@ defineExpose<DropDownExposes>({
     >
       <Button
         v-element-hover="targetHoverHandler"
+        severity="tertiary"
         bg-color="surface-high-container"
         hover-bg-color="surface-highest-container"
         :size="size"
@@ -197,6 +198,7 @@ defineExpose<DropDownExposes>({
                   :close-drop-down="closeDropDown"
                 >
                   <Button
+                    severity="tertiary"
                     bg-color="surface-high-container"
                     hover-bg-color="surface-highest-container"
                     :text-color="selectedItem === item ? 'secondary' : undefined"

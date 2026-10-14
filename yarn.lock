@@ -953,6 +953,11 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/retry/-/retry-0.4.3.tgz"
   integrity sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==
 
+"@intercom/messenger-js-sdk@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@intercom/messenger-js-sdk/-/messenger-js-sdk-0.0.20.tgz#6200dc898ae97e930917f0ce9c78464652e3e098"
+  integrity sha512-99ixqRcsX4ZL+HnH3xxpQewKqdN9/mtptsnxk5vDd31TQG4x1o0gvp6aNPJm5iX3SPSJldQhA/uqW66NV1LO1w==
+
 "@intlify/bundle-utils@11.2.3":
   version "11.2.3"
   resolved "https://registry.npmjs.org/@intlify/bundle-utils/-/bundle-utils-11.2.3.tgz"
