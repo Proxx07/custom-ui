@@ -1,6 +1,6 @@
 import type { SkinItemProps } from './types';
 import { useCurrenciesStore } from '@/store/currencyStore';
-import { formatCompact, SKINS_LOCALIZED } from '@/utils';
+import { formatCompact, SKINS_LOCALIZED, slugify } from '@/utils';
 
 import {
   checkIsSouvenir,
@@ -29,6 +29,8 @@ export const useSkinItem = (props: SkinItemProps) => {
     if (!props.item.localized_name || !isSkinLocalized?.value) return name;
     return parseSkinName(props.item.localized_name, props.item.phase).name || '';
   });
+
+  const skinNameSlug = slugify(props.item.name);
 
   const phase = parsePhaseToPhaseKey(props.item.phase);
 
@@ -67,5 +69,6 @@ export const useSkinItem = (props: SkinItemProps) => {
     offersCount,
     floatPercent,
     lowestPrice,
+    skinNameSlug,
   };
 };

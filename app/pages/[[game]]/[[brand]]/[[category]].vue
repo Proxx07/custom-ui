@@ -322,7 +322,7 @@ onMounted(() => {
       >
         <template
           #default="{
-            image, imageFront, imageBack,
+            image, imageFront, imageBack, skinNameSlug,
             skinType, skinName, souvenir, statTrack,
             rarityColor, float, floatPercent, exterior,
             steamPrice, price, lowestPrice, offersCount,
@@ -348,20 +348,21 @@ onMounted(() => {
             </div>
 
             <div class="relative">
-              <SkinImage
-                :image="image"
-                :image-front="imageFront"
-                :image-back="imageBack"
-                :card-size="cardSize"
-                :game="item.game"
-                :image-query="MARKETPLACE_SKIN_IMAGES_QUERY"
-                :rarity-color="rarityColor"
-                rarity-image="hex"
-                :alt="skinName"
-                :loading="index < 10 ? 'eager' : 'lazy'"
-                :fetchpriority="index < 4 ? 'high' : undefined"
-              />
-
+              <NuxtLinkLocale :to="`${filterStore.gamePrefixForLink}${skinNameSlug}/item/${item.id}`">
+                <SkinImage
+                  :image="image"
+                  :image-front="imageFront"
+                  :image-back="imageBack"
+                  :card-size="cardSize"
+                  :game="item.game"
+                  :image-query="MARKETPLACE_SKIN_IMAGES_QUERY"
+                  :rarity-color="rarityColor"
+                  rarity-image="hex"
+                  :alt="skinName"
+                  :loading="index < 10 ? 'eager' : 'lazy'"
+                  :fetchpriority="index < 4 ? 'high' : undefined"
+                />
+              </NuxtLinkLocale>
               <CardStickers
                 v-if="item.stickers?.length"
                 class="stickers"
@@ -374,7 +375,7 @@ onMounted(() => {
               </CardStickers>
             </div>
 
-            <div v-if="!isCatalog" class="flex font-12-n">
+            <div v-if="!isCatalog && item.game === 'csgo'" class="flex font-12-n">
               <div class="color-on-surface-tertiary">
                 {{ exterior }}
               </div>
@@ -383,23 +384,25 @@ onMounted(() => {
             </div>
 
             <SkinFloat
-              v-if="!isCatalog"
+              v-if="!isCatalog && item.game === 'csgo'"
               :float="float"
               :percent="floatPercent"
             />
 
-            <SkinType
-              v-if="skinType"
-              :label="skinType"
-              :is-souvenir="souvenir"
-              :is-stat-trak="statTrack"
-              :card-size="cardSize"
-              :color="item.game === 'dota2' ? rarityColor : undefined"
-            />
+            <NuxtLinkLocale :to="`${filterStore.gamePrefixForLink}${skinNameSlug}/item/${item.id}`" class="flex-col gap-1">
+              <SkinType
+                v-if="skinType"
+                :label="skinType"
+                :is-souvenir="souvenir"
+                :is-stat-trak="statTrack"
+                :card-size="cardSize"
+                :color="item.game === 'dota2' ? rarityColor : undefined"
+              />
 
-            <div :class="[nameFontsBySize[cardSize]]">
-              {{ skinName }}
-            </div>
+              <div :class="[nameFontsBySize[cardSize]]">
+                {{ skinName }}
+              </div>
+            </NuxtLinkLocale>
 
             <PriceWithLoading
               v-if="!isCatalog"
@@ -431,7 +434,7 @@ onMounted(() => {
             <PriceWithLoading
               v-else
               :loading="currencyStore.currenciesListLoading && currencyStore.currency !== 'USD'"
-              class="font-16-m price-range-padding"
+              class="font-16-m price-range-padding mt-auto"
             >
               {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(lowestPrice) }}
               - {{ currencyStore.selectedCurrency.symbol }} {{ formatCompact(price) }}

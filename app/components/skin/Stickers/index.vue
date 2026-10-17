@@ -32,7 +32,7 @@ const width = `${Math.min(100 / props.stickers.length, 25)}%`;
         :is="props.link ? NuxtLinkLocale : 'button'"
         :to="props.link ? { path: link, query: { stickers: [sticker.name] } } : undefined"
         class="fz-0"
-        @click="buttonClick(sticker.name)"
+        @click.stop="buttonClick(sticker.name)"
       >
         <img
           :src="imageProxy(sticker.image, { width: 50 })"

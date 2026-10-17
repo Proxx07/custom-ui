@@ -13,7 +13,7 @@ export const useGameCatalog = () => {
     const result: Record<string, string> = {};
 
     for (const catalog of catalogList.value) {
-      const parentSlug = selectedGame.value === 'csgo' ? `${gamePrefixForLink.value}${catalog.slug}/` : gamePrefixForLink.value;
+      const parentSlug = `${gamePrefixForLink.value}${catalog.slug}/`;
       result[catalog.slug] = parentSlug;
       if (!catalog.children?.length) continue;
 

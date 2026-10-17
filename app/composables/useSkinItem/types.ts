@@ -65,6 +65,7 @@ export interface SkinItemProps {
 export interface SkinSlotProps {
   skinName: string
   skinType?: string
+  skinNameSlug: string
 
   image: string
   imageFront?: string

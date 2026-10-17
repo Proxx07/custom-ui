@@ -23,6 +23,7 @@ const {
   float,
   lowestPrice,
   floatPercent,
+  skinNameSlug,
 } = useSkinItem(props);
 
 const bg = computed(() => props.background ? `var(--${props.background})` : 'transparent');
@@ -48,6 +49,7 @@ const hoverBg = computed(() => props.hoverBackground ? `var(--${props.hoverBackg
       :offers-count="offersCount"
       :float-percent="floatPercent"
       :lowest-price="lowestPrice"
+      :skin-name-slug="skinNameSlug"
       name="default"
     />
   </div>

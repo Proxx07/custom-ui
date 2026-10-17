@@ -7,10 +7,12 @@ const CompactFormatIntl = new Intl.NumberFormat('en-US', {
   notation: 'compact',
   compactDisplay: 'short',
   maximumFractionDigits: 2,
+  minimumFractionDigits: 2,
 });
+
 export function formatCompact(num: number): string {
   if (num === 0) return '';
-  return CompactFormatIntl.format(num);
+  return num > 1 ? CompactFormatIntl.format(num) : num.toString();
 }
 
 export const slugify = (str: string): string => {

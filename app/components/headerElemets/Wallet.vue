@@ -18,12 +18,14 @@ const { isMax } = useResponsive();
 const target = ref<ButtonExpose>();
 const [opened, toggle] = useToggle();
 
-const WalletHeader = () => h('div', { class: 'flex items-center gap w-full' },
-  [
-    h('div', { class: 'font-16-m' }, 'Balance'),
-    h(Button, { severity: 'tertiary', variant: 'text', size: 's', class: 'ml-auto', iconLeft: clock }),
-  ],
-);
+const WalletHeader = () => {
+  return h('div', { class: 'flex items-center gap w-full' },
+    [
+      h('div', { class: 'font-16-m' }, 'Balance'),
+      h(Button, { severity: 'tertiary', variant: 'text', size: 's', class: 'ml-auto', iconLeft: clock }),
+    ],
+  );
+};
 
 const BalanceCard = () => h('div', {},
   [
@@ -109,6 +111,9 @@ sup {
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+  @include media-max($mobile) {
+    padding: .8rem 0;
+  }
 }
 
 .available-balance {

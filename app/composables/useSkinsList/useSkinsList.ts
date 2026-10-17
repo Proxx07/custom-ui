@@ -20,9 +20,11 @@ export const useSkinsList = () => {
 
   const { locale } = useI18n();
 
-  const skinsFetchRequest = async (game: gameTypes, query?: Record<string, unknown>) => {
-    const isCatalog = game === 'csgo' && (query?.brand || query?.category);
-    const catalogPath = `${query?.brand || ''}/${query?.category || ''}`;
+  const skinsFetchRequest = async (game: gameTypes, q?: Record<string, unknown>) => {
+    const { brand, category, ...query } = q ?? {};
+
+    const isCatalog = brand || category;
+    const catalogPath = `${brand || ''}/${category || ''}`;
 
     const { data, error } = isCatalog
       ? await $request<CatalogSkinListResponse>(`/api/v2/${game}/catalog/${catalogPath}?limit=50&lang=${locale.value}`, { query })

@@ -9,7 +9,7 @@ export const useCurrenciesStore = defineStore('currencies', () => {
   const calculatePrice = (price: number): number => {
     const selectedCurrencyRate = currenciesEnum.value[selectedCurrency.value.code]?.price || CURRENCY_DENOMINATOR;
     const result = (price / CURRENCY_DENOMINATOR) * (selectedCurrencyRate / CURRENCY_DENOMINATOR);
-    return Number.parseFloat(result.toFixed(2));
+    return Number.parseFloat(result.toFixed(result > 1 ? 2 : 4));
   };
 
   const calculateWallet = (price: number): number => {
@@ -20,10 +20,10 @@ export const useCurrenciesStore = defineStore('currencies', () => {
   };
 
   const priceToCurrency = (calculatedPriceValue: number, withSymbol: boolean = true): string => {
-    return (withSymbol ? `${selectedCurrency.value.symbol} ` : '') + calculatedPriceValue.toLocaleString('ru-RU', /* {
+    return (withSymbol ? `${selectedCurrency.value.symbol} ` : '') + calculatedPriceValue.toLocaleString('ru-RU', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    } */);
+    });
   };
 
   return {
